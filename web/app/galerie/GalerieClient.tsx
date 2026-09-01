@@ -2,127 +2,181 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin, Calendar, Check, X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 
-type Category = "alle" | "tueren" | "fenster" | "wintergarten" | "werkstatt";
+export interface GalleryProject {
+  _id?: string;
+  title: string;
+  category: "produktion" | "montage" | "projekte" | "erfolge";
+  location?: string;
+  year?: string;
+  imageUrl: string;
+  galleryUrls?: string[];
+  description?: string;
+  scope?: string[];
+  featured?: boolean;
+}
 
-const realProjects = [
+const fallbackProjects: GalleryProject[] = [
+  // 1. Eigene Produktion
   {
-    id: "tuer-5",
+    title: "Holz-Aluminium-Fenster (System Gutmann Mira)",
+    category: "produktion",
+    location: "Werkstatt Schönheide",
+    year: "2024",
+    imageUrl: "/images/real/fenster-holzalu-buendig.jpg",
+    galleryUrls: ["/images/real/fenster-holzalu-buendig.jpg", "/images/real/fenster-holz-1.jpg"],
+    description:
+      "Flächenbündige Holz-Alu-Fertigung in unserer eigenen Werkstatt. Innen behagliches Naturholz, außen unverwüstliches Aluminium.",
+    scope: ["System GUTMANN MIRA", "Eigene Holzverleimung", "3-fach Wärmeschutz"],
+  },
+  {
     title: "Massivholz-Haustür mit Segmentbogen & Kassetten",
-    category: "tueren" as const,
-    categoryLabel: "Haustüren",
-    image: "/images/real/tuer-5.jpg",
-    description: "Handgefertigte Hauseingangstür mit handwerklich gefrästen Füllungen, Doppelverglasung und historischem Segmentbogen.",
-    details: "Eigene Fertigung Schönheide · Massivholz · Mehrfachverriegelung",
+    category: "produktion",
+    location: "Werkstatt Schönheide",
+    year: "2024",
+    imageUrl: "/images/real/tuer-5.jpg",
+    galleryUrls: ["/images/real/tuer-5.jpg", "/images/real/tuer-6.jpg"],
+    description:
+      "Traditionell gefräste Kassettenhaustür mit Segmentbogen und integrierter Mehrfachverriegelung nach Kundenmaß.",
+    scope: ["Eiche Massivholz", "Sicherheitsbeschlag RC2", "Individuelle Schnitzprofile"],
   },
   {
-    id: "fenster-holzalu",
-    title: "Holz-Aluminium-Fenster (Gutmann Mira)",
-    category: "fenster" as const,
-    categoryLabel: "Holz-Alu Fenster",
-    image: "/images/real/fenster-holzalu-buendig.jpg",
-    description: "Flächenbündige Holz-Alu-Fensterkonstruktion mit witterungsbeständiger Aluminiumschale und edler Holzinnenansicht.",
-    details: "System Gutmann Mira · Flächenbündig · Hohe Wärmedämmung",
+    title: "Traditionelle Holzfenster mit Ziersprossen",
+    category: "produktion",
+    location: "Werkstatt Schönheide",
+    year: "2023",
+    imageUrl: "/images/real/fenster-holz-1.jpg",
+    description:
+      "Denkmalgerechte Holzfenster mit Zierkämpfern und aufgesetzten Wiener Sprossen für eine denkmalgeschützte Villa.",
+    scope: ["Denkmalschutz-Konform", "Mehrschicht-Tauchorundierung", "Isolierglas"],
+  },
+
+  // 2. Montage & Baustellen
+  {
+    title: "Schlüsselfertiger Wintergarten-Anbau",
+    category: "montage",
+    location: "Erzgebirge",
+    year: "2024",
+    imageUrl: "/images/real/wintergarten-1.jpg",
+    galleryUrls: ["/images/real/wintergarten-1.jpg", "/images/real/wintergarten-2.jpg"],
+    description:
+      "Komplette Vor-Ort-Montage eines beheizbaren Holz-Wintergartens mit Hebeschiebe-Türanlage und Sonnenschutz-Glasdach.",
+    scope: ["Statik & Holztragwerk", "RAL-Bauanschluss", "Großflächen-Hebeschiebetür"],
   },
   {
-    id: "tuer-6",
-    title: "Klassische Massivholztür mit Rautenverglasung",
-    category: "tueren" as const,
-    categoryLabel: "Haustüren",
-    image: "/images/real/tuer-6.jpg",
-    description: "Traditionelle Hauseingangstür mit aufgesetzten Leisten, Isolierglas-Lichtausschnitt und Sicherheitsdrückergarnitur.",
-    details: "Eiche massiv · Isolierglas · Sicherheitsbeschlag",
+    title: "Montage Eingangstüranlage mit Seitenteil",
+    category: "montage",
+    location: "Schönheide",
+    year: "2023",
+    imageUrl: "/images/real/tuer-7.jpg",
+    description:
+      "Passgenauer Einbau einer mehrteiligen Haustürkombination mit festverglastem Oberlicht und Seitenteil für maximalen Lichteinfall.",
+    scope: ["Staubarme Montage", "Thermisch getrennte Schwelle", "Sicherheitsglas"],
   },
   {
-    id: "wintergarten-1",
-    title: "Tragender Holz-Wintergarten mit Glasdach",
-    category: "wintergarten" as const,
-    categoryLabel: "Wintergärten",
-    image: "/images/real/wintergarten-1.jpg",
-    description: "Individuell geplanter Wintergartenanbau mit tragender Leimholzkonstruktion und großzügigen Glasfeldern.",
-    details: "Eigene Statik & Fertigung · Sonnenschutzglas · Beheizbar",
-  },
-  {
-    id: "tuer-7",
-    title: "Eingangstüranlage mit Seitenteil & Sprossenfenster",
-    category: "tueren" as const,
-    categoryLabel: "Haustüren",
-    image: "/images/real/tuer-7.jpg",
-    description: "Mehrteilige Haustürkombination mit festverglastem Oberlicht und Seitenteil für maximalen Lichteinfall im Flurbereich.",
-    details: "Massivholz · Isolierglas mit echten Sprossen",
-  },
-  {
-    id: "fenster-holz-1",
-    title: "Holzfenster aus eigener Produktion",
-    category: "fenster" as const,
-    categoryLabel: "Holzfenster",
-    image: "/images/real/fenster-holz-1.jpg",
-    description: "Traditionell gefertigte Holzfenster mit Mehrschicht-Verleimung und umweltfreundlicher Tauchgrundierung.",
-    details: "Eigene Fertigung Schönheide · 3-fach Isolierglas",
-  },
-  {
-    id: "tuer-8",
-    title: "Landhaus-Eingangstür mit Schnitzornamenten",
-    category: "tueren" as const,
-    categoryLabel: "Haustüren",
-    image: "/images/real/tuer-8.jpg",
-    description: "Individuell gefertigte Haustür mit detailreichen Profilfräsungen im regionalen Erzgebirgs-Stil.",
-    details: "Eigene Werkstattfertigung · Unikat",
-  },
-  {
-    id: "wintergarten-2",
     title: "Wintergarten mit integrierten Schiebetüren",
-    category: "wintergarten" as const,
-    categoryLabel: "Wintergärten",
-    image: "/images/real/wintergarten-2.jpg",
-    description: "Maßgefertigte Holzkonstruktion mit integrierten Hebeschiebe-Elementen für nahtlosen Übergang in den Garten.",
-    details: "Holzbau Schönheide · Schlüsselfertige Montage",
+    category: "montage",
+    location: "Vogtland",
+    year: "2023",
+    imageUrl: "/images/real/wintergarten-2.jpg",
+    description:
+      "Lichtdurchflutete Glaskonstruktion mit schwellenlosem Übergang in den Garten.",
+    scope: ["Sonnenschutzglas", "Holzkonstruktion lasiert", "Fachgerechte Abdichtung"],
+  },
+
+  // 3. Großprojekte & Referenzen
+  {
+    title: "Komplettausstattung Architektenhaus mit Holz-Alu-Elementen",
+    category: "projekte",
+    location: "Region Erzgebirge",
+    year: "2024",
+    imageUrl: "/images/real/gebaeude-1.jpg",
+    galleryUrls: ["/images/real/gebaeude-1.jpg", "/images/real/fenster-holzalu-buendig.jpg"],
+    description:
+      "Großprojekt: Fertigung und RAL-Montage von 24 Holz-Aluminium-Fenstern und einer exklusiven Portal-Eingangstür.",
+    scope: ["24 Holz-Alu-Elemente", "1 Hauseingangsportal", "RAL-Güteüberwacht"],
+    featured: true,
   },
   {
-    id: "werkstatt-gebaeude",
-    title: "Firmengebäude & Werkstatt in Schönheide",
-    category: "werkstatt" as const,
-    categoryLabel: "Werkstatt & Betrieb",
-    image: "/images/real/gebaeude-1.jpg",
-    description: "Unser 1992 bezogenes Firmengebäude in der Neuheider Straße 64 b – ausgestattet mit modernem Maschinenpark.",
-    details: "Gegründet 1977 · Meisterbetrieb Ronny Mehlhorn",
+    title: "Landhaus-Eingangstür mit geschnitztem Ornament",
+    category: "projekte",
+    location: "Schönheide",
+    year: "2023",
+    imageUrl: "/images/real/tuer-8.jpg",
+    description:
+      "Aufwendig handgefertigtes Eingangsunikat nach historischem Vorbild im erzgebirgischen Landhausstil.",
+    scope: ["Eichen-Massivbau", "Handwerkliche Schnitzarbeit", "Historisches Ziergitter"],
+  },
+
+  // 4. Erfolge & Meilensteine
+  {
+    title: "Meisterbetrieb seit 1977 – Über 45 Jahre Qualität",
+    category: "erfolge",
+    location: "Schönheide",
+    year: "1977 - Heute",
+    imageUrl: "/images/real/werkstatt-2.jpg",
+    description:
+      "Gegründet durch Roland Mehlhorn, 1992 Neubau in der Neuheider Straße, heute erfolgreich in 2. Generation geführt durch Tischlermeister Ronny Mehlhorn.",
+    scope: ["Meisterbetrieb", "Eigene Fertigung", "Hunderte zufriedene Bauherren"],
   },
   {
-    id: "tuer-10",
-    title: "Exklusive Haustür mit Edelstahl- und Glaselementen",
-    category: "tueren" as const,
-    categoryLabel: "Haustüren",
-    image: "/images/real/tuer-10.jpg",
-    description: "Moderne Hauseingangstür mit sandgestrahltem Designglas, Stangengriff und thermisch getrennter Schwelle.",
-    details: "Moderne Optik · RC3 Sicherheit · Einbruchhemmend",
+    title: "Moderne Werkstatt & eigener Maschinenpark",
+    category: "erfolge",
+    location: "Neuheider Str. 64 b",
+    year: "Modernisiert",
+    imageUrl: "/images/real/werkstatt-1.jpg",
+    description:
+      "Kontinuierliche Investition in moderne Holzbearbeitungsmaschinen für höchste Maßgenauigkeit und Oberflächenqualität.",
+    scope: ["Computergestützte Fertigung", "Qualitätslackierung", "Meisterprüfung"],
   },
 ];
 
-export default function GalerieClient() {
-  const [activeCategory, setActiveCategory] = useState<Category>("alle");
+const categoryTabs = [
+  { value: "alle", label: "Alle Einblicke" },
+  { value: "produktion", label: "🪵 Eigene Produktion" },
+  { value: "montage", label: "🛠️ Montage & Baustellen" },
+  { value: "projekte", label: "🏛️ Großprojekte & Referenzen" },
+  { value: "erfolge", label: "🌟 Erfolge & Meisterwerkstatt" },
+];
 
-  const filteredProjects =
+export default function GalerieClient({ initialProjects }: { initialProjects?: GalleryProject[] }) {
+  const [activeCategory, setActiveCategory] = useState<string>("alle");
+  const [lightboxImage, setLightboxImage] = useState<{ src: string; title: string } | null>(null);
+
+  const projects =
+    initialProjects && initialProjects.length > 0 ? initialProjects : fallbackProjects;
+
+  const filtered =
     activeCategory === "alle"
-      ? realProjects
-      : realProjects.filter((p) => p.category === activeCategory);
+      ? projects
+      : projects.filter((p) => p.category === activeCategory);
+
+  const getCategoryLabel = (cat: string) => {
+    switch (cat) {
+      case "produktion":
+        return "Eigene Produktion";
+      case "montage":
+        return "Montage & Baustelle";
+      case "projekte":
+        return "Großprojekt / Referenz";
+      case "erfolge":
+        return "Erfolg & Meilenstein";
+      default:
+        return "Referenz";
+    }
+  };
 
   return (
-    <section className="py-12 md:py-16 bg-[#FAF8F5]">
-      <div className="container-site">
-        {/* Category Pills */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10 md:mb-12">
-          {[
-            { value: "alle", label: "Alle Referenzen" },
-            { value: "tueren", label: "Haustüren" },
-            { value: "fenster", label: "Fenster" },
-            { value: "wintergarten", label: "Wintergärten" },
-            { value: "werkstatt", label: "Werkstatt" },
-          ].map((tab) => (
+    <>
+      {/* Category Filter Toolbar */}
+      <section className="bg-[#F9F9F8] py-3.5 border-b border-[#E8E8E6] sticky top-[72px] z-30 backdrop-blur-md bg-[#F9F9F8]/95">
+        <div className="container-site flex items-center justify-start sm:justify-center overflow-x-auto scrollbar-none gap-2">
+          {categoryTabs.map((tab) => (
             <button
               key={tab.value}
-              onClick={() => setActiveCategory(tab.value as Category)}
-              className={`px-4 py-2 rounded text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
+              onClick={() => setActiveCategory(tab.value)}
+              className={`px-3.5 sm:px-4 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
                 activeCategory === tab.value
                   ? "bg-[#181818] text-white shadow-xs"
                   : "bg-white text-[#555555] border border-[#E8E8E6] hover:bg-[#F2F2F0]"
@@ -132,68 +186,145 @@ export default function GalerieClient() {
             </button>
           ))}
         </div>
+      </section>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              className="craft-card overflow-hidden flex flex-col justify-between bg-white shadow-xs hover:shadow-sm"
-            >
-              <div>
-                <div className="relative h-64 sm:h-72 overflow-hidden bg-[#F2F2F0]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-3 left-3 bg-[#181818]/90 text-white text-[11px] px-2.5 py-1 rounded font-medium">
-                    {project.categoryLabel}
+      {/* Gallery Showcase Grid */}
+      <section className="py-12 md:py-16 bg-[#FFFFFF]">
+        <div className="container-site">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {filtered.map((project, idx) => (
+              <div
+                key={project._id || idx}
+                className={`craft-card overflow-hidden flex flex-col justify-between bg-white group ${
+                  project.featured ? "md:col-span-2 lg:col-span-2" : ""
+                }`}
+              >
+                <div>
+                  {/* Image with zoom click */}
+                  <div
+                    onClick={() => setLightboxImage({ src: project.imageUrl, title: project.title })}
+                    className="relative h-64 sm:h-72 overflow-hidden bg-[#F9F9F8] cursor-pointer group"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={project.imageUrl}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+
+                    {/* Category & Location Badges */}
+                    <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                      <span className="bg-[#181818]/90 text-white text-[10px] sm:text-[11px] px-2.5 py-1 rounded font-medium backdrop-blur-xs">
+                        {getCategoryLabel(project.category)}
+                      </span>
+                    </div>
+
+                    {/* Expand icon on hover */}
+                    <div className="absolute bottom-3 right-3 w-8 h-8 rounded bg-[#181818]/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Maximize2 size={14} />
+                    </div>
+                  </div>
+
+                  {/* Body Content */}
+                  <div className="p-6">
+                    {/* Meta info */}
+                    <div className="flex items-center gap-3 text-xs text-[#777777] mb-2 font-medium">
+                      {project.location && (
+                        <span className="flex items-center gap-1">
+                          <MapPin size={12} className="text-[#8C6D4F]" />
+                          {project.location}
+                        </span>
+                      )}
+                      {project.year && (
+                        <span className="flex items-center gap-1">
+                          <Calendar size={12} className="text-[#8C6D4F]" />
+                          {project.year}
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="text-xl font-bold text-[#181818] mb-2.5 leading-snug">
+                      {project.title}
+                    </h3>
+
+                    {project.description && (
+                      <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-4">
+                        {project.description}
+                      </p>
+                    )}
+
+                    {/* Scope bullets */}
+                    {project.scope && project.scope.length > 0 && (
+                      <div className="space-y-1.5 pt-3 border-t border-[#F2F2F0] mb-2">
+                        {project.scope.map((item, i) => (
+                          <div key={i} className="flex items-center gap-2 text-xs text-[#444444]">
+                            <Check size={13} className="text-[#8C6D4F] flex-shrink-0" />
+                            <span>{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#181818] mb-2 leading-snug">
-                    {project.title}
-                  </h3>
-                  <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-4">
-                    {project.description}
-                  </p>
-                  <div className="text-xs font-semibold text-[#8C6D4F] border-t border-[#F2F2F0] pt-3">
-                    {project.details}
-                  </div>
+                {/* Footer Link */}
+                <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-2">
+                  <Link
+                    href={`/kontakt?gewerk=${encodeURIComponent(project.title)}`}
+                    className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1.5 pt-3.5 transition-colors"
+                  >
+                    Ähnliches Projekt anfragen <ArrowRight size={13} />
+                  </Link>
                 </div>
               </div>
+            ))}
+          </div>
 
-              <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-2">
-                <Link
-                  href={`/kontakt?gewerk=${encodeURIComponent(project.categoryLabel)}`}
-                  className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3 transition-colors"
-                >
-                  Ähnliches Projekt anfragen <ArrowRight size={12} />
-                </Link>
-              </div>
+          {/* Empty state fallback */}
+          {filtered.length === 0 && (
+            <div className="text-center py-16 bg-[#F9F9F8] rounded-lg border border-[#E8E8E6]">
+              <p className="text-[#555555] text-sm">
+                In dieser Kategorie sind aktuell keine Einträge hinterlegt.
+              </p>
+              <button
+                onClick={() => setActiveCategory("alle")}
+                className="btn btn-outline-dark text-xs mt-3"
+              >
+                Alle Einträge anzeigen
+              </button>
             </div>
-          ))}
+          )}
         </div>
+      </section>
 
-        {/* Callout */}
-        <div className="mt-14 text-center bg-[#181818] text-white p-8 sm:p-12 rounded-lg">
-          <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60 block mb-1">
-            Ihr Bauvorhaben
-          </span>
-          <h3 className="text-2xl sm:text-3xl font-bold mb-2">
-            Wünschen Sie eine Maßanfertigung nach Ihren Vorstellungen?
-          </h3>
-          <p className="text-white/70 text-sm max-w-md mx-auto mb-6 leading-relaxed">
-            Wir beraten Sie persönlich in Schönheide und der gesamten Region Erzgebirge.
-          </p>
-          <Link href="/kontakt" className="btn bg-white text-[#181818] hover:bg-white/90 text-xs py-2.5 px-5">
-            Unverbindliches Angebot einholen
-          </Link>
+      {/* Lightbox Modal */}
+      {lightboxImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+          onClick={() => setLightboxImage(null)}
+        >
+          <div className="relative max-w-4xl max-h-[90vh] flex flex-col items-center">
+            {/* Close Button */}
+            <button
+              onClick={() => setLightboxImage(null)}
+              className="absolute -top-10 right-0 text-white/80 hover:text-white flex items-center gap-1 text-xs uppercase tracking-wider cursor-pointer"
+            >
+              <X size={18} /> Schließen
+            </button>
+
+            {/* Image */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={lightboxImage.src}
+              alt={lightboxImage.title}
+              className="max-h-[80vh] w-auto object-contain rounded shadow-2xl border border-white/10"
+            />
+            <p className="text-white text-sm font-semibold mt-3 text-center">
+              {lightboxImage.title}
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      )}
+    </>
   );
 }

@@ -46,6 +46,21 @@ export const GALLERY_PAGE_QUERY = defineQuery(`
   }
 `);
 
+export const GALLERY_ITEMS_QUERY = defineQuery(`
+  *[_type == "portfolioProject"] | order(_createdAt desc) {
+    _id,
+    title,
+    category,
+    location,
+    year,
+    "imageUrl": mainImage.asset->url,
+    "galleryUrls": gallery[].asset->url,
+    description,
+    scope,
+    featured
+  }
+`);
+
 export const SHOP_PAGE_QUERY = defineQuery(`
   *[_id == "shopPage"][0] {
     badge,

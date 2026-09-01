@@ -2,37 +2,40 @@ import { defineType, defineField } from "sanity";
 
 export const portfolioProject = defineType({
   name: "portfolioProject",
-  title: "Referenzprojekt",
+  title: "Galerie & Baustellen-Projekte",
   type: "document",
   fields: [
     defineField({
       name: "title",
-      title: "Projekttitel",
+      title: "Projekt-Titel",
       type: "string",
       validation: (Rule) => Rule.required(),
+      description: "z. B. 'Historische Holzfenster Villa Schönheide' oder 'Wintergarten Montage'",
     }),
     defineField({
       name: "category",
-      title: "Kategorie",
+      title: "Kategorie / Zuordnung",
       type: "string",
+      validation: (Rule) => Rule.required(),
       options: {
         list: [
-          { title: "Fenster & Türen", value: "fenster-tueren" },
-          { title: "Wintergärten", value: "wintergaerten" },
-          { title: "Innenausbau", value: "innenausbau" },
-          { title: "Deko & Kleinmöbel", value: "deko" },
+          { title: "🪵 Eigene Produktion", value: "produktion" },
+          { title: "🛠️ Montage & Baustellen", value: "montage" },
+          { title: "🏛️ Großprojekte / Referenzen", value: "projekte" },
+          { title: "🌟 Erfolge & Auszeichnungen", value: "erfolge" },
         ],
       },
     }),
     defineField({
-      name: "description",
-      title: "Beschreibung",
-      type: "text",
-      rows: 4,
+      name: "mainImage",
+      title: "Hauptfoto / Vorschaubild",
+      type: "image",
+      options: { hotspot: true },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "gallery",
-      title: "Galerie",
+      title: "Weitere Baustellen- / Detailfotos",
       type: "array",
       of: [
         {
@@ -42,21 +45,56 @@ export const portfolioProject = defineType({
       ],
     }),
     defineField({
-      name: "beforeImage",
-      title: "Vorher-Bild (für Slider)",
-      type: "image",
-      options: { hotspot: true },
+      name: "location",
+      title: "Ort / Region (optional)",
+      type: "string",
+      description: "z. B. 'Schönheide', 'Aue', 'Vogtland'",
+      initialValue: "Schönheide (Erzgebirge)",
     }),
     defineField({
-      name: "afterImage",
-      title: "Nachher-Bild (für Slider)",
-      type: "image",
-      options: { hotspot: true },
+      name: "year",
+      title: "Jahr / Zeitraum (optional)",
+      type: "string",
+      initialValue: "2024",
     }),
     defineField({
-      name: "completedAt",
-      title: "Abgeschlossen am",
-      type: "date",
+      name: "description",
+      title: "Projektbeschreibung / Ausgeführte Arbeiten",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "scope",
+      title: "Leistungsumfang (Stichpunkte)",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "z. B. '12 Holz-Aluminium-Fenster', '1 zweiflügelige Haustür', 'RAL-Montage'",
+    }),
+    defineField({
+      name: "featured",
+      title: "Als Großprojekt hervorheben (breitere Darstellung im Raster)",
+      type: "boolean",
+      initialValue: false,
     }),
   ],
+  preview: {
+    select: {
+      title: "title",
+      subtitle: "category",
+      media: "mainImage",
+    },
+    prepare({ title, subtitle, media }) {
+      const catMap: Record<string, string> = {
+        produktion: "🪵 Eigene Produktion",
+        montage: "🛠️ Montage & Baustellen",
+        projekte: "🏛️ Großprojekt",
+        erfolge: "🌟 Erfolg",
+      };
+      return {
+        title,
+        subtitle: catMap[subtitle] || subtitle,
+        media,
+      };
+    },
+  },
 });
