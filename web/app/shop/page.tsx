@@ -1,92 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import ModelViewerSection from "@/components/sections/ModelViewerSection";
 import InquiryDrawer, { DrawerProduct } from "@/components/ui/InquiryDrawer";
-import { ShoppingBag, Ruler, TreePine } from "lucide-react";
-
-const allProducts = [
-  {
-    id: "schneidebrett-xl",
-    category: "schneidebretter",
-    title: "Schneidebrett Hirnholz XL",
-    description:
-      "Massives Hirnholz-Schneidebrett aus heimischer Eiche. Messerschonend, antibakteriell durch natürliche Gerbsäuren und extrem formstabil.",
-    dimensions: "40 × 30 × 5 cm",
-    woodType: "Eiche massiv (Stirnholz)",
-    price: 89,
-    image: "/images/catalog-schneidebrett.jpg",
-    available: true,
-    tag: "Werkstatt-Klassiker",
-  },
-  {
-    id: "wandregal-eiche",
-    category: "regale",
-    title: "Schwebendes Wandregal Eiche",
-    description:
-      "Massives Eichenholzregal mit natürlicher Baumkante und unsichtbarer Schwerlast-Wandverankerung. Samtig matt geölt.",
-    dimensions: "80 × 20 × 4 cm",
-    woodType: "Massiveiche natur",
-    price: 129,
-    image: "/images/catalog-regal.jpg",
-    available: true,
-    tag: "Handarbeit",
-  },
-  {
-    id: "schneidebrett-streifen",
-    category: "schneidebretter",
-    title: "Schneidebrett Streifendesign",
-    description:
-      "Dekorative Kombination aus massiver Eiche und Buche. Handverleimt mit lebensmittelechtem D4-Leim und zweifacher Leinöl-Versiegelung.",
-    dimensions: "35 × 22 × 3 cm",
-    woodType: "Eiche & Buche",
-    price: 54,
-    image: "/images/catalog-schneidebrett.jpg",
-    available: true,
-    tag: "Zweifarbig",
-  },
-  {
-    id: "wandregal-kiefer",
-    category: "regale",
-    title: "Wandregal Kiefer Natur",
-    description:
-      "Rustikales Wandregal aus astfreier Gebirgskiefer. Feingeschliffen und unbehandelt oder mit Bio-Hartwachsöl veredelt.",
-    dimensions: "100 × 18 × 3 cm",
-    woodType: "Kiefer massiv",
-    price: 79,
-    image: "/images/catalog-regal.jpg",
-    available: true,
-    tag: "Naturholz",
-  },
-  {
-    id: "servierplatte-griff",
-    category: "schneidebretter",
-    title: "Servier- & Käseplatte mit Griff",
-    description:
-      "Edles Servierbrett mit gefräster Saftrille und ergonomischem Tragegriff. Perfekt für Grillabende, Käse- und Wurstplatten.",
-    dimensions: "48 × 22 × 2.5 cm",
-    woodType: "Eiche massiv",
-    price: 69,
-    image: "/images/catalog-schneidebrett.jpg",
-    available: true,
-    tag: "Unikat",
-  },
-  {
-    id: "wandregal-nussbaum",
-    category: "regale",
-    title: "Exklusives Wandregal Nussbaum",
-    description:
-      "Tiefdunkles Edelholz für anspruchsvolle Wohnbereiche. Jedes Regal besitzt eine einzigartige, ausdrucksstarke Maserung.",
-    dimensions: "60 × 22 × 4 cm",
-    woodType: "Nussbaum massiv",
-    price: 169,
-    image: "/images/catalog-regal.jpg",
-    available: true,
-    tag: "Edelholz",
-  },
-];
+import { products, type Product } from "@/lib/products";
+import { ShoppingBag, Ruler, TreePine, ArrowRight, ShieldCheck, Truck, Store, Sparkles } from "lucide-react";
 
 export default function ShopPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("alle");
@@ -95,11 +15,18 @@ export default function ShopPage() {
 
   const filtered =
     selectedCategory === "alle"
-      ? allProducts
-      : allProducts.filter((p) => p.category === selectedCategory);
+      ? products
+      : products.filter((p) => p.category === selectedCategory);
 
-  const handleInquiry = (product: DrawerProduct) => {
-    setSelectedProduct(product);
+  const handleInquiry = (product: Product, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setSelectedProduct({
+      name: product.title,
+      price: product.price,
+      woodType: product.woodType,
+      dimensions: product.dimensions,
+      image: product.image,
+    });
     setDrawerOpen(true);
   };
 
@@ -118,42 +45,32 @@ export default function ShopPage() {
             </h1>
             <p className="text-[#D6CCC0] text-lg md:text-xl max-w-2xl leading-relaxed">
               Jedes Stück wird in traditioneller Handarbeit aus ausgewähltem Massivholz gefertigt.
-              Unverbindliche Anfrage mit Wunschoption: Versand oder Abholung in der Werkstatt.
+              Unverbindliche Anfrage mit Wunschoption: Postversand oder Abholung in der Werkstatt.
             </p>
           </div>
         </section>
 
         {/* Benefits Bar */}
-        <section className="bg-[#F3ECE2] py-6 border-b border-[#E6DED4]">
-          <div className="container-site grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-            <div className="text-xs font-semibold text-[#1E1A17] uppercase tracking-wider">
-              100% Echtholz & Handarbeit
+        <section className="bg-[#F3ECE2] py-5 border-b border-[#E6DED4]">
+          <div className="container-site grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+            <div className="flex items-center justify-center gap-2 text-xs font-semibold text-[#1E1A17] uppercase tracking-wider">
+              <Sparkles size={14} className="text-[#8C6D4F]" />
+              100% Massivholz & Handarbeit
             </div>
-            <div className="text-xs font-semibold text-[#1E1A17] uppercase tracking-wider">
+            <div className="flex items-center justify-center gap-2 text-xs font-semibold text-[#1E1A17] uppercase tracking-wider">
+              <Store size={14} className="text-[#8C6D4F]" />
               Abholung in der Werkstatt möglich
             </div>
-            <div className="text-xs font-semibold text-[#1E1A17] uppercase tracking-wider">
-              Sicherer & versicherter Versand
+            <div className="flex items-center justify-center gap-2 text-xs font-semibold text-[#1E1A17] uppercase tracking-wider">
+              <Truck size={14} className="text-[#8C6D4F]" />
+              Versicherter Postversand
             </div>
           </div>
         </section>
 
-        {/* 3D Model Viewer */}
-        <ModelViewerSection />
-
-        {/* Product Catalog */}
+        {/* Product Catalog – starts directly */}
         <section className="section-pad bg-[#FAF8F5]">
           <div className="container-site">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-craft-label block mb-2">Werkstücke zum Festpreis</span>
-              <h2 className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal mb-4">
-                Unsere aktuellen Dekoartikel
-              </h2>
-              <p className="text-[#5E564E] text-base">
-                Wählen Sie ein Werkstück aus und senden Sie uns eine unverbindliche Bestellanfrage.
-              </p>
-            </div>
-
             {/* Filter Tabs */}
             <div className="flex justify-center gap-2 mb-12">
               {[
@@ -164,7 +81,7 @@ export default function ShopPage() {
                 <button
                   key={tab.value}
                   onClick={() => setSelectedCategory(tab.value)}
-                  className={`px-5 py-2 rounded text-xs font-semibold uppercase tracking-wider transition-all ${
+                  className={`px-5 py-2.5 rounded text-xs font-semibold uppercase tracking-wider transition-all ${
                     selectedCategory === tab.value
                       ? "bg-[#1E1A17] text-white"
                       : "bg-white text-[#5E564E] border border-[#E6DED4] hover:bg-[#F3ECE2]"
@@ -180,27 +97,36 @@ export default function ShopPage() {
               {filtered.map((product) => (
                 <div
                   key={product.id}
-                  className="craft-card rounded-lg p-6 flex flex-col justify-between"
+                  className="craft-card rounded-lg p-6 flex flex-col justify-between group"
                 >
                   <div>
-                    <div className="relative h-60 rounded overflow-hidden mb-5 bg-[#F3ECE2]">
+                    {/* Clickable Image Link to Product Detail Page */}
+                    <Link
+                      href={`/shop/${product.id}`}
+                      className="block relative h-64 rounded overflow-hidden mb-5 bg-[#F3ECE2]"
+                    >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={product.image}
                         alt={product.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute top-3 left-3 bg-[#1E1A17]/85 backdrop-blur-sm text-white text-[11px] px-2.5 py-1 rounded font-medium">
                         {product.tag}
                       </div>
-                    </div>
+                    </Link>
 
                     <span className="text-xs font-semibold text-[#8C6D4F] uppercase tracking-wider block mb-1">
                       {product.woodType}
                     </span>
-                    <h3 className="font-serif-heading text-2xl text-[#1E1A17] font-medium mb-2">
-                      {product.title}
-                    </h3>
+
+                    {/* Clickable Title */}
+                    <Link href={`/shop/${product.id}`} className="block hover:underline">
+                      <h3 className="font-serif-heading text-2xl text-[#1E1A17] font-medium mb-2">
+                        {product.title}
+                      </h3>
+                    </Link>
+
                     <p className="text-[#5E564E] text-sm leading-relaxed mb-4">
                       {product.description}
                     </p>
@@ -218,23 +144,31 @@ export default function ShopPage() {
                   </div>
 
                   <div className="pt-4 border-t border-[#F3ECE2] mt-auto">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-3">
                       <div>
                         <div className="font-serif-heading text-2xl font-semibold text-[#1E1A17]">
                           {product.price.toFixed(2).replace(".", ",")} €
                         </div>
                         <span className="text-[11px] text-[#8C8277] block">
-                          inkl. MwSt., zzgl. Versand/Abholung
+                          inkl. MwSt.
                         </span>
                       </div>
 
-                      <button
-                        onClick={() => handleInquiry({ name: product.title, price: product.price })}
-                        className="btn btn-wood text-xs py-2.5 px-4 flex items-center gap-1.5"
-                      >
-                        <ShoppingBag size={13} />
-                        Anfragen
-                      </button>
+                      <div className="flex items-center gap-2">
+                        <Link
+                          href={`/shop/${product.id}`}
+                          className="btn btn-outline-dark text-xs py-2 px-3"
+                        >
+                          Details
+                        </Link>
+                        <button
+                          onClick={(e) => handleInquiry(product, e)}
+                          className="btn btn-wood text-xs py-2 px-3.5 flex items-center gap-1.5"
+                        >
+                          <ShoppingBag size={13} />
+                          Anfragen
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -250,11 +184,62 @@ export default function ShopPage() {
                 Sie wünschen ein Schneidebrett oder Regal in ganz bestimmten Maßen oder aus einer speziellen Holzart? Sprechen Sie uns gerne an.
               </p>
               <button
-                onClick={() => handleInquiry({ name: "Sonderanfertigung Deko / Kleinmöbel" })}
+                onClick={() => {
+                  setSelectedProduct({
+                    name: "Sonderanfertigung nach Maß",
+                  });
+                  setDrawerOpen(true);
+                }}
                 className="btn btn-outline-dark text-xs py-2 px-4"
               >
                 Sondermaß anfragen
               </button>
+            </div>
+          </div>
+        </section>
+
+        {/* SEO Text Section: Holzkunde, Handwerk & Nachhaltigkeit */}
+        <section className="section-pad bg-white border-t border-[#E6DED4]">
+          <div className="container-site max-w-4xl">
+            <span className="text-craft-label block mb-2">Werkstattwissen & Holzkunde</span>
+            <h2 className="font-serif-heading text-3xl md:text-4xl text-[#1E1A17] font-normal mb-8">
+              Massivholz-Dekoartikel aus Meisterhand
+            </h2>
+
+            <div className="space-y-6 text-[#5E564E] text-base leading-relaxed">
+              <p>
+                In unserer Tischlerei entstehen nicht nur Fenster, Türen und Wintergärten, sondern auch hochwertige 
+                <strong> handgefertigte Wohnaccessoires und Küchenwerkstücke</strong>. Jedes Schneidebrett und jedes 
+                schwebende Wandregal wird aus ausgesuchten Hölzern gefertigt, die wir nach Maserung, Wuchs und Feuchtegehalt 
+                sorgfältig auswählen.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-6 border-y border-[#E6DED4]">
+                <div>
+                  <h3 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-2">
+                    Warum Hirnholz für Schneidebretter?
+                  </h3>
+                  <p className="text-sm text-[#6B635B] leading-relaxed">
+                    Bei Hirnholz-Schneidebrettern stehen die Holzfasern vertikal. Beim Schneiden drückt das Messer zwischen die Fasern, 
+                    ohne sie zu durchtrennen. Das schont Ihre wertvollen Küchenmesser, minimiert Schnittspuren und verleiht dem Brett 
+                    eine unvergleichlich lange Lebensdauer.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-2">
+                    Schwebende Wandregale mit Baumkante
+                  </h3>
+                  <p className="text-sm text-[#6B635B] leading-relaxed">
+                    Unsere Eichenwandborde behalten die natürliche Außenkontur des Stammes. Jedes Regal ist ein Unikat der Natur. 
+                    Die mitgelieferte unsichtbare Schwerlast-Verankerung sorgt für eine tragfeste, elegante Wandbefestigung ohne sichtbare Winkel.
+                  </p>
+                </div>
+              </div>
+
+              <p>
+                <strong>Natürliche Oberflächenversiegelung:</strong> Alle Küchenbretter werden ausschließlich mit lebensmittelechtem 
+                Kaltpress-Leinöl behandelt, das tief in die Holzporen eindringt und vor Feuchtigkeit schützt.
+              </p>
             </div>
           </div>
         </section>

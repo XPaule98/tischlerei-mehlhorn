@@ -5,10 +5,8 @@ export const HERO_QUERY = defineQuery(`
     craftBadge,
     title,
     subtitle,
-    experienceYears,
-    foundationYear,
-    qualityStatement,
-    "backgroundImageUrl": backgroundImage.asset->url
+    "backgroundImages": backgroundImages[].asset->url,
+    backgroundVideoUrl
   }
 `);
 

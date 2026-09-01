@@ -26,28 +26,23 @@ export const heroSettings = defineType({
         "Eigene Herstellung von Fenstern, Haustüren und Wintergärten sowie fachgerechte Montage geprüfter Marken-Bauelemente.",
     }),
     defineField({
-      name: "experienceYears",
-      title: "Jahre Erfahrung (z.B. 45+)",
-      type: "string",
-      initialValue: "45+",
+      name: "backgroundImages",
+      title: "Hintergrund-Bilder (Slideshow mit weichem Fade)",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+        },
+      ],
+      description:
+        "Laden Sie mehrere Bilder hoch – sie überblenden auf der Startseite automatisch sanft nacheinander.",
     }),
     defineField({
-      name: "foundationYear",
-      title: "Gründungsjahr (z.B. 1977)",
-      type: "string",
-      initialValue: "1977",
-    }),
-    defineField({
-      name: "qualityStatement",
-      title: "Qualitäts-Aussage (z.B. 100% Meisterqualität)",
-      type: "string",
-      initialValue: "100%",
-    }),
-    defineField({
-      name: "backgroundImage",
-      title: "Hintergrundbild",
-      type: "image",
-      options: { hotspot: true },
+      name: "backgroundVideoUrl",
+      title: "Hintergrund-Video URL (optional, überschreibt Bilder)",
+      type: "url",
+      description: "Direkter Link zu einer .mp4 / .webm Videodatei.",
     }),
   ],
 });

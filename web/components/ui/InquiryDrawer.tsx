@@ -1,12 +1,15 @@
 "use client";
 
 import { useRef, useState, useEffect, useActionState } from "react";
-import { X, Package, MapPin, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { X, Package, MapPin, Loader2, CheckCircle, AlertCircle, Lock, ShieldCheck } from "lucide-react";
 import { sendInquiryAction, type ActionResult } from "@/actions/sendInquiryAction";
 
 export interface DrawerProduct {
   name: string;
   price?: number;
+  woodType?: string;
+  dimensions?: string;
+  image?: string;
 }
 
 interface InquiryDrawerProps {
@@ -75,11 +78,11 @@ export default function InquiryDrawer({
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-7 py-6 border-b border-[#E6DED4] bg-white">
+        <div className="flex items-center justify-between px-7 py-5 border-b border-[#E6DED4] bg-white">
           <div>
-            <span className="text-craft-label block mb-0.5">Werkstatt-Anfrage</span>
+            <span className="text-craft-label block mb-0.5">Unverbindliche Werkstatt-Anfrage</span>
             <h2 className="font-serif-heading text-2xl text-[#1E1A17] font-medium">
-              {product ? product.name : "Kontakt aufnehmen"}
+              {product ? "Bestellanfrage" : "Kontakt aufnehmen"}
             </h2>
           </div>
           <button
@@ -130,12 +133,52 @@ export default function InquiryDrawer({
                 />
               </div>
 
-              {/* Pre-filled product info */}
+              {/* Locked Product Summary Card (Vorlage – fest vorgegeben) */}
               {product && (
-                <input type="hidden" name="productName" value={product.name} />
-              )}
-              {product?.price && (
-                <input type="hidden" name="productPrice" value={product.price.toString()} />
+                <div className="p-4 bg-white rounded-lg border border-[#E6DED4] shadow-sm">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] flex items-center gap-1">
+                      <Lock size={11} /> Fest ausgewähltes Werkstück
+                    </span>
+                    {product.price && (
+                      <span className="font-serif-heading text-lg font-bold text-[#1E1A17]">
+                        {product.price.toFixed(2).replace(".", ",")} €
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex gap-4 items-center">
+                    {product.image && (
+                      <div className="w-16 h-16 rounded overflow-hidden bg-[#F3ECE2] flex-shrink-0 border border-[#E6DED4]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <h4 className="font-serif-heading text-base font-semibold text-[#1E1A17] leading-tight">
+                        {product.name}
+                      </h4>
+                      {product.dimensions && (
+                        <p className="text-xs text-[#6B635B] mt-0.5">
+                          Maße: {product.dimensions}
+                        </p>
+                      )}
+                      {product.woodType && (
+                        <p className="text-xs text-[#6B635B]">
+                          Holz: {product.woodType}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {/* Hidden inputs to send locked product info */}
+                  <input type="hidden" name="productName" value={product.name} />
+                  {product.price && (
+                    <input type="hidden" name="productPrice" value={product.price.toString()} />
+                  )}
+                </div>
               )}
 
               {/* Delivery Option Selection */}
@@ -163,23 +206,23 @@ export default function InquiryDrawer({
                         onClick={() =>
                           setDeliveryOption(opt.value as "versand" | "abholung")
                         }
-                        className={`p-4 rounded border text-left transition-all ${
+                        className={`p-3.5 rounded border text-left transition-all ${
                           deliveryOption === opt.value
                             ? "border-[#1E1A17] bg-[#1E1A17] text-white"
                             : "border-[#E6DED4] bg-white hover:border-[#CBB295]"
                         }`}
                       >
                         <opt.icon
-                          size={18}
-                          className={`mb-2 ${
+                          size={16}
+                          className={`mb-1.5 ${
                             deliveryOption === opt.value
                               ? "text-[#D4B28C]"
                               : "text-[#8C6D4F]"
                           }`}
                         />
-                        <div className="font-semibold text-sm">{opt.label}</div>
+                        <div className="font-semibold text-xs md:text-sm">{opt.label}</div>
                         <div
-                          className={`text-xs mt-0.5 ${
+                          className={`text-[11px] mt-0.5 ${
                             deliveryOption === opt.value
                               ? "text-white/70"
                               : "text-[#6B635B]"
@@ -201,7 +244,7 @@ export default function InquiryDrawer({
               {/* Quantity */}
               {product && (
                 <div>
-                  <label htmlFor="quantity" className="form-label">Menge</label>
+                  <label htmlFor="quantity" className="form-label">Gewünschte Stückzahl</label>
                   <input
                     id="quantity"
                     type="number"
@@ -290,7 +333,7 @@ export default function InquiryDrawer({
               {/* Message */}
               <div>
                 <label htmlFor="drawer-message" className="form-label">
-                  Ihre Anmerkungen <span className="text-[#8C6D4F]">*</span>
+                  Ihre Anmerkungen / Wünsche (optional)
                 </label>
                 <textarea
                   id="drawer-message"
@@ -302,7 +345,6 @@ export default function InquiryDrawer({
                       ? `Ich interessiere mich für das Werkstück "${product.name}". Bitte geben Sie mir Bescheid bezüglich Verfügbarkeit und Abwicklung.`
                       : ""
                   }
-                  required
                 />
                 {state.errors?.message && (
                   <p className="form-error">{state.errors.message[0]}</p>
@@ -327,23 +369,11 @@ export default function InquiryDrawer({
 
             {/* Footer with Submit */}
             <div className="px-7 py-5 border-t border-[#E6DED4] bg-white sticky bottom-0">
-              {product && (
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs text-[#6B635B]">
-                    {product.name} · {deliveryOption === "versand" ? "Versand" : "Abholung Werkstatt"}
-                  </span>
-                  {product.price && (
-                    <span className="font-serif-heading text-xl font-semibold text-[#1E1A17]">
-                      {product.price.toFixed(2).replace(".", ",")} €
-                    </span>
-                  )}
-                </div>
-              )}
               <button
                 type="submit"
                 id="drawer-submit-btn"
                 disabled={isPending}
-                className="btn btn-wood w-full"
+                className="btn btn-wood w-full font-medium"
               >
                 {isPending ? (
                   <>
