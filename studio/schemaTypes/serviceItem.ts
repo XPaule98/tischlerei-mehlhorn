@@ -24,8 +24,8 @@ export const serviceItem = defineType({
       type: "string",
       options: {
         list: [
-          { title: "🪵 Eigene Herstellung (Schönheide)", value: "eigenfertigung" },
-          { title: "🛠️ Bauelemente & Fachmontage", value: "bauelemente" },
+          { title: "Eigene Herstellung (Schönheide)", value: "eigenfertigung" },
+          { title: "Bauelemente & Fachmontage", value: "bauelemente" },
         ],
         layout: "radio",
       },
@@ -66,8 +66,8 @@ export const serviceItem = defineType({
     },
     prepare({ title, subtitle, media }) {
       const catMap: Record<string, string> = {
-        eigenfertigung: "🪵 Eigene Herstellung",
-        bauelemente: "🛠️ Bauelemente & Montage",
+        eigenfertigung: "Eigene Herstellung",
+        bauelemente: "Bauelemente & Montage",
       };
       return {
         title,

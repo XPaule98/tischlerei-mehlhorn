@@ -24,7 +24,7 @@ export const teamMember = defineType({
           { title: "Tischlergeselle", value: "Tischlergeselle" },
           { title: "Auszubildender", value: "Auszubildender" },
           { title: "Büro & Organisation", value: "Büro & Organisation" },
-          { title: "Werkstatthund 🐾", value: "Werkstatthund 🐾" },
+          { title: "Werkstatthund", value: "Werkstatthund" },
           { title: "Firmengründer & Senior", value: "Firmengründer & Senior" },
         ],
       },

@@ -49,7 +49,7 @@ const fallbackProjects: GalleryProject[] = [
     imageUrl: "/images/real/fenster-holz-1.jpg",
     description:
       "Denkmalgerechte Holzfenster mit Zierkämpfern und aufgesetzten Wiener Sprossen für eine denkmalgeschützte Villa.",
-    scope: ["Denkmalschutz-Konform", "Mehrschicht-Tauchorundierung", "Isolierglas"],
+    scope: ["Denkmalschutz-Konform", "Mehrschicht-Tauchgrundierung", "Isolierglas"],
   },
 
   // 2. Montage & Baustellen
@@ -134,14 +134,17 @@ const fallbackProjects: GalleryProject[] = [
 
 const categoryTabs = [
   { value: "alle", label: "Alle Einblicke" },
-  { value: "produktion", label: "🪵 Eigene Produktion" },
-  { value: "montage", label: "🛠️ Montage & Baustellen" },
-  { value: "projekte", label: "🏛️ Großprojekte & Referenzen" },
-  { value: "erfolge", label: "🌟 Erfolge & Meisterwerkstatt" },
+  { value: "produktion", label: "Eigene Produktion" },
+  { value: "montage", label: "Montage & Baustellen" },
+  { value: "projekte", label: "Großprojekte & Referenzen" },
+  { value: "erfolge", label: "Erfolge & Werkstatt" },
 ];
+
+const ITEMS_PER_PAGE = 6;
 
 export default function GalerieClient({ initialProjects }: { initialProjects?: GalleryProject[] }) {
   const [activeCategory, setActiveCategory] = useState<string>("alle");
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [lightboxImage, setLightboxImage] = useState<{ src: string; title: string } | null>(null);
 
   const projects =
@@ -152,6 +155,20 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
       ? projects
       : projects.filter((p) => p.category === activeCategory);
 
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const displayedProjects = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 350, behavior: "smooth" });
+  };
+
   const getCategoryLabel = (cat: string) => {
     switch (cat) {
       case "produktion":
@@ -161,7 +178,7 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
       case "projekte":
         return "Großprojekt / Referenz";
       case "erfolge":
-        return "Erfolg & Meilenstein";
+        return "Erfolg & Werkstatt";
       default:
         return "Referenz";
     }
@@ -169,14 +186,14 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
 
   return (
     <>
-      {/* Category Filter Toolbar */}
+      {/* Category Filter Toolbar – 100% Emoji-Free & Clean */}
       <section className="bg-[#F9F9F8] py-3.5 border-b border-[#E8E8E6] sticky top-[72px] z-30 backdrop-blur-md bg-[#F9F9F8]/95">
         <div className="container-site flex items-center justify-start sm:justify-center overflow-x-auto scrollbar-none gap-2">
           {categoryTabs.map((tab) => (
             <button
               key={tab.value}
-              onClick={() => setActiveCategory(tab.value)}
-              className={`px-3.5 sm:px-4 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+              onClick={() => handleCategoryChange(tab.value)}
+              className={`px-4 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
                 activeCategory === tab.value
                   ? "bg-[#181818] text-white shadow-xs"
                   : "bg-white text-[#555555] border border-[#E8E8E6] hover:bg-[#F2F2F0]"
@@ -191,8 +208,20 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
       {/* Gallery Showcase Grid */}
       <section className="py-12 md:py-16 bg-[#FFFFFF]">
         <div className="container-site">
+          {/* Item count header */}
+          <div className="flex items-center justify-between mb-8 pb-3 border-b border-[#E8E8E6]">
+            <span className="text-xs text-[#777777] font-medium">
+              Zeige <strong>{Math.min(startIndex + 1, filtered.length)}</strong> bis <strong>{Math.min(startIndex + ITEMS_PER_PAGE, filtered.length)}</strong> von <strong>{filtered.length}</strong> Einträgen
+            </span>
+            {totalPages > 1 && (
+              <span className="text-xs font-semibold text-[#181818]">
+                Seite {currentPage} von {totalPages}
+              </span>
+            )}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {filtered.map((project, idx) => (
+            {displayedProjects.map((project, idx) => (
               <div
                 key={project._id || idx}
                 className={`craft-card overflow-hidden flex flex-col justify-between bg-white group ${
@@ -212,7 +241,7 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
 
-                    {/* Category & Location Badges */}
+                    {/* Category Badges */}
                     <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
                       <span className="bg-[#181818]/90 text-white text-[10px] sm:text-[11px] px-2.5 py-1 rounded font-medium backdrop-blur-xs">
                         {getCategoryLabel(project.category)}
@@ -280,6 +309,51 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
             ))}
           </div>
 
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2 mt-12 pt-8 border-t border-[#E8E8E6]">
+              <button
+                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className={`px-3.5 py-2 rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1 border border-[#E8E8E6] transition-colors ${
+                  currentPage === 1
+                    ? "opacity-40 cursor-not-allowed bg-[#F9F9F8] text-[#999999]"
+                    : "bg-white text-[#181818] hover:bg-[#181818] hover:text-white cursor-pointer"
+                }`}
+              >
+                <ChevronLeft size={14} /> Vorherige
+              </button>
+
+              <div className="flex items-center gap-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    onClick={() => handlePageChange(pageNum)}
+                    className={`w-9 h-9 rounded text-xs font-semibold transition-all cursor-pointer ${
+                      currentPage === pageNum
+                        ? "bg-[#181818] text-white shadow-xs"
+                        : "bg-white text-[#555555] border border-[#E8E8E6] hover:bg-[#F2F2F0]"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className={`px-3.5 py-2 rounded text-xs font-semibold uppercase tracking-wider flex items-center gap-1 border border-[#E8E8E6] transition-colors ${
+                  currentPage === totalPages
+                    ? "opacity-40 cursor-not-allowed bg-[#F9F9F8] text-[#999999]"
+                    : "bg-white text-[#181818] hover:bg-[#181818] hover:text-white cursor-pointer"
+                }`}
+              >
+                Nächste <ChevronRight size={14} />
+              </button>
+            </div>
+          )}
+
           {/* Empty state fallback */}
           {filtered.length === 0 && (
             <div className="text-center py-16 bg-[#F9F9F8] rounded-lg border border-[#E8E8E6]">
@@ -287,8 +361,8 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
                 In dieser Kategorie sind aktuell keine Einträge hinterlegt.
               </p>
               <button
-                onClick={() => setActiveCategory("alle")}
-                className="btn btn-outline-dark text-xs mt-3"
+                onClick={() => handleCategoryChange("alle")}
+                className="btn btn-outline-dark text-xs mt-3 cursor-pointer"
               >
                 Alle Einträge anzeigen
               </button>

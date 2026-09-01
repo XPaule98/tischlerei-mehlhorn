@@ -53,7 +53,7 @@ const fallbackTeam: TeamMemberData[] = [
   {
     _id: "hund",
     name: "Balou",
-    role: "Werkstatthund 🐾",
+    role: "Werkstatthund",
     imageUrl: "/images/real/gebaeude-1.jpg",
     bio: "Sorgt stets für gute Laune im Betrieb, begrüßt treue Kunden und überwacht zuverlässig die wohlverdienten Kaffeepausen.",
     since: "Im Dienst für gute Stimmung",

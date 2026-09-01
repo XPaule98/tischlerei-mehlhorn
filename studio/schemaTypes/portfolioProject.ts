@@ -19,10 +19,10 @@ export const portfolioProject = defineType({
       validation: (Rule) => Rule.required(),
       options: {
         list: [
-          { title: "🪵 Eigene Produktion", value: "produktion" },
-          { title: "🛠️ Montage & Baustellen", value: "montage" },
-          { title: "🏛️ Großprojekte / Referenzen", value: "projekte" },
-          { title: "🌟 Erfolge & Auszeichnungen", value: "erfolge" },
+          { title: "Eigene Produktion", value: "produktion" },
+          { title: "Montage & Baustellen", value: "montage" },
+          { title: "Großprojekte & Referenzen", value: "projekte" },
+          { title: "Erfolge & Werkstatt", value: "erfolge" },
         ],
       },
     }),
@@ -85,10 +85,10 @@ export const portfolioProject = defineType({
     },
     prepare({ title, subtitle, media }) {
       const catMap: Record<string, string> = {
-        produktion: "🪵 Eigene Produktion",
-        montage: "🛠️ Montage & Baustellen",
-        projekte: "🏛️ Großprojekt",
-        erfolge: "🌟 Erfolg",
+        produktion: "Eigene Produktion",
+        montage: "Montage & Baustellen",
+        projekte: "Großprojekt / Referenz",
+        erfolge: "Erfolg & Werkstatt",
       };
       return {
         title,
