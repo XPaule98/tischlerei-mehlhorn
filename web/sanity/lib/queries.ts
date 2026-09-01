@@ -129,6 +129,7 @@ export const SERVICES_QUERY = defineQuery(`
     description,
     features,
     "imageUrl": image.asset->url,
+    "galleryUrls": gallery[].asset->url,
     order
   }
 `);
