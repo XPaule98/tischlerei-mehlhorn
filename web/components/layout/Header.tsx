@@ -122,18 +122,20 @@ export default function Header() {
                 037755 / 2346
               </a>
 
-              {/* Desktop CTA Button (Visible on Desktop alongside Desktop Nav) */}
-              <Link
-                href="/kontakt"
-                className={`hidden lg:inline-flex items-center gap-1.5 btn text-xs py-2 px-4 rounded ${
-                  isSolid
-                    ? "btn-primary"
-                    : "bg-white text-[#181818] hover:bg-white/90"
-                }`}
-              >
-                Anfrage senden
-                <ChevronRight size={13} />
-              </Link>
+              {/* Desktop CTA Button (Strictly hidden on mobile & tablet, guaranteed via wrapper) */}
+              <div className="hidden lg:block">
+                <Link
+                  href="/kontakt"
+                  className={`inline-flex items-center gap-1.5 btn text-xs py-2 px-4 rounded ${
+                    isSolid
+                      ? "btn-primary"
+                      : "bg-white text-[#181818] hover:bg-white/90"
+                  }`}
+                >
+                  Anfrage senden
+                  <ChevronRight size={13} />
+                </Link>
+              </div>
 
               {/* Mobile Hamburger Button */}
               <button
