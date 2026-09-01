@@ -4,15 +4,26 @@ import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import BeforeAfterSlider from "@/components/sections/BeforeAfterSlider";
 import ModelViewerSection from "@/components/sections/ModelViewerSection";
+import { client } from "@/sanity/lib/client";
+import { HERO_QUERY } from "@/sanity/lib/queries";
 import { ArrowRight, Check, ShoppingBag, Ruler, TreePine } from "lucide-react";
 
-export default function HomePage() {
+export const revalidate = 30; // Revalidate every 30 seconds for live CMS updates
+
+export default async function HomePage() {
+  let heroData = null;
+  try {
+    heroData = await client.fetch(HERO_QUERY, {}, { next: { revalidate: 30 } });
+  } catch (e) {
+    // Graceful fallback to default data
+  }
+
   return (
     <>
       <Header />
       <main id="main-content">
-        {/* 1. Hero Section */}
-        <HeroSection />
+        {/* 1. Hero Section (Live data from Sanity with default fallback) */}
+        <HeroSection data={heroData} />
 
         {/* 2. Kurze Firmen-Story Teaser */}
         <section className="section-pad bg-[#FAF8F5]">

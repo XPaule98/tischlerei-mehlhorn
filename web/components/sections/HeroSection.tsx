@@ -2,15 +2,35 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronRight, ArrowDown } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
-export default function HeroSection() {
+export interface HeroData {
+  craftBadge?: string;
+  title?: string;
+  subtitle?: string;
+  experienceYears?: string;
+  foundationYear?: string;
+  qualityStatement?: string;
+  backgroundImageUrl?: string;
+}
+
+export default function HeroSection({ data }: { data?: HeroData | null }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 80);
     return () => clearTimeout(timer);
   }, []);
+
+  const badge = data?.craftBadge || "Meisterbetrieb seit 1977 · Inh. Ronny Mehlhorn";
+  const title = data?.title || "Präzision in Holz. Beständigkeit für Generationen.";
+  const subtitle =
+    data?.subtitle ||
+    "Eigene Herstellung von Fenstern, Haustüren und Wintergärten sowie fachgerechte Montage geprüfter Marken-Bauelemente.";
+  const expYears = data?.experienceYears || "45+";
+  const foundYear = data?.foundationYear || "1977";
+  const quality = data?.qualityStatement || "100%";
+  const bgImg = data?.backgroundImageUrl || "/images/hero-bg.jpg";
 
   return (
     <section
@@ -21,7 +41,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 z-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/hero-bg.jpg"
+          src={bgImg}
           alt="Tischlerei Mehlhorn Werkstatt und Holzhandwerk"
           className="w-full h-full object-cover object-center opacity-40 scale-105 transition-transform duration-1000 ease-out"
         />
@@ -41,7 +61,7 @@ export default function HeroSection() {
           >
             <div className="w-8 h-[1px] bg-[#B48A58]" />
             <span className="text-craft-label text-[#D4B28C]">
-              Meisterbetrieb seit 1977 · Inh. Ronny Mehlhorn
+              {badge}
             </span>
           </div>
 
@@ -52,10 +72,7 @@ export default function HeroSection() {
             }`}
             style={{ transitionDelay: "150ms" }}
           >
-            Präzision in Holz. <br />
-            <span className="italic font-light text-[#E8D9C5]">
-              Beständigkeit für Generationen.
-            </span>
+            {title}
           </h1>
 
           {/* Subtitle */}
@@ -65,8 +82,7 @@ export default function HeroSection() {
             }`}
             style={{ transitionDelay: "300ms" }}
           >
-            Eigene Herstellung von Fenstern, Haustüren und Wintergärten sowie
-            fachgerechte Montage geprüfter Marken-Bauelemente.
+            {subtitle}
           </p>
 
           {/* CTA Group */}
@@ -100,7 +116,7 @@ export default function HeroSection() {
           >
             <div>
               <div className="font-serif-heading text-3xl md:text-4xl text-[#FAF8F5] mb-1 font-normal">
-                45+
+                {expYears}
               </div>
               <div className="text-xs text-[#A89F95] uppercase tracking-wider font-medium">
                 Jahre Erfahrung
@@ -108,7 +124,7 @@ export default function HeroSection() {
             </div>
             <div>
               <div className="font-serif-heading text-3xl md:text-4xl text-[#FAF8F5] mb-1 font-normal">
-                1977
+                {foundYear}
               </div>
               <div className="text-xs text-[#A89F95] uppercase tracking-wider font-medium">
                 Gegründet
@@ -116,7 +132,7 @@ export default function HeroSection() {
             </div>
             <div>
               <div className="font-serif-heading text-3xl md:text-4xl text-[#FAF8F5] mb-1 font-normal">
-                100%
+                {quality}
               </div>
               <div className="text-xs text-[#A89F95] uppercase tracking-wider font-medium">
                 Meisterqualität
