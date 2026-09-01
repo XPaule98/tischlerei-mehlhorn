@@ -2,10 +2,17 @@ import { defineQuery } from "next-sanity";
 
 export const HERO_QUERY = defineQuery(`
   *[_id == "heroSettings"][0] {
-    craftBadge,
-    title,
-    subtitle,
-    "backgroundImages": backgroundImages[].asset->url,
+    "slides": slides[] {
+      "imageUrl": image.asset->url,
+      craftBadge,
+      title,
+      subtitle,
+      primaryButtonText,
+      primaryButtonLink,
+      secondaryButtonText,
+      secondaryButtonLink,
+      durationSeconds
+    },
     backgroundVideoUrl
   }
 `);
@@ -45,8 +52,7 @@ export const PRODUCTS_QUERY = defineQuery(`
     price,
     available,
     description,
-    "imageUrl": images[0].asset->url,
-    "glbUrl": glbFile.asset->url
+    "imageUrl": images[0].asset->url
   }
 `);
 
