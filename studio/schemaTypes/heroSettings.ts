@@ -6,11 +6,57 @@ export const heroSettings = defineType({
   type: "document",
   fields: [
     defineField({
+      name: "craftBadge",
+      title: "Standard Dachzeile / Badge",
+      type: "string",
+      initialValue: "Meisterbetrieb seit 1977 · Schönheide (Erzgebirge)",
+      description: "Bleibt fest stehen, wenn in den einzelnen Slides kein abweichender Text eingetragen ist.",
+    }),
+    defineField({
+      name: "title",
+      title: "Standard Hauptüberschrift",
+      type: "string",
+      initialValue: "Präzision in Holz. Beständigkeit für Generationen.",
+      description: "Fester Haupttext auf der Startseite.",
+    }),
+    defineField({
+      name: "subtitle",
+      title: "Standard Untertitel / Beschreibung",
+      type: "text",
+      rows: 2,
+      initialValue:
+        "Eigene Fertigung von Holzfenstern, Holz-Aluminium-Systemen (Gutmann Mira), Haustüren und Wintergärten in Schönheide.",
+    }),
+    defineField({
+      name: "primaryButtonText",
+      title: "Haupt-Button Text",
+      type: "string",
+      initialValue: "Leistungen entdecken",
+    }),
+    defineField({
+      name: "primaryButtonLink",
+      title: "Haupt-Button Link",
+      type: "string",
+      initialValue: "/leistungen",
+    }),
+    defineField({
+      name: "secondaryButtonText",
+      title: "Zweiter Button Text",
+      type: "string",
+      initialValue: "Unverbindlich anfragen",
+    }),
+    defineField({
+      name: "secondaryButtonLink",
+      title: "Zweiter Button Link",
+      type: "string",
+      initialValue: "/kontakt",
+    }),
+    defineField({
       name: "slides",
-      title: "Hero Slides (Bilder, Texte & Buttons)",
+      title: "Hintergrund-Bilder & optionale Slide-Texte",
       type: "array",
       description:
-        "Erstellen Sie mehrere Slides mit individuellen Bildern, Texten und Anzeigedauern. Bild und Text überblenden sanft nacheinander.",
+        "Laden Sie hier Bilder für den sanften Hintergrundwechsel hoch. Lassen Sie Textfelder leer, damit die Standard-Texte ruhig stehen bleiben.",
       of: [
         {
           type: "object",
@@ -25,63 +71,29 @@ export const heroSettings = defineType({
               validation: (rule) => rule.required(),
             }),
             defineField({
-              name: "craftBadge",
-              title: "Badge / Dachzeile",
+              name: "customTitle",
+              title: "Eigener Titel für dieses Bild (optional)",
               type: "string",
-              initialValue: "Meisterbetrieb seit 1977 · Schönheide",
+              description: "Leer lassen, um den Standard-Titel ruhig stehen zu lassen.",
             }),
             defineField({
-              name: "title",
-              title: "Hauptüberschrift",
-              type: "string",
-              validation: (rule) => rule.required(),
-              initialValue: "Präzision in Holz. Beständigkeit für Generationen.",
-            }),
-            defineField({
-              name: "subtitle",
-              title: "Untertitel / Beschreibung",
+              name: "customSubtitle",
+              title: "Eigener Untertitel für dieses Bild (optional)",
               type: "text",
               rows: 2,
-              initialValue:
-                "Eigene Herstellung von Holzfenstern, Holz-Alu-Systemen (Gutmann Mira), Haustüren und Wintergärten.",
-            }),
-            defineField({
-              name: "primaryButtonText",
-              title: "Haupt-Button Text",
-              type: "string",
-              initialValue: "Leistungen entdecken",
-            }),
-            defineField({
-              name: "primaryButtonLink",
-              title: "Haupt-Button Link",
-              type: "string",
-              initialValue: "/leistungen",
-            }),
-            defineField({
-              name: "secondaryButtonText",
-              title: "Zweiter Button Text (optional)",
-              type: "string",
-              initialValue: "Unverbindlich anfragen",
-            }),
-            defineField({
-              name: "secondaryButtonLink",
-              title: "Zweiter Button Link",
-              type: "string",
-              initialValue: "/kontakt",
-            }),
-            defineField({
-              name: "durationSeconds",
-              title: "Anzeigedauer in Sekunden (z. B. 6 bis 10)",
-              type: "number",
-              initialValue: 6,
-              validation: (rule) => rule.min(3).max(20),
+              description: "Leer lassen, um den Standard-Untertitel ruhig stehen zu lassen.",
             }),
           ],
           preview: {
             select: {
-              title: "title",
-              subtitle: "subtitle",
+              title: "customTitle",
               media: "image",
+            },
+            prepare({ title, media }) {
+              return {
+                title: title || "Standard-Text (bleibt ruhig stehen)",
+                media,
+              };
             },
           },
         },
