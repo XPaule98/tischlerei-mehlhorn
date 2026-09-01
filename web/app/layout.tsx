@@ -9,6 +9,8 @@ const sans = Plus_Jakarta_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.tischlerei-mehlhorn.de";
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -17,7 +19,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tischlerei-mehlhorn.vercel.app"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Tischlerei Mehlhorn | Meisterbetrieb Schönheide (Erzgebirge)",
     template: "%s | Tischlerei Mehlhorn",
@@ -40,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "de_DE",
-    url: "https://tischlerei-mehlhorn.vercel.app",
+    url: siteUrl,
     siteName: "Tischlerei Ronny Mehlhorn",
     title: "Tischlerei Mehlhorn | Meisterbetrieb Schönheide (Erzgebirge)",
     description:
@@ -63,9 +65,9 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "HomeAndConstructionBusiness",
   name: "Tischlerei Ronny Mehlhorn",
-  image: "https://tischlerei-mehlhorn.vercel.app/images/real/hero-bg.jpg",
-  "@id": "https://tischlerei-mehlhorn.vercel.app/#organization",
-  url: "https://tischlerei-mehlhorn.vercel.app",
+  image: `${siteUrl}/images/real/hero-bg.jpg`,
+  "@id": `${siteUrl}/#organization`,
+  url: siteUrl,
   telephone: "+49377552346",
   priceRange: "€€",
   address: {
