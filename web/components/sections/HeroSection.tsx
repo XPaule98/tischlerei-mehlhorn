@@ -59,9 +59,6 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
   // Check if any slide has custom text overrides
   const hasCustomTexts = slideItems.some((s) => Boolean(s.customTitle || s.customSubtitle));
 
-  const activeTitle = currentSlide.customTitle || defaultTitle;
-  const activeSubtitle = currentSlide.customSubtitle || defaultSubtitle;
-
   const goToNextSlide = useCallback(() => {
     setCurrentSlideIndex((prev) => (prev + 1) % slideItems.length);
   }, [slideItems.length]);
@@ -89,7 +86,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
       className="relative min-h-screen min-h-[100dvh] flex items-center overflow-hidden bg-[#141414] text-white"
       aria-label="Tischlerei Mehlhorn Startseite"
     >
-      {/* Background Slideshow with Ultra-Smooth 1.5s Cross-Fade */}
+      {/* Background Slideshow – Enhanced Visibility (Less Dark) */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {videoUrl ? (
           <video
@@ -97,7 +94,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-35"
+            className="w-full h-full object-cover opacity-60"
           >
             <source src={videoUrl} type="video/mp4" />
           </video>
@@ -108,7 +105,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
               <div
                 key={slide.imageUrl || index}
                 className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${
-                  isActive ? "opacity-35" : "opacity-0"
+                  isActive ? "opacity-55" : "opacity-0"
                 }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -122,9 +119,9 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
           })
         )}
 
-        {/* Clean Natural Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/50 to-[#141414]/25" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#141414]/80 via-transparent to-[#141414]/20" />
+        {/* Softened Natural Vignette Overlay for better image clarity */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#141414]/90 via-[#141414]/35 to-[#141414]/15" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#141414]/65 via-transparent to-[#141414]/15" />
       </div>
 
       {/* Hero Content Area */}
@@ -132,7 +129,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
         <div className="max-w-2xl">
           {/* Badge: Always stays firmly and calmly in place */}
           <div className="inline-block mb-4">
-            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/80 border-b border-white/30 pb-0.5">
+            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/90 border-b border-white/30 pb-0.5 drop-shadow-xs">
               {defaultBadge}
             </span>
           </div>
@@ -141,10 +138,10 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
           {!hasCustomTexts ? (
             /* Case 1: Standard text stays completely STATIC with ZERO jumpiness or flickering */
             <div>
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight drop-shadow-sm">
                 {defaultTitle}
               </h1>
-              <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal">
+              <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal drop-shadow-xs">
                 {defaultSubtitle}
               </p>
             </div>
@@ -165,10 +162,10 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
                         : "opacity-0 absolute inset-0 pointer-events-none z-0"
                     }`}
                   >
-                    <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight">
+                    <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight drop-shadow-sm">
                       {title}
                     </h1>
-                    <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal">
+                    <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal drop-shadow-xs">
                       {subtitle}
                     </p>
                   </div>
@@ -181,14 +178,14 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <Link
               href={primaryLink}
-              className="btn bg-white text-[#181818] hover:bg-[#F0EFEB] font-semibold text-xs sm:text-sm py-3 px-6 rounded flex items-center justify-center gap-1.5"
+              className="btn bg-white text-[#181818] hover:bg-[#F0EFEB] font-semibold text-xs sm:text-sm py-3 px-6 rounded flex items-center justify-center gap-1.5 shadow-sm"
             >
               {primaryText}
               <ChevronRight size={15} />
             </Link>
             <Link
               href={secondaryLink}
-              className="btn btn-outline text-xs sm:text-sm py-3 px-6 rounded flex items-center justify-center"
+              className="btn btn-outline text-xs sm:text-sm py-3 px-6 rounded flex items-center justify-center backdrop-blur-xs"
             >
               {secondaryText}
             </Link>
@@ -208,8 +205,8 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
                   aria-label={`Zu Bild ${i + 1} wechseln`}
                   className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
                     i === currentSlideIndex
-                      ? "w-8 bg-white"
-                      : "w-2 bg-white/30 hover:bg-white/60"
+                      ? "w-8 bg-white shadow-xs"
+                      : "w-2 bg-white/40 hover:bg-white/70"
                   }`}
                 />
               ))}
