@@ -2,56 +2,26 @@ import { defineType, defineField } from "sanity";
 
 export const catalogProduct = defineType({
   name: "catalogProduct",
-  title: "Katalog-Produkt",
+  title: "Shop-Produkt / Dekoartikel",
   type: "document",
   fields: [
     defineField({
       name: "title",
-      title: "Produktname",
+      title: "Produktname (Pflichtfeld)",
       type: "string",
       validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "description",
-      title: "Beschreibung",
-      type: "text",
-      rows: 3,
-    }),
-    defineField({
-      name: "dimensions",
-      title: "Maße (z.B. 40 x 30 x 4 cm)",
-      type: "string",
-    }),
-    defineField({
-      name: "woodType",
-      title: "Holzart (z.B. Eiche massiv)",
-      type: "string",
-      options: {
-        list: [
-          { title: "Eiche massiv", value: "eiche-massiv" },
-          { title: "Buche massiv", value: "buche-massiv" },
-          { title: "Kiefer massiv", value: "kiefer-massiv" },
-          { title: "Nussbaum massiv", value: "nussbaum-massiv" },
-          { title: "Ahorn massiv", value: "ahorn-massiv" },
-          { title: "Diverse Hölzer", value: "diverse" },
-        ],
-      },
+      description: "z. B. 'Schneidebrett Hirnholz XL' oder 'Schwebendes Wandregal Eiche'",
     }),
     defineField({
       name: "price",
-      title: "Preis (€, inkl. MwSt.)",
+      title: "Preis (€ inkl. MwSt., Pflichtfeld)",
       type: "number",
       validation: (Rule) => Rule.required().min(0),
-    }),
-    defineField({
-      name: "available",
-      title: "Verfügbar / Auf Lager",
-      type: "boolean",
-      initialValue: true,
+      description: "z. B. 89.00",
     }),
     defineField({
       name: "images",
-      title: "Produktbilder",
+      title: "Produktbilder (mindestens 1 Bild empfohlen)",
       type: "array",
       of: [
         {
@@ -59,6 +29,41 @@ export const catalogProduct = defineType({
           options: { hotspot: true },
         },
       ],
+    }),
+    defineField({
+      name: "category",
+      title: "Kategorie (optional)",
+      type: "string",
+      options: {
+        list: [
+          { title: "Schneidebretter", value: "schneidebretter" },
+          { title: "Wandregale & Borde", value: "regale" },
+          { title: "Wohnaccessoires & Deko", value: "deko" },
+        ],
+      },
+    }),
+    defineField({
+      name: "description",
+      title: "Beschreibung (optional)",
+      type: "text",
+      rows: 3,
+      description: "Ausführlicher Beschreibungstext zum Werkstück.",
+    }),
+    defineField({
+      name: "dimensions",
+      title: "Maße (optional, z. B. 40 × 30 × 5 cm)",
+      type: "string",
+    }),
+    defineField({
+      name: "woodType",
+      title: "Holzart / Material (optional, z. B. Eiche massiv)",
+      type: "string",
+    }),
+    defineField({
+      name: "available",
+      title: "Verfügbar / Sofort lieferbar",
+      type: "boolean",
+      initialValue: true,
     }),
     defineField({
       name: "glbFile",
@@ -69,4 +74,18 @@ export const catalogProduct = defineType({
       },
     }),
   ],
+  preview: {
+    select: {
+      title: "title",
+      price: "price",
+      media: "images.0",
+    },
+    prepare({ title, price, media }) {
+      return {
+        title,
+        subtitle: price !== undefined ? `${Number(price).toFixed(2).replace(".", ",")} €` : "Kein Preis",
+        media,
+      };
+    },
+  },
 });

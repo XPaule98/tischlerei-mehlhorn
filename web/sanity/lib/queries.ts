@@ -135,6 +135,8 @@ export const PRODUCTS_QUERY = defineQuery(`
     price,
     available,
     description,
-    "imageUrl": images[0].asset->url
+    "imageUrl": images[0].asset->url,
+    "images": images[].asset->url,
+    "glbUrl": glbFile.asset->url
   }
 `);

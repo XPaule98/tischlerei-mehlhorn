@@ -43,16 +43,17 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
       : defaultImages.map((src) => ({ imageUrl: src }));
 
   const videoUrl = data?.backgroundVideoUrl;
-  const currentSlide = slideItems[currentSlideIndex] || slideItems[0];
 
   // Default global texts
   const defaultTitle = data?.title || "Präzision in Holz. Beständigkeit für Generationen.";
   const defaultSubtitle =
     data?.subtitle ||
     "Eigene Fertigung von Holzfenstern, Holz-Aluminium-Systemen (Gutmann Mira), Haustüren und Wintergärten in Schönheide.";
-  const primaryText = data?.primaryButtonText || "Leistungen entdecken";
+  
+  // Buttons – handled optionally
+  const primaryText = data?.primaryButtonText !== undefined ? data.primaryButtonText : "Leistungen entdecken";
   const primaryLink = data?.primaryButtonLink || "/leistungen";
-  const secondaryText = data?.secondaryButtonText || "Unverbindlich anfragen";
+  const secondaryText = data?.secondaryButtonText !== undefined ? data.secondaryButtonText : "Unverbindlich anfragen";
   const secondaryLink = data?.secondaryButtonLink || "/kontakt";
 
   // Check if any slide has custom text overrides
@@ -133,9 +134,11 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
               <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight drop-shadow-md">
                 {defaultTitle}
               </h1>
-              <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal drop-shadow-sm">
-                {defaultSubtitle}
-              </p>
+              {defaultSubtitle && (
+                <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal drop-shadow-sm">
+                  {defaultSubtitle}
+                </p>
+              )}
             </div>
           ) : (
             /* Case 2: Custom slide text with ultra-soft cross-fade */
@@ -157,31 +160,39 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
                     <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight drop-shadow-md">
                       {title}
                     </h1>
-                    <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal drop-shadow-sm">
-                      {subtitle}
-                    </p>
+                    {subtitle && (
+                      <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal drop-shadow-sm">
+                        {subtitle}
+                      </p>
+                    )}
                   </div>
                 );
               })}
             </div>
           )}
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <Link
-              href={primaryLink}
-              className="btn bg-white text-[#181818] hover:bg-[#F0EFEB] font-semibold text-xs sm:text-sm py-3 px-6 rounded flex items-center justify-center gap-1.5 shadow-md"
-            >
-              {primaryText}
-              <ChevronRight size={15} />
-            </Link>
-            <Link
-              href={secondaryLink}
-              className="btn btn-outline text-xs sm:text-sm py-3 px-6 rounded flex items-center justify-center backdrop-blur-xs"
-            >
-              {secondaryText}
-            </Link>
-          </div>
+          {/* CTA Buttons – Only render if provided */}
+          {(Boolean(primaryText) || Boolean(secondaryText)) && (
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              {primaryText && (
+                <Link
+                  href={primaryLink}
+                  className="btn bg-white text-[#181818] hover:bg-[#F0EFEB] font-semibold text-xs sm:text-sm py-3 px-6 rounded flex items-center justify-center gap-1.5 shadow-md"
+                >
+                  {primaryText}
+                  <ChevronRight size={15} />
+                </Link>
+              )}
+              {secondaryText && (
+                <Link
+                  href={secondaryLink}
+                  className="btn btn-outline text-xs sm:text-sm py-3 px-6 rounded flex items-center justify-center backdrop-blur-xs"
+                >
+                  {secondaryText}
+                </Link>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
