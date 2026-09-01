@@ -53,7 +53,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
 
   return (
     <section
-      className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#161311] text-[#FAF8F5]"
+      className="relative min-h-screen min-h-[100dvh] flex items-center overflow-hidden bg-[#161311] text-[#FAF8F5]"
       aria-label="Tischlerei Mehlhorn Einführung"
     >
       {/* Background: Video or Cross-Fading Slideshow */}

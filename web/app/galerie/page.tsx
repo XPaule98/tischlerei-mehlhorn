@@ -5,9 +5,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import BeforeAfterSlider from "@/components/sections/BeforeAfterSlider";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
-type Category = "alle" | "fenster" | "tueren" | "wintergarten" | "werkstatt";
+type Category = "alle" | "tueren" | "fenster" | "wintergarten" | "werkstatt";
 
 const realProjects = [
   {
@@ -113,20 +113,46 @@ export default function GaleriePage() {
   return (
     <>
       <Header />
-      <main className="pt-24 md:pt-28">
-        {/* Hero Section */}
-        <section className="bg-[#1C1815] text-[#FAF8F5] py-20 md:py-28 relative overflow-hidden">
-          <div className="container-site relative z-10">
-            <span className="text-craft-label text-[#D4B28C] block mb-3">
-              Referenzen aus unserer Meisterwerkstatt
-            </span>
-            <h1 className="font-serif-heading text-4xl sm:text-5xl md:text-6xl max-w-3xl mb-6 font-normal leading-tight">
-              Echte Arbeiten der Tischlerei Mehlhorn.
-            </h1>
-            <p className="text-[#D6CCC0] text-lg md:text-xl max-w-2xl leading-relaxed">
-              Entdecken Sie echte Fotos von maßgefertigten Fenstern, Haustüren und Wintergärten, 
-              die in unserer Werkstatt in Schönheide entstanden sind.
-            </p>
+      <main className="pt-20 md:pt-24">
+        {/* Compact, Crisp Header */}
+        <section className="bg-gradient-to-b from-[#1E1A17] to-[#25201C] text-[#FAF8F5] pt-12 pb-8 border-b border-[#3A332D]">
+          <div className="container-site">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div>
+                <span className="text-craft-label text-[#D4B28C] block mb-1.5">
+                  Originalaufnahmen aus Schönheide
+                </span>
+                <h1 className="font-serif-heading text-3xl sm:text-4xl md:text-5xl font-normal leading-tight">
+                  Galerie & Referenzen
+                </h1>
+                <p className="text-[#D6CCC0] text-sm sm:text-base max-w-2xl mt-1.5 leading-relaxed">
+                  Einblicke in maßgefertigte Holzfenster, Holz-Alu-Systeme, Haustüren und Wintergärten aus unserer Werkstatt.
+                </p>
+              </div>
+
+              {/* Filter Pills right in the header bar */}
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { value: "alle", label: "Alle Referenzen" },
+                  { value: "tueren", label: "Haustüren" },
+                  { value: "fenster", label: "Fenster" },
+                  { value: "wintergarten", label: "Wintergärten" },
+                  { value: "werkstatt", label: "Werkstatt" },
+                ].map((tab) => (
+                  <button
+                    key={tab.value}
+                    onClick={() => setActiveCategory(tab.value as Category)}
+                    className={`px-3.5 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
+                      activeCategory === tab.value
+                        ? "bg-[#B48A58] text-white shadow-sm"
+                        : "bg-white/10 text-white/80 hover:bg-white/20 border border-white/10"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -138,79 +164,45 @@ export default function GaleriePage() {
           afterLabel="Montage beim Kunden"
         />
 
-        {/* Portfolio Gallery Section */}
-        <section className="section-pad bg-[#FAF8F5]">
+        {/* Gallery Grid – Starts immediately */}
+        <section className="py-12 md:py-16 bg-[#FAF8F5]">
           <div className="container-site">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-craft-label block mb-2">Originalfotos unserer Arbeiten</span>
-              <h2 className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal mb-4">
-                Bildergalerie realisierter Projekte
-              </h2>
-              <p className="text-[#5E564E] text-base">
-                Filtern Sie nach Gewerk oder entdecken Sie alle gefertigten Werkstücke im Überblick.
-              </p>
-            </div>
-
-            {/* Filter Tabs */}
-            <div className="flex flex-wrap justify-center gap-2 mb-14">
-              {[
-                { value: "alle", label: "Alle Referenzen" },
-                { value: "tueren", label: "Haustüren" },
-                { value: "fenster", label: "Holz- & Holz-Alu-Fenster" },
-                { value: "wintergarten", label: "Wintergärten" },
-                { value: "werkstatt", label: "Werkstatt & Gebäude" },
-              ].map((tab) => (
-                <button
-                  key={tab.value}
-                  onClick={() => setActiveCategory(tab.value as Category)}
-                  className={`px-5 py-2.5 rounded text-xs font-semibold uppercase tracking-wider transition-all ${
-                    activeCategory === tab.value
-                      ? "bg-[#1E1A17] text-white"
-                      : "bg-white text-[#5E564E] border border-[#E6DED4] hover:bg-[#F3ECE2]"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Gallery Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {filteredProjects.map((project) => (
                 <div
                   key={project.id}
-                  className="craft-card rounded-lg overflow-hidden flex flex-col justify-between"
+                  className="craft-card rounded-lg overflow-hidden flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div>
-                    <div className="relative h-72 overflow-hidden bg-[#F3ECE2]">
+                    <div className="relative h-64 sm:h-72 overflow-hidden bg-[#F3ECE2]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute top-3 left-3 bg-[#1E1A17]/85 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded font-medium">
+                      <div className="absolute top-3 left-3 bg-[#1E1A17]/90 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded font-medium shadow-sm">
                         {project.categoryLabel}
                       </div>
                     </div>
 
-                    <div className="p-7">
-                      <h3 className="font-serif-heading text-2xl text-[#1E1A17] font-medium mb-3">
+                    <div className="p-6 sm:p-7">
+                      <h2 className="font-serif-heading text-xl sm:text-2xl text-[#1E1A17] font-medium mb-2.5 leading-snug">
                         {project.title}
-                      </h3>
-                      <p className="text-[#5E564E] text-sm leading-relaxed mb-5">
+                      </h2>
+                      <p className="text-[#5E564E] text-xs sm:text-sm leading-relaxed mb-4">
                         {project.description}
                       </p>
-                      <div className="text-xs font-semibold text-[#8C6D4F] border-t border-[#F3ECE2] pt-4">
+                      <div className="text-xs font-semibold text-[#8C6D4F] border-t border-[#F3ECE2] pt-3.5">
                         {project.details}
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-7 pt-0 border-t border-[#F3ECE2] mt-4">
+                  <div className="p-6 sm:p-7 pt-0 border-t border-[#F3ECE2] mt-2">
                     <Link
                       href={`/kontakt?gewerk=${encodeURIComponent(project.categoryLabel)}`}
-                      className="text-xs font-semibold text-[#1E1A17] hover:text-[#8C6D4F] flex items-center gap-1.5 pt-4 transition-colors"
+                      className="text-xs font-semibold text-[#1E1A17] hover:text-[#8C6D4F] flex items-center gap-1.5 pt-3 transition-colors"
                     >
                       Ähnliches Projekt anfragen <ArrowRight size={13} />
                     </Link>
@@ -220,15 +212,15 @@ export default function GaleriePage() {
             </div>
 
             {/* Bottom Callout */}
-            <div className="mt-16 text-center bg-[#1C1815] text-[#FAF8F5] p-10 md:p-14 rounded-lg">
+            <div className="mt-14 text-center bg-[#1C1815] text-[#FAF8F5] p-8 sm:p-12 rounded-lg">
               <span className="text-craft-label text-[#D4B28C] block mb-2">Ihr Bauvorhaben</span>
-              <h3 className="font-serif-heading text-2xl md:text-3xl font-normal mb-3">
+              <h3 className="font-serif-heading text-2xl sm:text-3xl font-normal mb-2.5">
                 Wünschen Sie eine Maßanfertigung nach Ihren Vorstellungen?
               </h3>
-              <p className="text-[#A89F95] text-sm md:text-base max-w-md mx-auto mb-8 leading-relaxed">
-                Wir beraten Sie persönlich in Schönheide und der gesamten Region Erzgebirge und fertigen Ihr Wunschbauteil passgenau an.
+              <p className="text-[#A89F95] text-sm sm:text-base max-w-md mx-auto mb-6 leading-relaxed">
+                Wir beraten Sie persönlich in Schönheide und der gesamten Region Erzgebirge.
               </p>
-              <Link href="/kontakt" className="btn btn-wood text-sm font-medium">
+              <Link href="/kontakt" className="btn btn-wood text-xs sm:text-sm font-medium py-3 px-6">
                 Unverbindliches Angebot einholen
               </Link>
             </div>
