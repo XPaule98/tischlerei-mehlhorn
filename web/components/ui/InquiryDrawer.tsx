@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useActionState } from "react";
-import { X, Package, MapPin, Loader2, CheckCircle, AlertCircle, Lock, ShieldCheck } from "lucide-react";
+import { X, Package, MapPin, Loader2, CheckCircle, AlertCircle, Lock } from "lucide-react";
 import { sendInquiryAction, type ActionResult } from "@/actions/sendInquiryAction";
 
 export interface DrawerProduct {
@@ -61,7 +61,7 @@ export default function InquiryDrawer({
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-50 bg-[#1E1A17]/60 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`fixed inset-0 z-50 bg-black/50 backdrop-blur-xs transition-opacity duration-200 ${
           isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
@@ -73,38 +73,38 @@ export default function InquiryDrawer({
         role="dialog"
         aria-modal="true"
         aria-label={product ? `Anfrage: ${product.name}` : "Kontaktanfrage"}
-        className={`fixed right-0 top-0 bottom-0 z-50 w-full max-w-lg bg-[#FAF8F5] shadow-2xl flex flex-col transform transition-transform duration-350 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+        className={`fixed right-0 top-0 bottom-0 z-50 w-full max-w-md bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-7 py-5 border-b border-[#E6DED4] bg-white">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E8E8E6]">
           <div>
-            <span className="text-craft-label block mb-0.5">Unverbindliche Werkstatt-Anfrage</span>
-            <h2 className="font-serif-heading text-2xl text-[#1E1A17] font-medium">
+            <span className="text-craft-label block mb-0.5">Unverbindliche Anfrage</span>
+            <h2 className="text-lg font-bold text-[#181818]">
               {product ? "Bestellanfrage" : "Kontakt aufnehmen"}
             </h2>
           </div>
           <button
             onClick={onClose}
             id="drawer-close-btn"
-            className="w-9 h-9 flex items-center justify-center rounded hover:bg-[#F3ECE2] transition-colors text-[#5E564E]"
-            aria-label="Anfrage schließen"
+            className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#F2F2F0] transition-colors text-[#555555]"
+            aria-label="Schließen"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
         {/* Success State */}
         {state.success ? (
-          <div className="flex-1 flex flex-col items-center justify-center px-8 text-center gap-4 bg-white">
-            <div className="w-14 h-14 bg-[#F3ECE2] rounded-full flex items-center justify-center">
-              <CheckCircle size={28} className="text-[#8C6D4F]" />
+          <div className="flex-1 flex flex-col items-center justify-center px-6 text-center gap-3 bg-white">
+            <div className="w-12 h-12 bg-[#F2F2F0] rounded-full flex items-center justify-center">
+              <CheckCircle size={24} className="text-[#8C6D4F]" />
             </div>
-            <h3 className="font-serif-heading text-2xl text-[#1E1A17] font-medium">Anfrage übermittelt</h3>
-            <p className="text-[#5E564E] text-sm leading-relaxed max-w-xs">{state.message}</p>
-            <button onClick={onClose} className="btn btn-wood mt-4 text-xs">
-              Fenster schließen
+            <h3 className="text-xl font-bold text-[#181818]">Anfrage übermittelt</h3>
+            <p className="text-[#555555] text-xs leading-relaxed max-w-xs">{state.message}</p>
+            <button onClick={onClose} className="btn btn-primary mt-3 text-xs">
+              Schließen
             </button>
           </div>
         ) : (
@@ -114,11 +114,11 @@ export default function InquiryDrawer({
             action={formAction}
             className="flex-1 overflow-y-auto"
           >
-            <div className="px-7 py-6 space-y-5">
+            <div className="px-6 py-5 space-y-4">
               {/* Error state */}
               {!state.success && state.message && (
-                <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded text-sm text-red-700">
-                  <AlertCircle size={16} className="text-red-500 mt-0.5 flex-shrink-0" />
+                <div className="flex items-start gap-2.5 p-3 bg-red-50 border border-red-200 rounded text-xs text-red-700">
+                  <AlertCircle size={15} className="text-red-500 mt-0.5 flex-shrink-0" />
                   <p>{state.message}</p>
                 </div>
               )}
@@ -133,22 +133,22 @@ export default function InquiryDrawer({
                 />
               </div>
 
-              {/* Locked Product Summary Card (Vorlage – fest vorgegeben) */}
+              {/* Locked Product Summary Card */}
               {product && (
-                <div className="p-4 bg-white rounded-lg border border-[#E6DED4] shadow-sm">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] flex items-center gap-1">
-                      <Lock size={11} /> Fest ausgewähltes Werkstück
+                <div className="p-3.5 bg-[#F9F9F8] rounded border border-[#E8E8E6]">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C6D4F] flex items-center gap-1">
+                      <Lock size={10} /> Fest hinterlegtes Werkstück
                     </span>
                     {product.price && (
-                      <span className="font-serif-heading text-lg font-bold text-[#1E1A17]">
+                      <span className="text-base font-bold text-[#181818]">
                         {product.price.toFixed(2).replace(".", ",")} €
                       </span>
                     )}
                   </div>
-                  <div className="flex gap-4 items-center">
+                  <div className="flex gap-3 items-center">
                     {product.image && (
-                      <div className="w-16 h-16 rounded overflow-hidden bg-[#F3ECE2] flex-shrink-0 border border-[#E6DED4]">
+                      <div className="w-14 h-14 rounded overflow-hidden bg-white flex-shrink-0 border border-[#E8E8E6]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={product.image}
@@ -158,22 +158,21 @@ export default function InquiryDrawer({
                       </div>
                     )}
                     <div>
-                      <h4 className="font-serif-heading text-base font-semibold text-[#1E1A17] leading-tight">
+                      <h4 className="text-sm font-bold text-[#181818] leading-tight">
                         {product.name}
                       </h4>
                       {product.dimensions && (
-                        <p className="text-xs text-[#6B635B] mt-0.5">
+                        <p className="text-[11px] text-[#666666] mt-0.5">
                           Maße: {product.dimensions}
                         </p>
                       )}
                       {product.woodType && (
-                        <p className="text-xs text-[#6B635B]">
+                        <p className="text-[11px] text-[#666666]">
                           Holz: {product.woodType}
                         </p>
                       )}
                     </div>
                   </div>
-                  {/* Hidden inputs to send locked product info */}
                   <input type="hidden" name="productName" value={product.name} />
                   {product.price && (
                     <input type="hidden" name="productPrice" value={product.price.toString()} />
@@ -184,8 +183,8 @@ export default function InquiryDrawer({
               {/* Delivery Option Selection */}
               {product && (
                 <div>
-                  <label className="form-label">Übergabe-Wunsch</label>
-                  <div className="grid grid-cols-2 gap-3 mt-1">
+                  <label className="form-label">Übergabe-Option</label>
+                  <div className="grid grid-cols-2 gap-2.5 mt-1">
                     {[
                       {
                         value: "abholung",
@@ -197,7 +196,7 @@ export default function InquiryDrawer({
                         value: "versand",
                         label: "Postversand",
                         icon: Package,
-                        desc: "Versichert nach Hause",
+                        desc: "Versichert verpackt",
                       },
                     ].map((opt) => (
                       <button
@@ -206,26 +205,26 @@ export default function InquiryDrawer({
                         onClick={() =>
                           setDeliveryOption(opt.value as "versand" | "abholung")
                         }
-                        className={`p-3.5 rounded border text-left transition-all ${
+                        className={`p-3 rounded border text-left transition-all cursor-pointer ${
                           deliveryOption === opt.value
-                            ? "border-[#1E1A17] bg-[#1E1A17] text-white"
-                            : "border-[#E6DED4] bg-white hover:border-[#CBB295]"
+                            ? "border-[#181818] bg-[#181818] text-white"
+                            : "border-[#E8E8E6] bg-white hover:border-[#CCCCCC]"
                         }`}
                       >
                         <opt.icon
-                          size={16}
-                          className={`mb-1.5 ${
+                          size={14}
+                          className={`mb-1 ${
                             deliveryOption === opt.value
-                              ? "text-[#D4B28C]"
+                              ? "text-white"
                               : "text-[#8C6D4F]"
                           }`}
                         />
-                        <div className="font-semibold text-xs md:text-sm">{opt.label}</div>
+                        <div className="font-bold text-xs">{opt.label}</div>
                         <div
-                          className={`text-[11px] mt-0.5 ${
+                          className={`text-[10px] mt-0.5 ${
                             deliveryOption === opt.value
                               ? "text-white/70"
-                              : "text-[#6B635B]"
+                              : "text-[#777777]"
                           }`}
                         >
                           {opt.desc}
@@ -244,7 +243,7 @@ export default function InquiryDrawer({
               {/* Quantity */}
               {product && (
                 <div>
-                  <label htmlFor="quantity" className="form-label">Gewünschte Stückzahl</label>
+                  <label htmlFor="quantity" className="form-label">Stückzahl</label>
                   <input
                     id="quantity"
                     type="number"
@@ -297,7 +296,7 @@ export default function InquiryDrawer({
               {/* Phone */}
               <div>
                 <label htmlFor="drawer-phone" className="form-label">
-                  Telefonnummer (optional für Rückfragen)
+                  Telefonnummer (optional)
                 </label>
                 <input
                   id="drawer-phone"
@@ -311,20 +310,20 @@ export default function InquiryDrawer({
 
               {/* Address (for Versand) */}
               {product && deliveryOption === "versand" && (
-                <div className="p-4 bg-white rounded border border-[#E6DED4] space-y-3">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#1E1A17] block">Lieferanschrift</span>
+                <div className="p-3.5 bg-[#F9F9F8] rounded border border-[#E8E8E6] space-y-2.5">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#181818] block">Lieferanschrift</span>
                   <div>
-                    <label htmlFor="street" className="form-label text-[11px]">Straße & Hausnummer</label>
-                    <input id="street" type="text" name="street" className="form-input text-sm py-2" placeholder="Musterstraße 1" autoComplete="street-address" />
+                    <label htmlFor="street" className="form-label text-[10px]">Straße & Hausnummer</label>
+                    <input id="street" type="text" name="street" className="form-input text-xs py-1.5" placeholder="Musterstraße 1" autoComplete="street-address" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label htmlFor="zip" className="form-label text-[11px]">PLZ</label>
-                      <input id="zip" type="text" name="zip" className="form-input text-sm py-2" placeholder="12345" autoComplete="postal-code" maxLength={5} />
+                      <label htmlFor="zip" className="form-label text-[10px]">PLZ</label>
+                      <input id="zip" type="text" name="zip" className="form-input text-xs py-1.5" placeholder="12345" autoComplete="postal-code" maxLength={5} />
                     </div>
                     <div>
-                      <label htmlFor="city" className="form-label text-[11px]">Ort</label>
-                      <input id="city" type="text" name="city" className="form-input text-sm py-2" placeholder="Musterstadt" autoComplete="address-level2" />
+                      <label htmlFor="city" className="form-label text-[10px]">Ort</label>
+                      <input id="city" type="text" name="city" className="form-input text-xs py-1.5" placeholder="Musterstadt" autoComplete="address-level2" />
                     </div>
                   </div>
                 </div>
@@ -333,13 +332,13 @@ export default function InquiryDrawer({
               {/* Message */}
               <div>
                 <label htmlFor="drawer-message" className="form-label">
-                  Ihre Anmerkungen / Wünsche (optional)
+                  Ihre Anmerkungen (optional)
                 </label>
                 <textarea
                   id="drawer-message"
                   name="message"
                   className="form-input resize-none"
-                  rows={3}
+                  rows={2}
                   defaultValue={
                     product
                       ? `Ich interessiere mich für das Werkstück "${product.name}". Bitte geben Sie mir Bescheid bezüglich Verfügbarkeit und Abwicklung.`
@@ -352,32 +351,32 @@ export default function InquiryDrawer({
               </div>
 
               {/* DSGVO */}
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-2.5">
                 <input
                   id="drawer-dsgvo"
                   type="checkbox"
                   name="dsgvo"
-                  className="mt-1 w-4 h-4 accent-[#1E1A17] cursor-pointer"
+                  className="mt-0.5 w-4 h-4 accent-[#181818] cursor-pointer"
                   required
                 />
-                <label htmlFor="drawer-dsgvo" className="text-xs text-[#5E564E] leading-relaxed cursor-pointer">
-                  Ich willige ein, dass meine Angaben zur Bearbeitung der Anfrage gespeichert und verarbeitet werden.{" "}
+                <label htmlFor="drawer-dsgvo" className="text-[11px] text-[#666666] leading-relaxed cursor-pointer">
+                  Ich willige ein, dass meine Daten zur Bearbeitung der Anfrage verarbeitet werden.{" "}
                   <span className="text-[#8C6D4F]">*</span>
                 </label>
               </div>
             </div>
 
-            {/* Footer with Submit */}
-            <div className="px-7 py-5 border-t border-[#E6DED4] bg-white sticky bottom-0">
+            {/* Submit */}
+            <div className="px-6 py-4 border-t border-[#E8E8E6] bg-white sticky bottom-0">
               <button
                 type="submit"
                 id="drawer-submit-btn"
                 disabled={isPending}
-                className="btn btn-wood w-full font-medium"
+                className="btn btn-primary w-full text-xs font-semibold py-3 cursor-pointer"
               >
                 {isPending ? (
                   <>
-                    <Loader2 size={16} className="animate-spin" />
+                    <Loader2 size={14} className="animate-spin" />
                     Wird übermittelt…
                   </>
                 ) : (

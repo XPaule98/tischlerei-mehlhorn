@@ -32,11 +32,11 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
   const videoUrl = data?.backgroundVideoUrl;
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 80);
+    const timer = setTimeout(() => setLoaded(true), 50);
     return () => clearTimeout(timer);
   }, []);
 
-  // Background Slideshow Timer (Changes image every 6 seconds with smooth cross-fade)
+  // Background Slideshow
   useEffect(() => {
     if (videoUrl || images.length <= 1) return;
     const interval = setInterval(() => {
@@ -45,18 +45,18 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
     return () => clearInterval(interval);
   }, [images, videoUrl]);
 
-  const badge = data?.craftBadge || "Meisterbetrieb seit 1977 · Inh. Ronny Mehlhorn";
+  const badge = data?.craftBadge || "Meisterbetrieb seit 1977 · Schönheide (Erzgebirge)";
   const title = data?.title || "Präzision in Holz. Beständigkeit für Generationen.";
   const subtitle =
     data?.subtitle ||
-    "Eigene Herstellung von Fenstern, Haustüren und Wintergärten sowie fachgerechte Montage geprüfter Marken-Bauelemente.";
+    "Eigene Fertigung von Holzfenstern, Holz-Aluminium-Systemen (Gutmann Mira), Haustüren und Wintergärten in Schönheide.";
 
   return (
     <section
-      className="relative min-h-screen min-h-[100dvh] flex items-center overflow-hidden bg-[#161311] text-[#FAF8F5]"
-      aria-label="Tischlerei Mehlhorn Einführung"
+      className="relative min-h-screen min-h-[100dvh] flex items-center overflow-hidden bg-[#141414] text-white"
+      aria-label="Tischlerei Mehlhorn Startseite"
     >
-      {/* Background: Video or Cross-Fading Slideshow */}
+      {/* Background Media */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {videoUrl ? (
           <video
@@ -64,7 +64,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-45 scale-105"
+            className="w-full h-full object-cover opacity-40"
           >
             <source src={videoUrl} type="video/mp4" />
           </video>
@@ -72,9 +72,9 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
           images.map((src, index) => (
             <div
               key={src}
-              className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${
-                index === currentImageIndex ? "opacity-45 scale-105" : "opacity-0 scale-100"
-              } transition-transform duration-[7000ms]`}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                index === currentImageIndex ? "opacity-40 scale-100" : "opacity-0 scale-105"
+              } transition-transform duration-[8000ms]`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -86,22 +86,19 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
           ))
         )}
 
-        {/* Warm Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#141210]/95 via-[#161311]/70 to-[#161311]/45" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#141210] via-transparent to-[#141210]/40" />
+        {/* Clean Natural Dark Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/60 to-[#141414]/30" />
 
-        {/* Slideshow indicator dots (subtle) */}
+        {/* Minimalist image indicator dots */}
         {!videoUrl && images.length > 1 && (
           <div className="absolute bottom-8 right-8 z-20 flex gap-2">
             {images.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentImageIndex(i)}
-                aria-label={`Hintergrundbild ${i + 1} anzeigen`}
-                className={`h-1.5 transition-all duration-500 rounded-full ${
-                  i === currentImageIndex
-                    ? "w-8 bg-[#B48A58]"
-                    : "w-2 bg-white/30 hover:bg-white/60"
+                aria-label={`Bild ${i + 1}`}
+                className={`h-1 transition-all duration-300 rounded-full cursor-pointer ${
+                  i === currentImageIndex ? "w-7 bg-white" : "w-2 bg-white/30 hover:bg-white/60"
                 }`}
               />
             ))}
@@ -110,57 +107,56 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
       </div>
 
       {/* Hero Content */}
-      <div className="container-site relative z-10 pt-32 pb-24 md:pt-40 md:pb-32">
-        <div className="max-w-3xl">
-          {/* Craft Label */}
+      <div className="container-site relative z-10 pt-28 pb-20 md:pt-36 md:pb-28">
+        <div className="max-w-2xl">
+          {/* Badge */}
           <div
-            className={`flex items-center gap-3 mb-6 transition-all duration-700 ${
-              loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            className={`inline-block mb-4 transition-all duration-500 ${
+              loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
             }`}
           >
-            <div className="w-8 h-[1px] bg-[#B48A58]" />
-            <span className="text-craft-label text-[#D4B28C]">
+            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/80 border-b border-white/30 pb-1">
               {badge}
             </span>
           </div>
 
-          {/* Main Serif Headline */}
+          {/* Clean Sans Headline */}
           <h1
-            className={`font-serif-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.12] mb-7 text-[#FAF8F5] transition-all duration-700 ${
-              loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            className={`text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-5 text-white transition-all duration-500 ${
+              loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
-            style={{ transitionDelay: "150ms" }}
+            style={{ transitionDelay: "100ms" }}
           >
             {title}
           </h1>
 
           {/* Subtitle */}
           <p
-            className={`text-[#D6CCC0] text-lg md:text-xl max-w-2xl leading-relaxed mb-10 font-normal transition-all duration-700 ${
+            className={`text-white/80 text-base sm:text-lg md:text-xl leading-relaxed mb-8 font-normal transition-all duration-500 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
-            style={{ transitionDelay: "300ms" }}
+            style={{ transitionDelay: "200ms" }}
           >
             {subtitle}
           </p>
 
-          {/* CTA Buttons */}
+          {/* Clean Buttons */}
           <div
-            className={`flex flex-col sm:flex-row items-stretch sm:items-center gap-4 transition-all duration-700 ${
+            className={`flex flex-col sm:flex-row items-stretch sm:items-center gap-3 transition-all duration-500 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
-            style={{ transitionDelay: "450ms" }}
+            style={{ transitionDelay: "300ms" }}
           >
             <Link
               href="/leistungen"
-              className="btn btn-wood text-sm font-medium py-3.5 px-7 flex items-center justify-center gap-2"
+              className="btn bg-white text-[#181818] hover:bg-[#F0EFEB] font-semibold text-sm py-3 px-6 rounded flex items-center justify-center gap-2"
             >
               Leistungen entdecken
-              <ChevronRight size={16} />
+              <ChevronRight size={15} />
             </Link>
             <Link
               href="/kontakt"
-              className="btn btn-outline text-sm font-medium py-3.5 px-7 flex items-center justify-center"
+              className="btn btn-outline text-sm py-3 px-6 rounded flex items-center justify-center"
             >
               Unverbindlich anfragen
             </Link>

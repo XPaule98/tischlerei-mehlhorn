@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 /* ==========================================================
-   TISCHLEREI MEHLHORN – Handwerk, Natur & Zeitlose Ästhetik
+   TISCHLEREI MEHLHORN – Skandinavisch & Natürlich Minimalistisch
    ========================================================== */
 
 @layer base {
   :root {
-    --font-heading: var(--font-heading);
-    --font-body: var(--font-body);
+    --font-sans: var(--font-sans);
 
-    /* Natural Wood & Stone Palette */
-    --color-paper: #FAF8F5;
-    --color-sand: #F3ECE2;
-    --color-warm-grey: #ECE5DB;
-    --color-wood-amber: #B48A58;
-    --color-wood-dark: #8A643B;
-    --color-timber-dark: #1E1A17;
-    --color-timber-charcoal: #141210;
-    --color-border-warm: #E6DED4;
+    /* Clean Scandinavian Palette */
+    --color-bg-white: #FFFFFF;
+    --color-bg-subtle: #F9F9F8;
+    --color-bg-neutral: #F2F2F0;
+    --color-text-primary: #181818;
+    --color-text-secondary: #555555;
+    --color-text-muted: #777777;
+    --color-accent-wood: #8C6D4F;
+    --color-border-clean: #E8E8E6;
+    --color-border-subtle: #DFDFDC;
   }
 
   * {
@@ -28,208 +28,183 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--color-paper);
-    color: var(--color-timber-dark);
+    background-color: var(--color-bg-white);
+    color: var(--color-text-primary);
   }
 
   body {
-    font-family: var(--font-body), system-ui, -apple-system, sans-serif;
-    color: var(--color-timber-dark);
-    background-color: var(--color-paper);
-    line-height: 1.65;
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-white);
+    line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading), Georgia, serif;
-    letter-spacing: -0.015em;
-    font-weight: 500;
-    color: var(--color-timber-dark);
-    line-height: 1.2;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    line-height: 1.25;
   }
 
   ::selection {
-    background: #E4D5C2;
-    color: #1A1715;
-  }
-
-  /* Natural understated scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--color-sand);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #C4B5A5;
-    border-radius: 3px;
+    background: #EAE6DF;
+    color: #181818;
   }
 }
 
 @layer utilities {
-  .font-serif-heading {
-    font-family: var(--font-heading), Georgia, serif;
-  }
-
-  .font-sans-body {
-    font-family: var(--font-body), system-ui, sans-serif;
-  }
-
   .text-craft-label {
-    font-family: var(--font-body), system-ui, sans-serif;
     font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #8C6D4F;
+    color: var(--color-accent-wood);
   }
 
   .craft-card {
     background: #FFFFFF;
-    border: 1px solid var(--color-border-warm);
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--color-border-clean);
+    border-radius: 6px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   .craft-card:hover {
-    border-color: #D2C4B2;
-    box-shadow: 0 12px 32px -8px rgba(30, 26, 23, 0.08);
-    transform: translateY(-2px);
+    border-color: #CFCFCB;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   }
 
   .container-site {
     width: 100%;
-    max-width: 1240px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
   @media (min-width: 768px) {
     .container-site {
-      padding-left: 2.5rem;
-      padding-right: 2.5rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
     }
   }
 
   .section-pad {
-    padding-top: 5.5rem;
-    padding-bottom: 5.5rem;
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
   }
 
   @media (min-width: 768px) {
     .section-pad {
-      padding-top: 7.5rem;
-      padding-bottom: 7.5rem;
+      padding-top: 6rem;
+      padding-bottom: 6rem;
     }
   }
 
-  /* Buttons */
+  /* Minimalist Buttons */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-family: var(--font-body), system-ui, sans-serif;
-    font-weight: 500;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-weight: 600;
     font-size: 0.875rem;
-    letter-spacing: 0.03em;
-    padding: 0.875rem 1.75rem;
+    letter-spacing: 0.01em;
+    padding: 0.75rem 1.5rem;
     border-radius: 4px;
     border: 1px solid transparent;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
     text-decoration: none;
     white-space: nowrap;
   }
 
   .btn-primary {
-    background: #1E1A17;
-    color: #FAF8F5;
-    border-color: #1E1A17;
+    background: #181818;
+    color: #FFFFFF;
+    border-color: #181818;
   }
   .btn-primary:hover {
-    background: #362E29;
-    border-color: #362E29;
-    color: #FFFFFF;
-    box-shadow: 0 6px 20px -4px rgba(30, 26, 23, 0.2);
+    background: #333333;
+    border-color: #333333;
   }
 
   .btn-wood {
-    background: #B48A58;
+    background: #181818;
     color: #FFFFFF;
-    border-color: #B48A58;
+    border-color: #181818;
   }
   .btn-wood:hover {
-    background: #9D7343;
-    border-color: #9D7343;
+    background: #8C6D4F;
+    border-color: #8C6D4F;
   }
 
   .btn-outline {
     background: transparent;
-    color: #FAF8F5;
-    border-color: rgba(250, 248, 245, 0.4);
+    color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.4);
   }
   .btn-outline:hover {
-    background: rgba(250, 248, 245, 0.1);
-    border-color: #FAF8F5;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #FFFFFF;
   }
 
   .btn-outline-dark {
-    background: transparent;
-    color: #1E1A17;
-    border-color: #D6CCC0;
+    background: #FFFFFF;
+    color: #181818;
+    border-color: #DCDCD8;
   }
   .btn-outline-dark:hover {
-    background: #1E1A17;
-    border-color: #1E1A17;
-    color: #FAF8F5;
+    background: #F2F2F0;
+    border-color: #181818;
   }
 
-  /* Form Elements */
+  /* Clean Forms */
   .form-input {
     width: 100%;
-    padding: 0.8125rem 1rem;
+    padding: 0.75rem 0.875rem;
     background: #FFFFFF;
-    border: 1px solid #DFD5C8;
+    border: 1px solid #DCDCD8;
     border-radius: 4px;
-    font-family: var(--font-body), system-ui, sans-serif;
+    font-family: var(--font-sans), system-ui, sans-serif;
     font-size: 0.9375rem;
-    color: #1E1A17;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    color: #181818;
+    transition: border-color 0.2s ease;
     outline: none;
   }
   .form-input:focus {
-    border-color: #8C6D4F;
-    box-shadow: 0 0 0 3px rgba(180, 138, 88, 0.15);
+    border-color: #181818;
   }
   .form-input::placeholder {
-    color: #A89F95;
+    color: #999999;
   }
 
   .form-label {
     display: block;
     font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #5E564E;
-    margin-bottom: 0.4rem;
+    color: #555555;
+    margin-bottom: 0.35rem;
   }
 
   .form-error {
     font-size: 0.8125rem;
-    color: #B91C1C;
-    margin-top: 0.35rem;
+    color: #DC2626;
+    margin-top: 0.25rem;
   }
 }
 
-/* Before After Slider Clean */
+/* Minimalist Before After Slider */
 .before-after-container {
   position: relative;
   overflow: hidden;
   cursor: ew-resize;
   user-select: none;
   touch-action: none;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 .before-after-handle {
@@ -244,16 +219,16 @@
   justify-content: center;
   z-index: 10;
   cursor: ew-resize;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .before-after-handle-circle {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: #FFFFFF;
-  border: 1px solid #E6DED4;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  border: 1px solid #DCDCD8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;

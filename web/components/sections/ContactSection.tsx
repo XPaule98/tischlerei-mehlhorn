@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Phone, Mail, MapPin, Clock, ChevronRight, Loader2, CheckCircle, AlertCircle, Smartphone, Printer } from "lucide-react";
+import { Phone, Mail, MapPin, ChevronRight, Loader2, CheckCircle, AlertCircle, Smartphone, Printer } from "lucide-react";
 import { sendInquiryAction, type ActionResult } from "@/actions/sendInquiryAction";
 import { useActionState } from "react";
 
@@ -42,35 +42,35 @@ function ContactForm() {
 
   if (state.success) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center gap-4">
-        <div className="w-14 h-14 bg-[#F3ECE2] rounded-full flex items-center justify-center">
-          <CheckCircle size={30} className="text-[#8C6D4F]" />
+      <div className="flex flex-col items-center justify-center py-12 text-center gap-3">
+        <div className="w-12 h-12 bg-[#F2F2F0] rounded-full flex items-center justify-center">
+          <CheckCircle size={26} className="text-[#8C6D4F]" />
         </div>
-        <h3 className="font-serif-heading text-2xl font-medium text-[#1E1A17]">
+        <h3 className="text-xl font-bold text-[#181818]">
           Anfrage erfolgreich gesendet!
         </h3>
-        <p className="text-[#5E564E] text-sm max-w-sm leading-relaxed">{state.message}</p>
+        <p className="text-[#555555] text-sm max-w-sm leading-relaxed">{state.message}</p>
       </div>
     );
   }
 
   return (
-    <form action={formAction} className="space-y-5">
+    <form action={formAction} className="space-y-4">
       {/* Error Banner */}
       {!state.success && state.message && (
-        <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded text-sm text-red-700">
-          <AlertCircle size={16} className="text-red-500 mt-0.5 flex-shrink-0" />
+        <div className="flex items-start gap-2.5 p-3.5 bg-red-50 border border-red-200 rounded text-xs text-red-700">
+          <AlertCircle size={15} className="text-red-500 mt-0.5 flex-shrink-0" />
           <p>{state.message}</p>
         </div>
       )}
 
-      {/* Honeypot Spam Protection */}
+      {/* Honeypot */}
       <div className="absolute left-[-9999px] top-[-9999px] opacity-0" aria-hidden="true">
         <input type="text" name="website" tabIndex={-1} autoComplete="off" />
       </div>
       <input type="hidden" name="deliveryOption" value="abholung" />
 
-      {/* Gewerk / Bereich Auswahl */}
+      {/* Gewerk Auswahl */}
       <div>
         <label htmlFor="contact-gewerk" className="form-label">
           Bereich / Gewerk
@@ -90,7 +90,7 @@ function ContactForm() {
         </select>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="contact-name" className="form-label">
             Name <span className="text-[#8C6D4F]">*</span>
@@ -147,8 +147,8 @@ function ContactForm() {
           id="contact-message"
           name="message"
           className="form-input resize-none"
-          rows={5}
-          placeholder="Beschreiben Sie Ihr Bauvorhaben, Maße, Vor-Ort-Terminwünsche oder Fragen…"
+          rows={4}
+          placeholder="Beschreiben Sie Ihr Bauvorhaben, Maße oder Terminwünsche…"
           required
         />
         {state.errors?.message && (
@@ -156,19 +156,17 @@ function ContactForm() {
         )}
       </div>
 
-      {/* DSGVO Einverständnis */}
-      <div className="flex items-start gap-3">
+      {/* DSGVO */}
+      <div className="flex items-start gap-2.5">
         <input
           id="contact-dsgvo"
           type="checkbox"
           name="dsgvo"
-          className="mt-1 w-4 h-4 accent-[#1E1A17] cursor-pointer"
+          className="mt-0.5 w-4 h-4 accent-[#181818] cursor-pointer"
           required
         />
-        <label htmlFor="contact-dsgvo" className="text-xs text-[#5E564E] leading-relaxed cursor-pointer">
-          Ich habe die{" "}
-          <a href="/datenschutz" className="underline hover:text-[#1E1A17]">Datenschutzerklärung</a>
-          {" "}gelesen und willige ein, dass meine Daten zur Bearbeitung meiner Anfrage verarbeitet werden.{" "}
+        <label htmlFor="contact-dsgvo" className="text-xs text-[#555555] leading-relaxed cursor-pointer">
+          Ich willige ein, dass meine Daten zur Bearbeitung der Anfrage verarbeitet werden.{" "}
           <span className="text-[#8C6D4F]">*</span>
         </label>
       </div>
@@ -177,17 +175,17 @@ function ContactForm() {
         id="contact-submit-btn"
         type="submit"
         disabled={isPending}
-        className="btn btn-wood w-full font-medium"
+        className="btn btn-primary w-full py-3 text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer"
       >
         {isPending ? (
           <>
-            <Loader2 size={16} className="animate-spin" />
-            Wird übermittelt…
+            <Loader2 size={15} className="animate-spin" />
+            Wird gesendet…
           </>
         ) : (
           <>
-            Anfrage jetzt absenden
-            <ChevronRight size={16} />
+            Anfrage absenden
+            <ChevronRight size={15} />
           </>
         )}
       </button>
@@ -201,108 +199,102 @@ export default function ContactSection() {
   return (
     <section
       id="kontakt"
-      className="section-pad bg-[#FAF8F5]"
+      className="py-12 md:py-16 bg-[#FFFFFF]"
       aria-labelledby="contact-heading"
     >
       <div className="container-site">
-        {/* Header */}
-        <div className="text-center mb-16 max-w-2xl mx-auto">
-          <span className="text-craft-label block mb-2">Ihr Meisterbetrieb im Erzgebirge</span>
+        <div className="mb-10 max-w-xl">
+          <span className="text-craft-label block mb-1">Meisterbetrieb in Schönheide</span>
           <h2
             id="contact-heading"
-            className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal mb-4"
+            className="text-3xl sm:text-4xl font-bold text-[#181818] tracking-tight mb-2"
           >
-            Kontakt & Vor-Ort-Beratung
+            Kontakt & Beratung
           </h2>
-          <p className="text-[#5E564E] text-base md:text-lg">
-            Haben Sie ein konkretes Bauvorhaben oder möchten Sie sich in unserer Werkstatt in Schönheide beraten lassen?
+          <p className="text-[#555555] text-sm sm:text-base">
+            Besuchen Sie uns in Schönheide oder fordern Sie ein kostenloses Angebot für Ihr Projekt an.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          {/* Contact Info */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="space-y-4">
-              {/* Adresse */}
-              <div className="p-6 bg-white rounded-lg border border-[#E6DED4] shadow-sm flex items-start gap-4">
-                <div className="w-10 h-10 bg-[#F3ECE2] rounded flex items-center justify-center flex-shrink-0 text-[#8C6D4F]">
-                  <MapPin size={20} />
-                </div>
-                <div>
-                  <span className="text-craft-label block mb-1">Werkstatt & Büro</span>
-                  <p className="font-semibold text-[#1E1A17] text-base">Tischlerei Ronny Mehlhorn</p>
-                  <p className="text-sm text-[#5E564E]">Neuheider Straße 64 b</p>
-                  <p className="text-sm text-[#5E564E]">08304 Schönheide (Erzgebirge)</p>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Contact Info Cards */}
+          <div className="lg:col-span-5 space-y-4">
+            {/* Adresse */}
+            <div className="p-5 bg-[#F9F9F8] rounded-lg border border-[#E8E8E6] flex items-start gap-3.5">
+              <div className="w-9 h-9 bg-white rounded flex items-center justify-center flex-shrink-0 text-[#181818] border border-[#E8E8E6]">
+                <MapPin size={18} />
               </div>
-
-              {/* Telefon & Mobil */}
-              <div className="p-6 bg-white rounded-lg border border-[#E6DED4] shadow-sm flex items-start gap-4">
-                <div className="w-10 h-10 bg-[#F3ECE2] rounded flex items-center justify-center flex-shrink-0 text-[#8C6D4F]">
-                  <Phone size={20} />
-                </div>
-                <div>
-                  <span className="text-craft-label block mb-1">Direktkontakt</span>
-                  <div className="space-y-1 text-sm text-[#1E1A17]">
-                    <p>
-                      <strong>Telefon:</strong>{" "}
-                      <a href="tel:+49377552346" className="hover:underline font-semibold">
-                        037755 / 2346
-                      </a>
-                    </p>
-                    <p>
-                      <strong>Mobil:</strong>{" "}
-                      <a href="tel:+4915123304776" className="hover:underline font-semibold">
-                        0151 / 23304776
-                      </a>
-                    </p>
-                    <p className="text-[#6B635B]">
-                      <strong>Telefax:</strong> 037755 / 3240
-                    </p>
-                  </div>
-                </div>
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-0.5">Werkstatt & Büro</span>
+                <p className="font-bold text-[#181818] text-sm">Tischlerei Ronny Mehlhorn</p>
+                <p className="text-xs text-[#555555]">Neuheider Straße 64 b</p>
+                <p className="text-xs text-[#555555]">08304 Schönheide (Erzgebirge)</p>
               </div>
+            </div>
 
-              {/* E-Mail */}
-              <div className="p-6 bg-white rounded-lg border border-[#E6DED4] shadow-sm flex items-start gap-4">
-                <div className="w-10 h-10 bg-[#F3ECE2] rounded flex items-center justify-center flex-shrink-0 text-[#8C6D4F]">
-                  <Mail size={20} />
-                </div>
-                <div>
-                  <span className="text-craft-label block mb-1">E-Mail-Anfragen</span>
-                  <a
-                    href="mailto:tischlerei.mehlhorn@t-online.de"
-                    className="text-[#1E1A17] font-semibold text-sm hover:underline block"
-                  >
-                    tischlerei.mehlhorn@t-online.de
-                  </a>
-                  <p className="text-xs text-[#8C8277] mt-0.5">
-                    Wir antworten zeitnah auf alle schriftlichen Anfragen.
+            {/* Telefon & Mobil */}
+            <div className="p-5 bg-[#F9F9F8] rounded-lg border border-[#E8E8E6] flex items-start gap-3.5">
+              <div className="w-9 h-9 bg-white rounded flex items-center justify-center flex-shrink-0 text-[#181818] border border-[#E8E8E6]">
+                <Phone size={18} />
+              </div>
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-0.5">Direktkontakt</span>
+                <div className="space-y-0.5 text-xs text-[#181818]">
+                  <p>
+                    <strong>Telefon:</strong>{" "}
+                    <a href="tel:+49377552346" className="hover:underline font-semibold">
+                      037755 / 2346
+                    </a>
+                  </p>
+                  <p>
+                    <strong>Mobil:</strong>{" "}
+                    <a href="tel:+4915123304776" className="hover:underline font-semibold">
+                      0151 / 23304776
+                    </a>
+                  </p>
+                  <p className="text-[#777777]">
+                    <strong>Fax:</strong> 037755 / 3240
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* DSGVO-konformer Map Embed für Schönheide */}
-            <div className="rounded-lg overflow-hidden border border-[#E6DED4] bg-white shadow-sm">
+            {/* E-Mail */}
+            <div className="p-5 bg-[#F9F9F8] rounded-lg border border-[#E8E8E6] flex items-start gap-3.5">
+              <div className="w-9 h-9 bg-white rounded flex items-center justify-center flex-shrink-0 text-[#181818] border border-[#E8E8E6]">
+                <Mail size={18} />
+              </div>
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-0.5">E-Mail</span>
+                <a
+                  href="mailto:tischlerei.mehlhorn@t-online.de"
+                  className="text-[#181818] font-semibold text-xs hover:underline block"
+                >
+                  tischlerei.mehlhorn@t-online.de
+                </a>
+              </div>
+            </div>
+
+            {/* Map Embed */}
+            <div className="rounded-lg overflow-hidden border border-[#E8E8E6] bg-[#F9F9F8]">
               {!mapVisible ? (
-                <div className="flex flex-col items-center justify-center h-48 gap-3 text-center px-6 bg-[#F3ECE2]/40">
-                  <MapPin size={28} className="text-[#8C6D4F]" />
-                  <p className="text-xs text-[#6B635B] max-w-xs">
-                    Standort Neuheider Str. 64 b, 08304 Schönheide auf Google Maps laden:
+                <div className="flex flex-col items-center justify-center h-40 gap-2.5 text-center px-6">
+                  <MapPin size={22} className="text-[#8C6D4F]" />
+                  <p className="text-xs text-[#666666]">
+                    Standort Neuheider Str. 64 b, Schönheide:
                   </p>
                   <button
                     onClick={() => setMapVisible(true)}
-                    className="btn btn-outline-dark text-xs py-2 px-4"
+                    className="btn btn-outline-dark text-xs py-1.5 px-3"
                   >
-                    Karte aktivieren
+                    Karte laden
                   </button>
                 </div>
               ) : (
                 <iframe
                   src="https://maps.google.com/maps?q=Neuheider%20Stra%C3%9Fe%2064b,%2008304%20Sch%C3%B6nheide&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   width="100%"
-                  height="220"
+                  height="180"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
@@ -313,15 +305,13 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Contact Form */}
-          <div className="lg:col-span-7">
-            <div className="bg-white border border-[#E6DED4] rounded-lg p-8 md:p-10 shadow-sm">
-              <span className="text-craft-label block mb-1">Unverbindlich & Kostenlos</span>
-              <h3 className="font-serif-heading text-2xl md:text-3xl font-medium text-[#1E1A17] mb-6">
-                Angebot oder Vor-Ort-Termin anfragen
-              </h3>
-              <ContactForm />
-            </div>
+          {/* Contact Form Card */}
+          <div className="lg:col-span-7 bg-[#F9F9F8] border border-[#E8E8E6] rounded-lg p-6 sm:p-8">
+            <span className="text-craft-label block mb-1">Unverbindlich anfragen</span>
+            <h3 className="text-xl sm:text-2xl font-bold text-[#181818] mb-5">
+              Projektbeschreibung senden
+            </h3>
+            <ContactForm />
           </div>
         </div>
       </div>
