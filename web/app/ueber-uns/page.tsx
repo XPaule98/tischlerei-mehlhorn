@@ -52,43 +52,48 @@ export default async function UeberUnsPage() {
   }
 
   const badge = cmsData?.badge || "Familienbetrieb im Erzgebirge seit 1977";
-  const title = cmsData?.headline || "Tradition, Meisterhandwerk & moderner Bauelementebau";
+  const title = cmsData?.headline || "Über uns & Werkstatt";
   const subtitle =
     cmsData?.introText ||
-    "Gegründet 1977 durch Roland Mehlhorn, 1992 Neubau in der Neuheider Straße 64 b, heute mit meisterhafter Präzision geführt durch Tischlermeister Ronny Mehlhorn.";
+    "Tradition, Meisterhandwerk & moderner Bauelementebau in der Neuheider Straße 64 b in Schönheide.";
   const headerImageUrl = cmsData?.headerImageUrl || "/images/real/werkstatt-2.jpg";
 
   return (
     <>
       <Header />
       <main>
-        {/* Dynamic PageHeader with Atmospheric Image Background */}
+        {/* Standardized 100% Consistent PageHeader */}
         <PageHeader
           breadcrumb="Über uns & Werkstatt"
           badge={badge}
           title={title}
           subtitle={subtitle}
           headerImageUrl={headerImageUrl}
-        >
-          {/* Key Facts Badges */}
-          <div className="flex flex-wrap gap-2 pt-2">
-            <div className="flex items-center gap-1.5 text-xs text-white/90 bg-white/10 px-3 py-1.5 rounded border border-white/10">
-              <History size={13} className="text-[#D4B28C]" />
-              Seit 1977
-            </div>
-            <div className="flex items-center gap-1.5 text-xs text-white/90 bg-white/10 px-3 py-1.5 rounded border border-white/10">
-              <Building2 size={13} className="text-[#D4B28C]" />
-              1992 Neubau
-            </div>
-            <div className="flex items-center gap-1.5 text-xs text-white/90 bg-white/10 px-3 py-1.5 rounded border border-white/10">
-              <Award size={13} className="text-[#D4B28C]" />
-              Inh. Ronny Mehlhorn
+        />
+
+        {/* Dedicated Key Facts Bar below Header */}
+        <section className="bg-[#F9F9F8] py-3.5 border-b border-[#E8E8E6]">
+          <div className="container-site flex flex-wrap items-center justify-between gap-3">
+            <span className="text-xs text-[#777777] font-medium">Meisterbetrieb auf einen Blick:</span>
+            <div className="flex flex-wrap gap-2">
+              <div className="flex items-center gap-1.5 text-xs text-[#181818] bg-white px-3 py-1.5 rounded border border-[#E8E8E6] font-medium">
+                <History size={13} className="text-[#8C6D4F]" />
+                Seit 1977
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-[#181818] bg-white px-3 py-1.5 rounded border border-[#E8E8E6] font-medium">
+                <Building2 size={13} className="text-[#8C6D4F]" />
+                1992 Neubau
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-[#181818] bg-white px-3 py-1.5 rounded border border-[#E8E8E6] font-medium">
+                <Award size={13} className="text-[#8C6D4F]" />
+                Inh. Ronny Mehlhorn
+              </div>
             </div>
           </div>
-        </PageHeader>
+        </section>
 
         {/* Werkstatt-Galerie & Fertigung */}
-        <section className="py-12 md:py-16 bg-[#FAF8F5]">
+        <section className="py-12 md:py-16 bg-white">
           <div className="container-site">
             <div className="text-center max-w-2xl mx-auto mb-10">
               <span className="text-craft-label block mb-1">Einblick in die Fertigung</span>
@@ -118,7 +123,7 @@ export default async function UeberUnsPage() {
         <AboutTimeline />
 
         {/* Values Section */}
-        <section className="py-12 md:py-16 bg-white border-t border-[#E8E8E6]">
+        <section className="py-12 md:py-16 bg-[#F9F9F8] border-t border-[#E8E8E6]">
           <div className="container-site">
             <div className="text-center max-w-2xl mx-auto mb-12">
               <span className="text-craft-label block mb-1">Unser Qualitätsversprechen</span>

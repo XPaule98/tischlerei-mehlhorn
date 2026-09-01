@@ -142,7 +142,7 @@ export default async function LeistungenPage() {
   }
 
   const badge = cmsData?.badge || "Meisterbetrieb Schönheide · Inh. Ronny Mehlhorn";
-  const title = cmsData?.title || "Leistungsumfang & Fertigung";
+  const title = cmsData?.title || "Leistungen & Gewerke";
   const subtitle =
     cmsData?.subtitle ||
     "Eigene Herstellung im Erzgebirge kombiniert mit Fachmontage führender Bauelemente-Marken.";
@@ -152,37 +152,42 @@ export default async function LeistungenPage() {
     <>
       <Header />
       <main>
-        {/* Visual Hero Header with Background Image from Sanity */}
+        {/* Standardized 100% Consistent PageHeader */}
         <PageHeader
           breadcrumb="Leistungen & Gewerke"
           badge={badge}
           title={title}
           subtitle={subtitle}
           headerImageUrl={headerImageUrl}
-        >
-          {/* Quick Jump Buttons */}
-          <div className="flex flex-wrap gap-2">
-            <a
-              href="#eigenfertigung"
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded text-xs font-semibold uppercase tracking-wider transition-colors border border-white/15 flex items-center gap-1.5"
-            >
-              <Hammer size={13} className="text-white/80" />
-              Eigene Produktion
-            </a>
-            <a
-              href="#bauelemente"
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded text-xs font-semibold uppercase tracking-wider transition-colors border border-white/15 flex items-center gap-1.5"
-            >
-              <Wrench size={13} className="text-white/80" />
-              Bauelemente & Montage
-            </a>
+        />
+
+        {/* Quick Jump Bar below header */}
+        <section className="bg-[#F9F9F8] py-3.5 border-b border-[#E8E8E6]">
+          <div className="container-site flex flex-wrap items-center justify-between gap-3">
+            <span className="text-xs text-[#777777] font-medium">Bereich auswählen:</span>
+            <div className="flex gap-2">
+              <a
+                href="#eigenfertigung"
+                className="px-3.5 py-1.5 bg-white hover:bg-[#181818] hover:text-white text-[#181818] rounded text-xs font-semibold uppercase tracking-wider transition-colors border border-[#E8E8E6] flex items-center gap-1.5"
+              >
+                <Hammer size={12} className="text-[#8C6D4F]" />
+                1. Eigene Fertigung
+              </a>
+              <a
+                href="#bauelemente"
+                className="px-3.5 py-1.5 bg-white hover:bg-[#181818] hover:text-white text-[#181818] rounded text-xs font-semibold uppercase tracking-wider transition-colors border border-[#E8E8E6] flex items-center gap-1.5"
+              >
+                <Wrench size={12} className="text-[#8C6D4F]" />
+                2. Bauelemente & Montage
+              </a>
+            </div>
           </div>
-        </PageHeader>
+        </section>
 
         {/* Section 1: Eigene Fertigung */}
-        <section id="eigenfertigung" className="py-12 md:py-16 bg-[#FAF8F5]">
+        <section id="eigenfertigung" className="py-12 md:py-16 bg-[#FFFFFF]">
           <div className="container-site">
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-10 pb-4 border-b border-[#E6DED4]">
+            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-10 pb-3.5 border-b border-[#E8E8E6]">
               <div>
                 <span className="text-craft-label block mb-0.5">Tradition & Präzision</span>
                 <h2 className="text-2xl sm:text-3xl font-bold text-[#181818]">
@@ -194,22 +199,22 @@ export default async function LeistungenPage() {
               </span>
             </div>
 
-            <div className="space-y-10 md:space-y-14">
+            <div className="space-y-10 md:space-y-12">
               {eigenfertigung.map((item, index) => (
                 <div
                   key={item.id}
-                  className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-white p-6 sm:p-10 rounded-lg border border-[#E8E8E6] shadow-xs"
+                  className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-[#F9F9F8] p-6 sm:p-10 rounded-lg border border-[#E8E8E6]"
                 >
                   {/* Image */}
                   <div className={`lg:col-span-6 ${index % 2 === 1 ? "lg:order-2" : ""}`}>
-                    <div className="relative rounded overflow-hidden bg-[#F2F2F0]">
+                    <div className="relative rounded overflow-hidden bg-white border border-[#E8E8E6]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-[320px] sm:h-[360px] object-cover"
+                        className="w-full h-[300px] sm:h-[340px] object-cover"
                       />
-                      <div className="absolute top-3 left-3 bg-[#181818]/90 text-white text-xs px-2.5 py-1 rounded font-medium">
+                      <div className="absolute top-3 left-3 bg-[#181818]/90 text-white text-[11px] px-2.5 py-1 rounded font-medium">
                         Eigene Fertigung Schönheide
                       </div>
                     </div>
@@ -217,19 +222,19 @@ export default async function LeistungenPage() {
 
                   {/* Content */}
                   <div className={`lg:col-span-6 ${index % 2 === 1 ? "lg:order-1" : ""}`}>
-                    <span className="text-xs font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
+                    <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
                       {item.subtitle}
                     </span>
                     <h3 className="text-2xl sm:text-3xl font-bold text-[#181818] mb-3 leading-snug">
                       {item.title}
                     </h3>
-                    <p className="text-[#555555] text-sm sm:text-base leading-relaxed mb-5">
+                    <p className="text-[#555555] text-sm leading-relaxed mb-5">
                       {item.description}
                     </p>
 
                     <div className="space-y-2 mb-6">
                       {item.features.map((feat) => (
-                        <div key={feat} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#444444]">
+                        <div key={feat} className="flex items-start gap-2 text-xs sm:text-sm text-[#444444]">
                           <Check size={14} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
                           <span>{feat}</span>
                         </div>
@@ -238,7 +243,7 @@ export default async function LeistungenPage() {
 
                     <Link
                       href={`/kontakt?gewerk=${encodeURIComponent(item.gewerkParam)}`}
-                      className="btn btn-primary text-xs sm:text-sm inline-flex items-center gap-2"
+                      className="btn btn-primary text-xs sm:text-sm inline-flex items-center gap-1.5"
                     >
                       Angebot anfordern
                       <ArrowRight size={13} />
@@ -251,9 +256,9 @@ export default async function LeistungenPage() {
         </section>
 
         {/* Section 2: Bauelemente & Montage */}
-        <section id="bauelemente" className="py-12 md:py-16 bg-white border-t border-[#E8E8E6]">
+        <section id="bauelemente" className="py-12 md:py-16 bg-[#F9F9F8] border-t border-[#E8E8E6]">
           <div className="container-site">
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-10 pb-4 border-b border-[#E8E8E6]">
+            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-10 pb-3.5 border-b border-[#E8E8E6]">
               <div>
                 <span className="text-craft-label block mb-0.5">Geprüfte Markenqualität</span>
                 <h2 className="text-2xl sm:text-3xl font-bold text-[#181818]">
@@ -272,13 +277,13 @@ export default async function LeistungenPage() {
                   className="craft-card p-6 sm:p-8 flex flex-col justify-between bg-white"
                 >
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#181818] mb-2.5">
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#181818] mb-2">
                       {item.title}
                     </h3>
-                    <p className="text-[#555555] text-sm leading-relaxed mb-5">
+                    <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-4">
                       {item.description}
                     </p>
-                    <div className="space-y-2 mb-6">
+                    <div className="space-y-1.5 mb-6">
                       {item.features.map((f) => (
                         <div key={f} className="flex items-center gap-2 text-xs sm:text-sm text-[#444444]">
                           <Check size={13} className="text-[#8C6D4F] flex-shrink-0" />
@@ -290,7 +295,7 @@ export default async function LeistungenPage() {
 
                   <Link
                     href={`/kontakt?gewerk=${encodeURIComponent(item.gewerkParam)}`}
-                    className="btn btn-outline-dark text-xs py-2.5 px-4 w-full flex items-center justify-center gap-2 font-medium"
+                    className="btn btn-outline-dark text-xs py-2.5 px-4 w-full flex items-center justify-center gap-1.5 font-medium"
                   >
                     Angebot anfragen
                     <ArrowRight size={12} />
@@ -302,16 +307,16 @@ export default async function LeistungenPage() {
         </section>
 
         {/* Beratungsbanner */}
-        <section className="bg-[#F9F9F8] py-14 border-t border-[#E8E8E6]">
+        <section className="bg-white py-14 border-t border-[#E8E8E6]">
           <div className="container-site text-center max-w-2xl">
             <span className="text-craft-label block mb-1">Aufmaß & Beratung</span>
-            <h3 className="text-2xl sm:text-3xl font-bold text-[#181818] mb-3">
+            <h3 className="text-2xl sm:text-3xl font-bold text-[#181818] mb-2.5">
               Sonderanfertigung oder Altbausanierung?
             </h3>
-            <p className="text-[#555555] text-sm sm:text-base mb-6 leading-relaxed">
+            <p className="text-[#555555] text-xs sm:text-sm mb-6 leading-relaxed">
               Wir beraten Sie persönlich in Schönheide und der gesamten Region Erzgebirge / Vogtland.
             </p>
-            <Link href="/kontakt" className="btn btn-primary">
+            <Link href="/kontakt" className="btn btn-primary text-xs sm:text-sm py-3 px-6">
               Kostenlose Vor-Ort-Beratung anfragen
             </Link>
           </div>
