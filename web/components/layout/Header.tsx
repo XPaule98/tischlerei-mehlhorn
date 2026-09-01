@@ -122,10 +122,10 @@ export default function Header() {
                 037755 / 2346
               </a>
 
-              {/* Desktop CTA Button (Hidden on Mobile/Tablet to keep header clean and prevent logo clipping) */}
+              {/* Desktop CTA Button (Visible on Desktop alongside Desktop Nav) */}
               <Link
                 href="/kontakt"
-                className={`hidden md:inline-flex items-center gap-1.5 btn text-xs py-2 px-4 rounded ${
+                className={`hidden lg:inline-flex items-center gap-1.5 btn text-xs py-2 px-4 rounded ${
                   isSolid
                     ? "btn-primary"
                     : "bg-white text-[#181818] hover:bg-white/90"
