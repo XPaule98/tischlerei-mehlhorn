@@ -1,21 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 interface PageHeaderProps {
-  breadcrumb: string;
-  badge?: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   headerImageUrl?: string;
   headerVideoUrl?: string;
   defaultImage?: string;
+  badge?: string;
+  breadcrumb?: string;
 }
 
 export default function PageHeader({
-  breadcrumb,
-  badge = "Meisterbetrieb seit 1977 · Schönheide",
   title,
   subtitle,
   headerImageUrl,
@@ -42,11 +39,11 @@ export default function PageHeader({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Parallax translation (subtle 35% speed)
+  // Parallax translation
   const parallaxOffset = scrollY * 0.35;
 
   return (
-    <section className="relative bg-[#141414] text-white pt-28 pb-10 md:pt-36 md:pb-14 overflow-hidden border-b border-[#2A2A28]">
+    <section className="relative bg-[#141414] text-white pt-28 pb-12 md:pt-36 md:pb-16 overflow-hidden border-b border-[#2A2A28]">
       {/* Parallax Background Media Layer */}
       <div
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
@@ -79,34 +76,20 @@ export default function PageHeader({
         <div className="absolute inset-0 bg-gradient-to-r from-[#141414]/65 via-transparent to-[#141414]/20" />
       </div>
 
-      {/* Content Container – Exactly Identical on Every Page */}
+      {/* Content Container – Pure & Minimalist (No Breadcrumbs / No Badges) */}
       <div className="container-site relative z-10">
         <div className="max-w-3xl">
-          {/* Breadcrumb */}
-          <div className="flex items-center gap-1.5 text-xs text-white/60 mb-2.5 drop-shadow-xs">
-            <Link href="/" className="hover:text-white transition-colors">
-              Startseite
-            </Link>
-            <span>/</span>
-            <span className="text-white/90 font-medium">{breadcrumb}</span>
-          </div>
-
-          {/* Badge */}
-          <div className="inline-block mb-2.5">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/90 border-b border-white/30 pb-0.5 drop-shadow-xs">
-              {badge}
-            </span>
-          </div>
-
-          {/* Title – 1-line bold & crisp */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight mb-2 drop-shadow-sm">
+          {/* Title – Bold, clean & prominent */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight mb-3 drop-shadow-sm">
             {title}
           </h1>
 
           {/* Subtitle – Clean 1-2 line description */}
-          <p className="text-white/90 text-sm sm:text-base leading-relaxed font-normal drop-shadow-xs">
-            {subtitle}
-          </p>
+          {subtitle && (
+            <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed font-normal drop-shadow-xs max-w-2xl">
+              {subtitle}
+            </p>
+          )}
         </div>
       </div>
     </section>
