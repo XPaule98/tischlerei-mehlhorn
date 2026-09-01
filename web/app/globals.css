@@ -53,19 +53,6 @@
   }
 }
 
-@keyframes pageFadeIn {
-  from {
-    opacity: 0.85;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.page-fade-in {
-  animation: pageFadeIn 0.35s ease-out forwards;
-}
-
 @layer utilities {
   .text-craft-label {
     font-size: 0.75rem;
@@ -75,15 +62,19 @@
     color: var(--color-accent-wood);
   }
 
+  /* Dynamic & Clean Craft Card with Subtle Lift */
   .craft-card {
     background: #FFFFFF;
     border: 1px solid var(--color-border-clean);
-    border-radius: 6px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 8px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease,
+                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .craft-card:hover {
-    border-color: #CFCFCB;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    transform: translateY(-3px);
+    border-color: #D4D4D0;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
   }
 
   .container-site {
@@ -114,7 +105,7 @@
     }
   }
 
-  /* Minimalist Buttons */
+  /* Minimalist Interactive Buttons */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -128,9 +119,12 @@
     border-radius: 4px;
     border: 1px solid transparent;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     text-decoration: none;
     white-space: nowrap;
+  }
+  .btn:active {
+    transform: scale(0.98);
   }
 
   .btn-primary {
@@ -141,6 +135,7 @@
   .btn-primary:hover {
     background: #333333;
     border-color: #333333;
+    box-shadow: 0 4px 12px rgba(24, 24, 24, 0.15);
   }
 
   .btn-wood {
@@ -159,7 +154,7 @@
     border-color: rgba(255, 255, 255, 0.4);
   }
   .btn-outline:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.12);
     border-color: #FFFFFF;
   }
 
@@ -169,7 +164,7 @@
     border-color: #DCDCD8;
   }
   .btn-outline-dark:hover {
-    background: #F2F2F0;
+    background: #F9F9F8;
     border-color: #181818;
   }
 
@@ -183,11 +178,12 @@
     font-family: var(--font-sans), system-ui, sans-serif;
     font-size: 0.9375rem;
     color: #181818;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
     outline: none;
   }
   .form-input:focus {
     border-color: #181818;
+    box-shadow: 0 0 0 2px rgba(24, 24, 24, 0.08);
   }
   .form-input::placeholder {
     color: #999999;
@@ -208,42 +204,4 @@
     color: #DC2626;
     margin-top: 0.25rem;
   }
-}
-
-/* Minimalist Before After Slider */
-.before-after-container {
-  position: relative;
-  overflow: hidden;
-  cursor: ew-resize;
-  user-select: none;
-  touch-action: none;
-  border-radius: 6px;
-}
-
-.before-after-handle {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #FFFFFF;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  cursor: ew-resize;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.before-after-handle-circle {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #FFFFFF;
-  border: 1px solid #DCDCD8;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
 }

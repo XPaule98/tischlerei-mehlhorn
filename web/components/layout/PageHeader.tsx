@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 interface PageHeaderProps {
@@ -20,18 +23,45 @@ export default function PageHeader({
   defaultImage = "/images/real/gebaeude-1.jpg",
 }: PageHeaderProps) {
   const bgImage = headerImageUrl || defaultImage;
+  const [scrollY, setScrollY] = useState(0);
+
+  // Smooth performant Parallax scroll tracking
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Parallax translation (subtle 35% speed)
+  const parallaxOffset = scrollY * 0.35;
 
   return (
     <section className="relative bg-[#141414] text-white pt-28 pb-10 md:pt-36 md:pb-14 overflow-hidden border-b border-[#2A2A28]">
-      {/* Background Media with Enhanced Clarity (Less Dark) */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {/* Parallax Background Media Layer */}
+      <div
+        className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
+        style={{
+          transform: `translate3d(0, ${parallaxOffset}px, 0)`,
+          willChange: "transform",
+        }}
+      >
         {headerVideoUrl ? (
           <video
             autoPlay
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-55 object-center"
+            className="w-full h-[120%] -top-[10%] relative object-cover opacity-55 object-center"
           >
             <source src={headerVideoUrl} type="video/mp4" />
           </video>
@@ -40,10 +70,11 @@ export default function PageHeader({
           <img
             src={bgImage}
             alt={title}
-            className="w-full h-full object-cover opacity-55 object-center"
+            className="w-full h-[120%] -top-[10%] relative object-cover opacity-55 object-center"
           />
         )}
-        {/* Softened Gradient Overlay */}
+
+        {/* Clean Natural Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#141414]/90 via-[#141414]/45 to-[#141414]/20" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#141414]/65 via-transparent to-[#141414]/20" />
       </div>
