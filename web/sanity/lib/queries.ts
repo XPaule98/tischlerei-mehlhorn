@@ -113,9 +113,10 @@ export const COMPANY_INFO_QUERY = defineQuery(`
 `);
 
 export const SERVICES_QUERY = defineQuery(`
-  *[_type == "serviceItem"] | order(order asc) {
+  *[_type == "serviceItem"] | order(order asc, _createdAt asc) {
     _id,
     title,
+    subtitle,
     category,
     description,
     features,
