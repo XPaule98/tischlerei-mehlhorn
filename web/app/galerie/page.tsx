@@ -5,7 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import BeforeAfterSlider from "@/components/sections/BeforeAfterSlider";
 import Link from "next/link";
-import { Sparkles, ArrowRight, Eye } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 type Category = "alle" | "fenster" | "tueren" | "wintergarten" | "deko";
 
@@ -21,7 +21,7 @@ const projects = [
   },
   {
     id: "2",
-    title: "Exklusive Massivholz-Eingangstür mit Seitenteil",
+    title: "Massivholz-Eingangstür mit Lichtausschnitt",
     category: "tueren" as const,
     categoryLabel: "Haustüren",
     image: "/images/service-tuer.jpg",
@@ -39,7 +39,7 @@ const projects = [
   },
   {
     id: "4",
-    title: "Holz-Alu Fensterelemente für modernes Architektenhaus",
+    title: "Holz-Alu Fensterelemente für Architektenhaus",
     category: "fenster" as const,
     categoryLabel: "Holz-Alu Fenster",
     image: "/images/hero-bg.jpg",
@@ -48,20 +48,20 @@ const projects = [
   },
   {
     id: "5",
-    title: "Handgefertigte Massivholz-Hirnholzbretter & Regale",
+    title: "Handgefertigte Massivholz-Hirnholzbretter",
     category: "deko" as const,
-    categoryLabel: "Deko & Kleinmöbel",
+    categoryLabel: "Deko & Werkstücke",
     image: "/images/catalog-schneidebrett.jpg",
-    description: "Artisan-Küchenaccessoires und schwebende Regalsysteme mit natürlicher Baumkante und biologischer Ölung.",
-    details: "Eiche massiv · Bio-Leinöl · End Grain",
+    description: "Artisan-Küchenaccessoires aus massiver Eiche mit natürlicher biologischer Ölung.",
+    details: "Eiche massiv · Bio-Leinöl · Stirnholz",
   },
   {
     id: "6",
     title: "Schwebendes Wandregalsystem aus Massiveiche",
     category: "deko" as const,
-    categoryLabel: "Deko & Kleinmöbel",
+    categoryLabel: "Deko & Werkstücke",
     image: "/images/catalog-regal.jpg",
-    description: "Minimalistische Wandborde mit unsichtbarer Trägeraufhängung für modernen Wohnkomfort.",
+    description: "Minimalistische Wandborde mit unsichtbarer Trägeraufhängung und natürlicher Baumkante.",
     details: "Massiveiche natur · Unsichtbare Schwerlastanker",
   },
 ];
@@ -79,15 +79,17 @@ export default function GaleriePage() {
       <Header />
       <main className="pt-24 md:pt-28">
         {/* Hero Section */}
-        <section className="bg-[#121212] text-white py-16 md:py-24 relative overflow-hidden">
+        <section className="bg-[#1C1815] text-[#FAF8F5] py-20 md:py-28 relative overflow-hidden">
           <div className="container-site relative z-10">
-            <span className="text-label text-[#E5DECE] block mb-3">Referenzen & Eindrücke</span>
-            <h1 className="text-display text-4xl md:text-6xl max-w-3xl mb-6">
+            <span className="text-craft-label text-[#D4B28C] block mb-3">
+              Referenzen & Werkstatt-Einblicke
+            </span>
+            <h1 className="font-serif-heading text-4xl sm:text-5xl md:text-6xl max-w-3xl mb-6 font-normal leading-tight">
               Handwerkliche Meisterwerke in Bildern.
             </h1>
-            <p className="text-white/70 text-lg md:text-xl max-w-2xl leading-relaxed">
+            <p className="text-[#D6CCC0] text-lg md:text-xl max-w-2xl leading-relaxed">
               Lassen Sie sich von unseren realisierten Projekten inspirieren. Von
-              historischen Fenstern über anspruchsvolle Wintergärten bis hin zu
+              historischen Kastenfenstern über anspruchsvolle Wintergärten bis hin zu
               exklusiven Werkstücken.
             </p>
           </div>
@@ -97,39 +99,39 @@ export default function GaleriePage() {
         <BeforeAfterSlider
           beforeSrc="/images/hero-bg.jpg"
           afterSrc="/images/service-wintergarten.jpg"
-          beforeLabel="1. Werkstattfertigung"
-          afterLabel="2. Fertige Montage beim Kunden"
+          beforeLabel="Werkstattfertigung"
+          afterLabel="Montage beim Kunden"
         />
 
         {/* Portfolio Gallery Section */}
-        <section className="section-pad bg-white">
+        <section className="section-pad bg-[#FAF8F5]">
           <div className="container-site">
             <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-label text-gray-400 block mb-2">Projektgalerie</span>
-              <h2 className="text-display text-3xl md:text-5xl text-[#121212] mb-4">
+              <span className="text-craft-label block mb-2">Projektübersicht</span>
+              <h2 className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal mb-4">
                 Ausgewählte Referenzen
               </h2>
-              <p className="text-gray-500">
+              <p className="text-[#5E564E] text-base">
                 Filtern Sie nach Gewerk oder entdecken Sie alle Arbeiten im Überblick.
               </p>
             </div>
 
-            {/* Filter Buttons */}
-            <div className="flex flex-wrap justify-center gap-2 mb-12">
+            {/* Filter Tabs */}
+            <div className="flex flex-wrap justify-center gap-2 mb-14">
               {[
-                { value: "alle", label: "Alle Projekte" },
+                { value: "alle", label: "Alle Referenzen" },
                 { value: "fenster", label: "Holz- & Alufenster" },
-                { value: "tueren", label: "Eingangstüren" },
+                { value: "tueren", label: "Haustüren" },
                 { value: "wintergarten", label: "Wintergärten" },
                 { value: "deko", label: "Deko & Werkstücke" },
               ].map((tab) => (
                 <button
                   key={tab.value}
                   onClick={() => setActiveCategory(tab.value as Category)}
-                  className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                  className={`px-5 py-2 rounded text-xs font-semibold uppercase tracking-wider transition-all ${
                     activeCategory === tab.value
-                      ? "bg-[#121212] text-white shadow-md"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      ? "bg-[#1E1A17] text-white"
+                      : "bg-white text-[#5E564E] border border-[#E6DED4] hover:bg-[#F3ECE2]"
                   }`}
                 >
                   {tab.label}
@@ -142,43 +144,40 @@ export default function GaleriePage() {
               {filteredProjects.map((project) => (
                 <div
                   key={project.id}
-                  className="bg-[#f9fafb] rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                  className="craft-card rounded-lg overflow-hidden flex flex-col justify-between"
                 >
                   <div>
-                    {/* Image */}
-                    <div className="relative h-64 overflow-hidden">
+                    <div className="relative h-64 overflow-hidden bg-[#F3ECE2]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
-                      <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[#121212] text-xs px-3 py-1.5 rounded-full font-bold">
+                      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-[#1E1A17] text-xs px-2.5 py-1 rounded font-medium border border-[#E6DED4]">
                         {project.categoryLabel}
                       </div>
                     </div>
 
-                    {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-[#121212] mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+                    <div className="p-7">
+                      <h3 className="font-serif-heading text-2xl text-[#1E1A17] font-medium mb-3">
                         {project.title}
                       </h3>
-                      <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                      <p className="text-[#5E564E] text-sm leading-relaxed mb-5">
                         {project.description}
                       </p>
-                      <div className="text-xs font-semibold text-gray-400 border-t border-gray-200/60 pt-3">
+                      <div className="text-xs font-semibold text-[#8C6D4F] border-t border-[#F3ECE2] pt-4">
                         {project.details}
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-6 pt-0">
+                  <div className="p-7 pt-0 border-t border-[#F3ECE2] mt-4">
                     <Link
                       href={`/kontakt?gewerk=${encodeURIComponent(project.categoryLabel)}`}
-                      className="text-xs font-bold text-[#121212] hover:text-gray-600 flex items-center gap-1.5 transition-colors"
+                      className="text-xs font-semibold text-[#1E1A17] hover:text-[#8C6D4F] flex items-center gap-1.5 pt-4 transition-colors"
                     >
-                      Ähnliches Projekt anfragen
-                      <ArrowRight size={12} />
+                      Ähnliches Projekt anfragen <ArrowRight size={13} />
                     </Link>
                   </div>
                 </div>
@@ -186,14 +185,15 @@ export default function GaleriePage() {
             </div>
 
             {/* Bottom Callout */}
-            <div className="mt-16 text-center bg-[#121212] text-white p-10 rounded-3xl">
-              <h3 className="text-2xl font-bold mb-3" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+            <div className="mt-16 text-center bg-[#1C1815] text-[#FAF8F5] p-10 md:p-14 rounded-lg">
+              <span className="text-craft-label text-[#D4B28C] block mb-2">Ihr Bauvorhaben</span>
+              <h3 className="font-serif-heading text-2xl md:text-3xl font-normal mb-3">
                 Haben Sie ein konkretes Vorhaben im Kopf?
               </h3>
-              <p className="text-white/60 text-sm max-w-md mx-auto mb-6">
-                Wir setzen Ihre architektonischen Wünsche mit handwerklicher Präzision in die Tat um.
+              <p className="text-[#A89F95] text-sm md:text-base max-w-md mx-auto mb-8 leading-relaxed">
+                Wir setzen Ihre individuellen Wünsche mit meisterhafter Präzision in die Tat um.
               </p>
-              <Link href="/kontakt" className="btn bg-[#E5DECE] text-[#121212] border-[#E5DECE] hover:bg-white hover:border-white font-bold text-sm">
+              <Link href="/kontakt" className="btn btn-wood text-sm font-medium">
                 Unverbindliches Angebot einholen
               </Link>
             </div>

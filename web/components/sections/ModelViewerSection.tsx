@@ -1,15 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { RotateCw, Maximize2 } from "lucide-react";
+import { RotateCw, Maximize2, Sparkles } from "lucide-react";
 
 export default function ModelViewerSection() {
   const [loaded, setLoaded] = useState(false);
-  const [modelLoaded, setModelLoaded] = useState(false);
   const scriptRef = useRef(false);
 
   useEffect(() => {
-    // Dynamically load @google/model-viewer script only once
     if (scriptRef.current) return;
     scriptRef.current = true;
 
@@ -23,50 +21,67 @@ export default function ModelViewerSection() {
 
   return (
     <section
-      className="section-pad bg-[#f3efe5]"
+      className="section-pad bg-[#F3ECE2] border-y border-[#E6DED4]"
       aria-labelledby="3d-heading"
     >
       <div className="container-site">
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12">
-          <div className="flex-1">
-            <p className="text-label text-gray-400 mb-3">Interaktive Vorschau</p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Text Description */}
+          <div className="lg:col-span-6">
+            <span className="text-craft-label block mb-2">Interaktive 3D-Ansicht</span>
             <h2
               id="3d-heading"
-              className="text-display text-[#121212] text-3xl md:text-4xl mb-5"
+              className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal mb-6"
             >
-              Unsere Werkstücke
-              <br />
-              in 3D erleben
+              Handwerk in 360° erleben
             </h2>
-            <p className="text-gray-500 leading-relaxed mb-6 max-w-sm">
-              Drehen, zoomen und erkunden Sie unsere Holzarbeiten interaktiv in
-              360°. Im Sanity Studio können Sie eigene 3D-Modelle (.glb) hochladen.
+            <p className="text-[#5E564E] text-base md:text-lg leading-relaxed mb-8">
+              Jedes unserer Werkstücke zeichnet sich durch feinste Holzverbindungen,
+              exakt gefaste Kanten und eine harmonische Holzmaserung aus. 
+              Drehen und zoomen Sie unsere Holzarbeiten direkt im Browser.
             </p>
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-3 text-sm text-gray-600">
-                <div className="w-8 h-8 bg-[#121212] rounded-full flex items-center justify-center flex-shrink-0">
-                  <RotateCw size={14} className="text-white" />
+
+            <div className="space-y-4">
+              <div className="flex items-start gap-3.5">
+                <div className="w-8 h-8 rounded bg-[#1E1A17] text-white flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <RotateCw size={15} />
                 </div>
-                <span>360°-Rotation mit Maus oder Touch</span>
+                <div>
+                  <h4 className="text-sm font-semibold text-[#1E1A17]">
+                    Freie 360-Grad-Rotation
+                  </h4>
+                  <p className="text-xs text-[#6B635B] mt-0.5">
+                    Mit Maus oder Touch-Geste das Werkstück von allen Seiten betrachten.
+                  </p>
+                </div>
               </div>
-              <div className="flex items-center gap-3 text-sm text-gray-600">
-                <div className="w-8 h-8 bg-[#121212] rounded-full flex items-center justify-center flex-shrink-0">
-                  <Maximize2 size={14} className="text-white" />
+
+              <div className="flex items-start gap-3.5">
+                <div className="w-8 h-8 rounded bg-[#1E1A17] text-white flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Maximize2 size={15} />
                 </div>
-                <span>Zoomen und alle Details erkunden</span>
+                <div>
+                  <h4 className="text-sm font-semibold text-[#1E1A17]">
+                    Detailtreue & Materialanmutung
+                  </h4>
+                  <p className="text-xs text-[#6B635B] mt-0.5">
+                    Hineinzoomen und feinste Fräsungen, Holzmaserungen und Kanten prüfen.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* 3D Viewer */}
-          <div className="w-full lg:w-1/2 max-w-lg">
-            <div className="relative bg-white rounded-2xl overflow-hidden shadow-xl" style={{ aspectRatio: "1/1" }}>
+          {/* 3D Canvas Box */}
+          <div className="lg:col-span-6">
+            <div className="relative bg-white rounded-xl overflow-hidden shadow-md border border-[#E6DED4]" style={{ aspectRatio: "1/1" }}>
               {!loaded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+                <div className="absolute inset-0 flex items-center justify-center bg-[#FAF8F5]">
                   <div className="text-center">
-                    <div className="w-12 h-12 border-2 border-[#121212] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-                    <p className="text-sm text-gray-400">3D-Modell wird geladen…</p>
+                    <div className="w-8 h-8 border-2 border-[#8C6D4F] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                    <p className="text-xs font-medium text-[#8C6D4F] uppercase tracking-wider">
+                      3D-Vorschau wird geladen…
+                    </p>
                   </div>
                 </div>
               )}
@@ -80,30 +95,29 @@ export default function ModelViewerSection() {
                     mv.setAttribute("alt", "3D-Vorschau eines Tischler-Werkstücks");
                     mv.setAttribute("auto-rotate", "true");
                     mv.setAttribute("camera-controls", "true");
-                    mv.setAttribute("shadow-intensity", "1");
-                    mv.setAttribute("exposure", "0.9");
+                    mv.setAttribute("shadow-intensity", "0.8");
+                    mv.setAttribute("exposure", "0.95");
                     mv.setAttribute("ar", "true");
                     mv.setAttribute("ar-modes", "webxr scene-viewer quick-look");
                     mv.style.width = "100%";
                     mv.style.height = "100%";
-                    mv.style.minHeight = "400px";
-                    mv.style.background = "#f9fafb";
+                    mv.style.minHeight = "380px";
+                    mv.style.background = "#FAF8F5";
                     el.appendChild(mv);
                   }}
-                  style={{ width: "100%", height: "100%", minHeight: "400px" }}
+                  style={{ width: "100%", height: "100%", minHeight: "380px" }}
                 />
               )}
 
-              {/* Overlay badge */}
-              <div className="absolute top-4 left-4 bg-black/70 text-white text-xs px-3 py-1.5 rounded-full font-semibold">
-                Demomodell
+              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[#1E1A17] text-xs px-3 py-1 rounded border border-[#E6DED4] font-medium">
+                Interaktives Werkstück-Modell
               </div>
-              <div className="absolute bottom-4 right-4 bg-[#E5DECE] text-[#121212] text-xs px-3 py-1.5 rounded-full font-semibold">
-                Drag to rotate
+              <div className="absolute bottom-4 right-4 bg-[#1E1A17] text-white text-xs px-3 py-1 rounded font-medium">
+                Mit Maus drehen
               </div>
             </div>
-            <p className="text-xs text-center text-gray-400 mt-3">
-              Eigene Produktmodelle (.glb) über das CMS hochladbar
+            <p className="text-xs text-center text-[#8C8277] mt-3">
+              Individuelle 3D-Modelle (.glb) über das Sanity CMS hochladbar
             </p>
           </div>
         </div>

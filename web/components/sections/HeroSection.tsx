@@ -1,135 +1,129 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ChevronRight, ArrowDown } from "lucide-react";
 
 export default function HeroSection() {
   const [loaded, setLoaded] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Trigger animations after mount
-    const timer = setTimeout(() => setLoaded(true), 100);
+    const timer = setTimeout(() => setLoaded(true), 80);
     return () => clearTimeout(timer);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <section
-      ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden bg-[#121212]"
-      aria-label="Hero-Bereich"
+      className="relative min-h-[92vh] flex items-center overflow-hidden bg-[#161311] text-[#FAF8F5]"
+      aria-label="Tischlerei Mehlhorn Einführung"
     >
-      {/* Background Image with overlay */}
+      {/* Background Image with warm wood-grain tonal grade */}
       <div className="absolute inset-0 z-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/hero-bg.jpg"
-          alt="Tischlerei Mehlhorn Werkstatt"
-          className="w-full h-full object-cover object-center opacity-50"
-          priority-loading="eager"
+          alt="Tischlerei Mehlhorn Werkstatt und Holzhandwerk"
+          className="w-full h-full object-cover object-center opacity-40 scale-105 transition-transform duration-1000 ease-out"
         />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#121212]/90 via-[#121212]/60 to-[#121212]/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#121212]/80 via-transparent to-transparent" />
+        {/* Warm Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#141210]/95 via-[#161311]/70 to-[#161311]/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#141210] via-transparent to-[#141210]/40" />
       </div>
 
-      {/* Decorative vertical line */}
-      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#E5DECE]/60 to-transparent z-10 hidden lg:block" />
-
-      {/* Content */}
-      <div className="container-site relative z-10 pt-24 pb-16">
+      {/* Hero Content */}
+      <div className="container-site relative z-10 pt-28 pb-20 md:pt-36 md:pb-28">
         <div className="max-w-3xl">
-          {/* Label */}
+          {/* Subtle Craft Label */}
           <div
-            className={`text-label text-[#E5DECE] mb-6 transition-all duration-700 ${
+            className={`flex items-center gap-3 mb-6 transition-all duration-700 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Seit 1977 · Tischlermeister Ronny Mehlhorn
+            <div className="w-8 h-[1px] bg-[#B48A58]" />
+            <span className="text-craft-label text-[#D4B28C]">
+              Meisterbetrieb seit 1977 · Inh. Ronny Mehlhorn
+            </span>
           </div>
 
-          {/* Main Headline */}
+          {/* Main Serif Headline */}
           <h1
-            className={`text-display text-white text-4xl md:text-6xl lg:text-7xl mb-6 transition-all duration-700 delay-100 ${
+            className={`font-serif-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.12] mb-7 text-[#FAF8F5] transition-all duration-700 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
             style={{ transitionDelay: "150ms" }}
           >
-            <span className="block">Präzision in</span>
-            <span className="block gradient-text">Holz & Glas.</span>
+            Präzision in Holz. <br />
+            <span className="italic font-light text-[#E8D9C5]">
+              Beständigkeit für Generationen.
+            </span>
           </h1>
 
           {/* Subtitle */}
           <p
-            className={`text-white/70 text-lg md:text-xl max-w-xl leading-relaxed mb-10 transition-all duration-700 ${
+            className={`text-[#D6CCC0] text-lg md:text-xl max-w-2xl leading-relaxed mb-10 font-normal transition-all duration-700 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
             style={{ transitionDelay: "300ms" }}
           >
-            Moderne Bauelemente seit 1977. Eigene Herstellung, Handel und
-            Fachmontage – für anspruchsvolle Architekten und Bauherren.
+            Eigene Herstellung von Fenstern, Haustüren und Wintergärten sowie
+            fachgerechte Montage geprüfter Marken-Bauelemente.
           </p>
 
-          {/* CTA Buttons */}
+          {/* CTA Group */}
           <div
-            className={`flex flex-col sm:flex-row gap-4 transition-all duration-700 ${
+            className={`flex flex-col sm:flex-row items-stretch sm:items-center gap-4 transition-all duration-700 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
             style={{ transitionDelay: "450ms" }}
           >
-            <button
-              id="hero-cta-leistungen"
-              onClick={() => scrollToSection("#leistungen")}
-              className="btn bg-white text-[#121212] border-white hover:bg-[#E5DECE] hover:border-[#E5DECE] text-sm"
+            <Link
+              href="/leistungen"
+              className="btn btn-wood text-sm font-medium py-3.5 px-6 flex items-center justify-center gap-2"
             >
               Leistungen entdecken
               <ChevronRight size={16} />
-            </button>
-            <button
-              id="hero-cta-anfrage"
-              onClick={() => scrollToSection("#kontakt")}
-              className="btn btn-outline text-sm"
+            </Link>
+            <Link
+              href="/kontakt"
+              className="btn btn-outline text-sm font-medium py-3.5 px-6 flex items-center justify-center"
             >
               Unverbindlich anfragen
-            </button>
+            </Link>
           </div>
 
-          {/* Stats */}
+          {/* Statistics Bar */}
           <div
-            className={`grid grid-cols-3 gap-8 mt-16 pt-12 border-t border-white/20 transition-all duration-700 ${
+            className={`grid grid-cols-3 gap-6 pt-12 mt-14 border-t border-white/15 max-w-xl transition-all duration-700 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
             style={{ transitionDelay: "600ms" }}
           >
-            {[
-              { number: "45+", label: "Jahre Erfahrung" },
-              { number: "1977", label: "Gegründet" },
-              { number: "100%", label: "Handarbeit" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <div
-                  className="text-2xl md:text-4xl font-black text-white mb-1"
-                  style={{ fontFamily: "var(--font-space-grotesk)" }}
-                >
-                  {stat.number}
-                </div>
-                <div className="text-xs text-white/50 tracking-wide uppercase">
-                  {stat.label}
-                </div>
+            <div>
+              <div className="font-serif-heading text-3xl md:text-4xl text-[#FAF8F5] mb-1 font-normal">
+                45+
               </div>
-            ))}
+              <div className="text-xs text-[#A89F95] uppercase tracking-wider font-medium">
+                Jahre Erfahrung
+              </div>
+            </div>
+            <div>
+              <div className="font-serif-heading text-3xl md:text-4xl text-[#FAF8F5] mb-1 font-normal">
+                1977
+              </div>
+              <div className="text-xs text-[#A89F95] uppercase tracking-wider font-medium">
+                Gegründet
+              </div>
+            </div>
+            <div>
+              <div className="font-serif-heading text-3xl md:text-4xl text-[#FAF8F5] mb-1 font-normal">
+                100%
+              </div>
+              <div className="text-xs text-[#A89F95] uppercase tracking-wider font-medium">
+                Meisterqualität
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/40">
-        <span className="text-xs tracking-widest uppercase">Scrollen</span>
-        <ArrowDown size={16} className="animate-bounce" />
       </div>
     </section>
   );

@@ -1,35 +1,36 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Plus_Jakarta_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-body",
   subsets: ["latin"],
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const playfair = Playfair_Display({
+  variable: "--font-heading",
   subsets: ["latin"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Tischlerei Mehlhorn | Holzfenster, Türen & Bauelemente seit 1977",
+    default: "Tischlerei Mehlhorn | Meisterbetrieb für Holz & Bauelemente seit 1977",
     template: "%s | Tischlerei Mehlhorn",
   },
   description:
-    "Tischlerei Mehlhorn – Über 45 Jahre Erfahrung. Eigene Fertigung von Holzfenstern, Haustüren, Wintergärten. Handel & Fachmontage von Kunststoff- und Aluminiumfenstern, Garagentoren, Rollladen.",
+    "Tischlerei Mehlhorn – Über 45 Jahre Handwerkstradition. Eigene Herstellung von Holzfenstern, Haustüren, Wintergärten & Fachmontage aller Bauelemente.",
   keywords: [
     "Tischlerei",
+    "Tischlerhandwerk",
     "Holzfenster",
-    "Haustüren",
+    "Holz-Alu-Fenster",
+    "Haustüren Massivholz",
     "Wintergarten",
     "Bauelemente",
     "Tischlerei Mehlhorn",
-    "Holzverarbeitung",
-    "Fensterbau",
+    "Ronny Mehlhorn",
   ],
   authors: [{ name: "Tischlerei Mehlhorn" }],
   robots: {
@@ -39,9 +40,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "de_DE",
-    title: "Tischlerei Mehlhorn | Holzfenster, Türen & Bauelemente seit 1977",
+    title: "Tischlerei Mehlhorn | Meisterbetrieb für Holz & Bauelemente seit 1977",
     description:
-      "Über 45 Jahre Erfahrung. Eigene Fertigung von Holzfenstern, Haustüren und Wintergärten. Fachmontage aller Bauelemente.",
+      "Über 45 Jahre Handwerkstradition. Eigene Herstellung von Holzfenstern, Haustüren und Wintergärten sowie Fachmontage aller Bauelemente.",
     siteName: "Tischlerei Mehlhorn",
   },
 };
@@ -52,8 +53,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="antialiased">{children}</body>
+    <html lang="de" className={`${jakarta.variable} ${playfair.variable}`}>
+      <body className="antialiased bg-[#FAF8F5] text-[#1C1917] font-sans selection:bg-[#E2D4C3] selection:text-[#1C1917]">
+        {children}
+      </body>
     </html>
   );
 }

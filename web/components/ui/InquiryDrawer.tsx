@@ -58,7 +58,7 @@ export default function InquiryDrawer({
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`fixed inset-0 z-50 bg-[#1E1A17]/60 backdrop-blur-sm transition-opacity duration-300 ${
           isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={onClose}
@@ -70,43 +70,38 @@ export default function InquiryDrawer({
         role="dialog"
         aria-modal="true"
         aria-label={product ? `Anfrage: ${product.name}` : "Kontaktanfrage"}
-        className={`fixed right-0 top-0 bottom-0 z-50 w-full max-w-lg bg-white shadow-2xl flex flex-col transform transition-transform duration-350 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+        className={`fixed right-0 top-0 bottom-0 z-50 w-full max-w-lg bg-[#FAF8F5] shadow-2xl flex flex-col transform transition-transform duration-350 ease-[cubic-bezier(0.32,0.72,0,1)] ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+        <div className="flex items-center justify-between px-7 py-6 border-b border-[#E6DED4] bg-white">
           <div>
-            <h2
-              className="text-lg font-bold text-[#121212]"
-              style={{ fontFamily: "var(--font-space-grotesk)" }}
-            >
-              {product ? "Produkt anfragen" : "Kontakt aufnehmen"}
+            <span className="text-craft-label block mb-0.5">Werkstatt-Anfrage</span>
+            <h2 className="font-serif-heading text-2xl text-[#1E1A17] font-medium">
+              {product ? product.name : "Kontakt aufnehmen"}
             </h2>
-            {product && (
-              <p className="text-sm text-gray-400 mt-0.5">{product.name}</p>
-            )}
           </div>
           <button
             onClick={onClose}
             id="drawer-close-btn"
-            className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded hover:bg-[#F3ECE2] transition-colors text-[#5E564E]"
             aria-label="Anfrage schließen"
           >
-            <X size={20} className="text-gray-500" />
+            <X size={20} />
           </button>
         </div>
 
         {/* Success State */}
         {state.success ? (
-          <div className="flex-1 flex flex-col items-center justify-center px-6 text-center gap-4">
-            <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center">
-              <CheckCircle size={32} className="text-green-600" />
+          <div className="flex-1 flex flex-col items-center justify-center px-8 text-center gap-4 bg-white">
+            <div className="w-14 h-14 bg-[#F3ECE2] rounded-full flex items-center justify-center">
+              <CheckCircle size={28} className="text-[#8C6D4F]" />
             </div>
-            <h3 className="text-xl font-bold text-[#121212]">Anfrage gesendet!</h3>
-            <p className="text-gray-500 max-w-xs">{state.message}</p>
-            <button onClick={onClose} className="btn btn-primary mt-4">
-              Schließen
+            <h3 className="font-serif-heading text-2xl text-[#1E1A17] font-medium">Anfrage übermittelt</h3>
+            <p className="text-[#5E564E] text-sm leading-relaxed max-w-xs">{state.message}</p>
+            <button onClick={onClose} className="btn btn-wood mt-4 text-xs">
+              Fenster schließen
             </button>
           </div>
         ) : (
@@ -116,21 +111,19 @@ export default function InquiryDrawer({
             action={formAction}
             className="flex-1 overflow-y-auto"
           >
-            <div className="px-6 py-6 space-y-5">
+            <div className="px-7 py-6 space-y-5">
               {/* Error state */}
               {!state.success && state.message && (
-                <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded text-sm text-red-700">
                   <AlertCircle size={16} className="text-red-500 mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-red-700">{state.message}</p>
+                  <p>{state.message}</p>
                 </div>
               )}
 
-              {/* Honeypot (hidden from humans, visible to bots) */}
+              {/* Honeypot */}
               <div className="absolute left-[-9999px] top-[-9999px] opacity-0" aria-hidden="true">
-                <label htmlFor="drawer-website">Website (nicht ausfüllen)</label>
                 <input
                   type="text"
-                  id="drawer-website"
                   name="website"
                   tabIndex={-1}
                   autoComplete="off"
@@ -145,10 +138,10 @@ export default function InquiryDrawer({
                 <input type="hidden" name="productPrice" value={product.price.toString()} />
               )}
 
-              {/* Delivery Option */}
+              {/* Delivery Option Selection */}
               {product && (
                 <div>
-                  <label className="form-label">Lieferoption</label>
+                  <label className="form-label">Übergabe-Wunsch</label>
                   <div className="grid grid-cols-2 gap-3 mt-1">
                     {[
                       {
@@ -159,9 +152,9 @@ export default function InquiryDrawer({
                       },
                       {
                         value: "versand",
-                        label: "Versand",
+                        label: "Postversand",
                         icon: Package,
-                        desc: "Lieferung nach Hause",
+                        desc: "Versichert nach Hause",
                       },
                     ].map((opt) => (
                       <button
@@ -170,26 +163,26 @@ export default function InquiryDrawer({
                         onClick={() =>
                           setDeliveryOption(opt.value as "versand" | "abholung")
                         }
-                        className={`p-4 rounded-xl border-2 text-left transition-all ${
+                        className={`p-4 rounded border text-left transition-all ${
                           deliveryOption === opt.value
-                            ? "border-[#121212] bg-[#121212] text-white"
-                            : "border-gray-200 hover:border-gray-300"
+                            ? "border-[#1E1A17] bg-[#1E1A17] text-white"
+                            : "border-[#E6DED4] bg-white hover:border-[#CBB295]"
                         }`}
                       >
                         <opt.icon
-                          size={20}
+                          size={18}
                           className={`mb-2 ${
                             deliveryOption === opt.value
-                              ? "text-[#E5DECE]"
-                              : "text-gray-400"
+                              ? "text-[#D4B28C]"
+                              : "text-[#8C6D4F]"
                           }`}
                         />
                         <div className="font-semibold text-sm">{opt.label}</div>
                         <div
                           className={`text-xs mt-0.5 ${
                             deliveryOption === opt.value
-                              ? "text-white/60"
-                              : "text-gray-400"
+                              ? "text-white/70"
+                              : "text-[#6B635B]"
                           }`}
                         >
                           {opt.desc}
@@ -216,7 +209,6 @@ export default function InquiryDrawer({
                     className="form-input"
                     min="1"
                     defaultValue="1"
-                    placeholder="1"
                   />
                 </div>
               )}
@@ -224,14 +216,14 @@ export default function InquiryDrawer({
               {/* Name */}
               <div>
                 <label htmlFor="drawer-name" className="form-label">
-                  Name <span className="text-red-400">*</span>
+                  Ihr Name <span className="text-[#8C6D4F]">*</span>
                 </label>
                 <input
                   id="drawer-name"
                   type="text"
                   name="name"
                   className="form-input"
-                  placeholder="Max Mustermann"
+                  placeholder="Vor- und Nachname"
                   required
                   autoComplete="name"
                 />
@@ -243,14 +235,14 @@ export default function InquiryDrawer({
               {/* Email */}
               <div>
                 <label htmlFor="drawer-email" className="form-label">
-                  E-Mail <span className="text-red-400">*</span>
+                  E-Mail-Adresse <span className="text-[#8C6D4F]">*</span>
                 </label>
                 <input
                   id="drawer-email"
                   type="email"
                   name="email"
                   className="form-input"
-                  placeholder="max@beispiel.de"
+                  placeholder="ihre@email.de"
                   required
                   autoComplete="email"
                 />
@@ -262,34 +254,34 @@ export default function InquiryDrawer({
               {/* Phone */}
               <div>
                 <label htmlFor="drawer-phone" className="form-label">
-                  Telefon (optional)
+                  Telefonnummer (optional für Rückfragen)
                 </label>
                 <input
                   id="drawer-phone"
                   type="tel"
                   name="phone"
                   className="form-input"
-                  placeholder="+49 (0) 123 456 789"
+                  placeholder="+49 (0) ..."
                   autoComplete="tel"
                 />
               </div>
 
-              {/* Address (only for Versand) */}
+              {/* Address (for Versand) */}
               {product && deliveryOption === "versand" && (
-                <div className="p-4 bg-[#f9fafb] rounded-xl space-y-4 border border-gray-100">
-                  <p className="text-sm font-semibold text-gray-700">Lieferadresse</p>
+                <div className="p-4 bg-white rounded border border-[#E6DED4] space-y-3">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#1E1A17] block">Lieferanschrift</span>
                   <div>
-                    <label htmlFor="street" className="form-label">Straße & Hausnummer</label>
-                    <input id="street" type="text" name="street" className="form-input" placeholder="Musterstraße 1" autoComplete="street-address" />
+                    <label htmlFor="street" className="form-label text-[11px]">Straße & Hausnummer</label>
+                    <input id="street" type="text" name="street" className="form-input text-sm py-2" placeholder="Musterstraße 1" autoComplete="street-address" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="zip" className="form-label">PLZ</label>
-                      <input id="zip" type="text" name="zip" className="form-input" placeholder="12345" autoComplete="postal-code" maxLength={5} />
+                      <label htmlFor="zip" className="form-label text-[11px]">PLZ</label>
+                      <input id="zip" type="text" name="zip" className="form-input text-sm py-2" placeholder="12345" autoComplete="postal-code" maxLength={5} />
                     </div>
                     <div>
-                      <label htmlFor="city" className="form-label">Ort</label>
-                      <input id="city" type="text" name="city" className="form-input" placeholder="Musterstadt" autoComplete="address-level2" />
+                      <label htmlFor="city" className="form-label text-[11px]">Ort</label>
+                      <input id="city" type="text" name="city" className="form-input text-sm py-2" placeholder="Musterstadt" autoComplete="address-level2" />
                     </div>
                   </div>
                 </div>
@@ -298,17 +290,17 @@ export default function InquiryDrawer({
               {/* Message */}
               <div>
                 <label htmlFor="drawer-message" className="form-label">
-                  Ihre Nachricht <span className="text-red-400">*</span>
+                  Ihre Anmerkungen <span className="text-[#8C6D4F]">*</span>
                 </label>
                 <textarea
                   id="drawer-message"
                   name="message"
                   className="form-input resize-none"
-                  rows={4}
-                  placeholder={
+                  rows={3}
+                  defaultValue={
                     product
-                      ? `Ich interessiere mich für ${product.name}. Bitte kontaktieren Sie mich bezüglich Verfügbarkeit und weiterer Details.`
-                      : "Ihre Nachricht an die Tischlerei Mehlhorn…"
+                      ? `Ich interessiere mich für das Werkstück "${product.name}". Bitte geben Sie mir Bescheid bezüglich Verfügbarkeit und Abwicklung.`
+                      : ""
                   }
                   required
                 />
@@ -323,32 +315,26 @@ export default function InquiryDrawer({
                   id="drawer-dsgvo"
                   type="checkbox"
                   name="dsgvo"
-                  className="mt-1 w-4 h-4 accent-[#121212]"
+                  className="mt-1 w-4 h-4 accent-[#1E1A17] cursor-pointer"
                   required
                 />
-                <label htmlFor="drawer-dsgvo" className="text-xs text-gray-500 leading-relaxed">
-                  Ich habe die{" "}
-                  <a href="/datenschutz" className="underline hover:text-[#121212]" target="_blank" rel="noopener">
-                    Datenschutzerklärung
-                  </a>{" "}
-                  gelesen und stimme der Verarbeitung meiner Daten zur Bearbeitung
-                  meiner Anfrage zu.{" "}
-                  <span className="text-red-400">*</span>
+                <label htmlFor="drawer-dsgvo" className="text-xs text-[#5E564E] leading-relaxed cursor-pointer">
+                  Ich willige ein, dass meine Angaben zur Bearbeitung der Anfrage gespeichert und verarbeitet werden.{" "}
+                  <span className="text-[#8C6D4F]">*</span>
                 </label>
               </div>
             </div>
 
             {/* Footer with Submit */}
-            <div className="px-6 py-5 border-t border-gray-100 bg-white sticky bottom-0">
+            <div className="px-7 py-5 border-t border-[#E6DED4] bg-white sticky bottom-0">
               {product && (
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm text-gray-500">
-                    {product.name}
-                    {deliveryOption === "versand" ? " + Versand" : " · Abholung"}
+                  <span className="text-xs text-[#6B635B]">
+                    {product.name} · {deliveryOption === "versand" ? "Versand" : "Abholung Werkstatt"}
                   </span>
                   {product.price && (
-                    <span className="font-bold text-[#121212]">
-                      ab {product.price.toFixed(2).replace(".", ",")} €
+                    <span className="font-serif-heading text-xl font-semibold text-[#1E1A17]">
+                      {product.price.toFixed(2).replace(".", ",")} €
                     </span>
                   )}
                 </div>
@@ -357,15 +343,15 @@ export default function InquiryDrawer({
                 type="submit"
                 id="drawer-submit-btn"
                 disabled={isPending}
-                className="btn btn-primary w-full"
+                className="btn btn-wood w-full"
               >
                 {isPending ? (
                   <>
                     <Loader2 size={16} className="animate-spin" />
-                    Wird gesendet…
+                    Wird übermittelt…
                   </>
                 ) : (
-                  "Anfrage absenden"
+                  "Unverbindliche Bestellanfrage absenden"
                 )}
               </button>
             </div>

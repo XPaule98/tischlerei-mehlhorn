@@ -4,18 +4,7 @@ import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import BeforeAfterSlider from "@/components/sections/BeforeAfterSlider";
 import ModelViewerSection from "@/components/sections/ModelViewerSection";
-import {
-  ArrowRight,
-  Hammer,
-  Layers,
-  Award,
-  TreePine,
-  CheckCircle2,
-  Sparkles,
-  ShoppingBag,
-  Ruler,
-  Star,
-} from "lucide-react";
+import { ArrowRight, Check, ShoppingBag, Ruler, TreePine } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -26,61 +15,64 @@ export default function HomePage() {
         <HeroSection />
 
         {/* 2. Kurze Firmen-Story Teaser */}
-        <section className="section-pad bg-white">
+        <section className="section-pad bg-[#FAF8F5]">
           <div className="container-site">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               <div className="lg:col-span-6">
-                <span className="text-label text-gray-400 block mb-2">
-                  Seit 1977 in Meisterhand
+                <span className="text-craft-label block mb-3">
+                  Tradition & Handwerk seit 1977
                 </span>
-                <h2 className="text-display text-3xl md:text-5xl text-[#121212] mb-6">
-                  Tradition, die man sieht. Qualität, die bleibt.
+                <h2 className="font-serif-heading text-3xl sm:text-4xl md:text-5xl text-[#1E1A17] font-normal leading-tight mb-6">
+                  Präzision aus Erfahrung. <br />
+                  <span className="italic font-light">Leidenschaft für Holz.</span>
                 </h2>
-                <div className="space-y-4 text-gray-600 text-lg leading-relaxed mb-8">
+                <div className="space-y-4 text-[#5E564E] text-base md:text-lg leading-relaxed mb-8">
                   <p>
-                    Was im Januar 1977 durch <strong>Roland Mehlhorn</strong> als kleiner Gestellbau begann, ist heute ein moderner Meisterbetrieb für exklusive Holz- und Bauelemente.
+                    Was 1977 durch <strong>Roland Mehlhorn</strong> mit handwerklichem Gestellbau begann, hat sich über Jahrzehnte zu einem geschätzten Meisterbetrieb für anspruchsvolle Architektenhäuser und private Bauherren entwickelt.
                   </p>
                   <p>
-                    Seit 2012 führt Sohn und Tischlermeister <strong>Ronny Mehlhorn</strong> die Tischlerei mit Leidenschaft, Präzisionsmaschinen und höchstem Qualitätsanspruch.
+                    Seit 2012 führt Sohn und Tischlermeister <strong>Ronny Mehlhorn</strong> die Tischlerei mit modernster Fertigungstechnik, fundiertem Fachwissen und dem Anspruch, langlebige Werte aus Holz zu schaffen.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div className="p-4 bg-[#f9fafb] rounded-xl border border-gray-100">
-                    <div className="text-2xl font-black text-[#121212] mb-1" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                      45+ Jahre
-                    </div>
-                    <div className="text-xs text-gray-500 font-semibold uppercase">Erfahrung & Meisterschaft</div>
+                <div className="flex flex-wrap gap-8 py-6 border-y border-[#E6DED4] mb-8">
+                  <div>
+                    <div className="font-serif-heading text-3xl font-medium text-[#1E1A17]">45+</div>
+                    <div className="text-xs text-[#8C6D4F] font-semibold uppercase tracking-wider mt-0.5">Jahre Meistererfahrung</div>
                   </div>
-                  <div className="p-4 bg-[#f9fafb] rounded-xl border border-gray-100">
-                    <div className="text-2xl font-black text-[#121212] mb-1" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                      100%
-                    </div>
-                    <div className="text-xs text-gray-500 font-semibold uppercase">Präzision & Fachmontage</div>
+                  <div className="w-[1px] bg-[#E6DED4] h-12 self-center hidden sm:block" />
+                  <div>
+                    <div className="font-serif-heading text-3xl font-medium text-[#1E1A17]">1992</div>
+                    <div className="text-xs text-[#8C6D4F] font-semibold uppercase tracking-wider mt-0.5">Neubau Firmengebäude</div>
+                  </div>
+                  <div className="w-[1px] bg-[#E6DED4] h-12 self-center hidden sm:block" />
+                  <div>
+                    <div className="font-serif-heading text-3xl font-medium text-[#1E1A17]">100%</div>
+                    <div className="text-xs text-[#8C6D4F] font-semibold uppercase tracking-wider mt-0.5">Eigene Qualitätsfertigung</div>
                   </div>
                 </div>
 
-                <Link href="/ueber-uns" className="btn btn-primary inline-flex items-center gap-2">
-                  Mehr über unsere Geschichte & Werkstatt
-                  <ArrowRight size={16} />
+                <Link href="/ueber-uns" className="btn btn-outline-dark text-sm inline-flex items-center gap-2">
+                  Mehr über unsere Werkstatt & Geschichte
+                  <ArrowRight size={14} />
                 </Link>
               </div>
 
               <div className="lg:col-span-6">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <div className="relative rounded-lg overflow-hidden border border-[#E6DED4] shadow-lg">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/hero-bg.jpg"
-                    alt="Tischlermeister bei der Arbeit"
-                    className="w-full h-[460px] object-cover"
+                    alt="Tischlermeister bei der Arbeit in der Werkstatt"
+                    className="w-full h-[480px] object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  <div className="absolute bottom-6 left-6 right-6 text-white">
-                    <span className="text-xs uppercase tracking-widest text-[#E5DECE] font-bold block mb-1">
-                      Werkstatt & Fertigung
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1E1A17]/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6 text-[#FAF8F5]">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-[#D4B28C] block mb-1">
+                      Werkstatt in Meisterhand
                     </span>
-                    <p className="font-semibold text-base">
-                      Individuelle Maßanfertigungen auf modernsten Maschinen und klassischen Hobelbänken.
+                    <p className="font-serif-heading text-lg font-normal text-white">
+                      Maßanfertigung mit Herz, Augenmaß und modernstem Maschinenpark.
                     </p>
                   </div>
                 </div>
@@ -90,144 +82,138 @@ export default function HomePage() {
         </section>
 
         {/* 3. Leistungsübersicht / Was wir machen */}
-        <section className="section-pad bg-[#f9fafb] border-t border-gray-100">
+        <section className="section-pad bg-white border-t border-[#E6DED4]">
           <div className="container-site">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
               <div>
-                <span className="text-label text-gray-400 block mb-2">Unser Leistungsumfang</span>
-                <h2 className="text-display text-3xl md:text-5xl text-[#121212]">
-                  Was wir für Sie fertigen & montieren
+                <span className="text-craft-label block mb-2">Unser Leistungsspektrum</span>
+                <h2 className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal">
+                  Handwerkliche Kernkompetenzen
                 </h2>
               </div>
               <Link href="/leistungen" className="btn btn-outline-dark text-sm flex items-center gap-2 self-start md:self-auto">
-                Alle Leistungen ansehen
+                Alle Leistungen im Detail
                 <ArrowRight size={14} />
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {/* Card 1: Holzfenster */}
-              <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Gewerk 1: Holzfenster */}
+              <div className="craft-card rounded-lg overflow-hidden flex flex-col justify-between">
                 <div>
-                  <div className="relative h-52 overflow-hidden">
+                  <div className="relative h-56 overflow-hidden bg-[#FAF8F5]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/images/service-fenster.jpg"
-                      alt="Holzfenster"
+                      alt="Holzfenster Handarbeit"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute top-3 left-3 bg-[#121212] text-white text-xs px-3 py-1 rounded-full font-semibold">
-                      Eigene Fertigung
-                    </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-[#121212] mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+                  <div className="p-7">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">Eigene Fertigung</span>
+                    <h3 className="font-serif-heading text-2xl text-[#1E1A17] font-medium mb-3">
                       Holz- & Holz-Alu-Fenster
                     </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                      Handgefertigt aus erlesenen Hölzern für beste Wärmedämmung, Denkmalschutz und lebenslange Eleganz.
+                    <p className="text-[#5E564E] text-sm leading-relaxed mb-6">
+                      Maßgefertigte Fenster aus Eiche, Lärche und Kiefer mit modernster 3-fach Isolierverglasung und feinsten Denkmalschutzprofilen.
                     </p>
-                    <ul className="space-y-1.5 text-xs text-gray-500">
-                      <li className="flex items-center gap-2"><CheckCircle2 size={13} className="text-[#121212]" /> 3-fach Isolierverglasung</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 size={13} className="text-[#121212]" /> Denkmalschutzgerechte Profile</li>
+                    <ul className="space-y-2 text-xs text-[#6B635B]">
+                      <li className="flex items-center gap-2"><Check size={14} className="text-[#8C6D4F]" /> Echte Handwerksverbindungen</li>
+                      <li className="flex items-center gap-2"><Check size={14} className="text-[#8C6D4F]" /> Höchster Schall- und Wärmeschutz</li>
                     </ul>
                   </div>
                 </div>
-                <div className="p-6 pt-0">
-                  <Link href="/leistungen#eigenfertigung" className="text-xs font-bold text-[#121212] flex items-center gap-1 hover:underline">
-                    Details anzeigen <ArrowRight size={12} />
+                <div className="p-7 pt-0 border-t border-[#F3ECE2] mt-4">
+                  <Link href="/leistungen#eigenfertigung" className="text-xs font-semibold text-[#1E1A17] hover:text-[#8C6D4F] flex items-center gap-1.5 pt-4 transition-colors">
+                    Mehr erfahren <ArrowRight size={13} />
                   </Link>
                 </div>
               </div>
 
-              {/* Card 2: Haustüren */}
-              <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+              {/* Gewerk 2: Haustüren */}
+              <div className="craft-card rounded-lg overflow-hidden flex flex-col justify-between">
                 <div>
-                  <div className="relative h-52 overflow-hidden">
+                  <div className="relative h-56 overflow-hidden bg-[#FAF8F5]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/images/service-tuer.jpg"
-                      alt="Haustüren"
+                      alt="Massivholz Haustüren"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute top-3 left-3 bg-[#121212] text-white text-xs px-3 py-1 rounded-full font-semibold">
-                      Eigene Fertigung
-                    </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-[#121212] mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+                  <div className="p-7">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">Eigene Fertigung</span>
+                    <h3 className="font-serif-heading text-2xl text-[#1E1A17] font-medium mb-3">
                       Massivholz-Haustüren
                     </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                      Sicher, wärmegedämmt und individuell gestaltet. Die repräsentative Visitenkarte für Ihr Haus.
+                    <p className="text-[#5E564E] text-sm leading-relaxed mb-6">
+                      Repräsentative Eingangstüren nach individuellen Wünschen. Kompromisslose Sicherheit, hohe Dämmwerte und edle Oberflächen.
                     </p>
-                    <ul className="space-y-1.5 text-xs text-gray-500">
-                      <li className="flex items-center gap-2"><CheckCircle2 size={13} className="text-[#121212]" /> RC2 / RC3 Sicherheitstechnik</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 size={13} className="text-[#121212]" /> Sondermaße & Biometrie-Zutritt</li>
+                    <ul className="space-y-2 text-xs text-[#6B635B]">
+                      <li className="flex items-center gap-2"><Check size={14} className="text-[#8C6D4F]" /> RC2 / RC3 Sicherheitstechnik</li>
+                      <li className="flex items-center gap-2"><Check size={14} className="text-[#8C6D4F]" /> Fingerprint & Smart-Home Zutritt</li>
                     </ul>
                   </div>
                 </div>
-                <div className="p-6 pt-0">
-                  <Link href="/leistungen#eigenfertigung" className="text-xs font-bold text-[#121212] flex items-center gap-1 hover:underline">
-                    Details anzeigen <ArrowRight size={12} />
+                <div className="p-7 pt-0 border-t border-[#F3ECE2] mt-4">
+                  <Link href="/leistungen#eigenfertigung" className="text-xs font-semibold text-[#1E1A17] hover:text-[#8C6D4F] flex items-center gap-1.5 pt-4 transition-colors">
+                    Mehr erfahren <ArrowRight size={13} />
                   </Link>
                 </div>
               </div>
 
-              {/* Card 3: Wintergärten */}
-              <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+              {/* Gewerk 3: Wintergärten */}
+              <div className="craft-card rounded-lg overflow-hidden flex flex-col justify-between">
                 <div>
-                  <div className="relative h-52 overflow-hidden">
+                  <div className="relative h-56 overflow-hidden bg-[#FAF8F5]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/images/service-wintergarten.jpg"
-                      alt="Wintergärten"
+                      alt="Wintergärten und Glasbauten"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute top-3 left-3 bg-[#121212] text-white text-xs px-3 py-1 rounded-full font-semibold">
-                      Eigene Fertigung
-                    </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-[#121212] mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+                  <div className="p-7">
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">Eigene Fertigung</span>
+                    <h3 className="font-serif-heading text-2xl text-[#1E1A17] font-medium mb-3">
                       Wintergärten & Glasbauten
                     </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                      Wohnraumerweiterungen mit maximalem Lichteinfall, modernster Statik und zuverlässiger Klimatisierung.
+                    <p className="text-[#5E564E] text-sm leading-relaxed mb-6">
+                      Ganzjähriger Wohnkomfort im Grünen. Tragende Holz- und Holz-Alu-Konstruktionen mit integrierter Beschattung und Belüftung.
                     </p>
-                    <ul className="space-y-1.5 text-xs text-gray-500">
-                      <li className="flex items-center gap-2"><CheckCircle2 size={13} className="text-[#121212]" /> Holz & Holz-Alu-Tragwerke</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 size={13} className="text-[#121212]" /> Großflächige Hebeschiebetüren</li>
+                    <ul className="space-y-2 text-xs text-[#6B635B]">
+                      <li className="flex items-center gap-2"><Check size={14} className="text-[#8C6D4F]" /> Statik & Komplettplanung</li>
+                      <li className="flex items-center gap-2"><Check size={14} className="text-[#8C6D4F]" /> Großflächige Hebeschiebetüren</li>
                     </ul>
                   </div>
                 </div>
-                <div className="p-6 pt-0">
-                  <Link href="/leistungen#eigenfertigung" className="text-xs font-bold text-[#121212] flex items-center gap-1 hover:underline">
-                    Details anzeigen <ArrowRight size={12} />
+                <div className="p-7 pt-0 border-t border-[#F3ECE2] mt-4">
+                  <Link href="/leistungen#eigenfertigung" className="text-xs font-semibold text-[#1E1A17] hover:text-[#8C6D4F] flex items-center gap-1.5 pt-4 transition-colors">
+                    Mehr erfahren <ArrowRight size={13} />
                   </Link>
                 </div>
               </div>
             </div>
 
-            {/* Bauelemente Teaser Bar */}
-            <div className="mt-12 p-8 bg-white rounded-2xl border border-gray-100 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-sm">
+            {/* Bauelemente Montage Bar */}
+            <div className="mt-12 p-8 bg-[#FAF8F5] rounded-lg border border-[#E6DED4] flex flex-col lg:flex-row items-center justify-between gap-6">
               <div>
-                <span className="text-xs font-bold uppercase text-gray-400 block mb-1">Handel & Fachmontage</span>
-                <h4 className="text-xl font-bold text-[#121212]" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+                <span className="text-craft-label block mb-1">Handel & Fachmontage</span>
+                <h4 className="font-serif-heading text-2xl text-[#1E1A17] font-medium">
                   Kunststoff- & Alufenster, Innentüren, Garagentore & Rollladen
                 </h4>
-                <p className="text-sm text-gray-500 mt-1">
-                  Kompletter Service: Beratung, Aufmaß, Lieferung und normgerechter Einbau aller Bauelemente vor Ort.
+                <p className="text-sm text-[#5E564E] mt-1 max-w-2xl">
+                  Wir montieren geprüfte Bauelemente führender Markenhersteller sauber, zuverlässig und nach aktuellen RAL-Standards bei Ihnen vor Ort.
                 </p>
               </div>
               <Link href="/leistungen#bauelemente" className="btn btn-outline-dark text-xs flex-shrink-0">
-                Bauelemente-Katalog ansehen
+                Bauelemente ansehen
               </Link>
             </div>
           </div>
         </section>
 
-        {/* 4. Interactive Showcase: Vorher / Nachher Slider */}
+        {/* 4. Vorher / Nachher Showcase */}
         <BeforeAfterSlider
           beforeSrc="/images/hero-bg.jpg"
           afterSrc="/images/service-wintergarten.jpg"
@@ -238,20 +224,20 @@ export default function HomePage() {
         {/* 5. 3D Model Viewer Showcase */}
         <ModelViewerSection />
 
-        {/* 6. Shop & Deko Teaser */}
-        <section className="section-pad bg-white border-t border-gray-100">
+        {/* 6. Shop / Deko Highlights */}
+        <section className="section-pad bg-white border-t border-[#E6DED4]">
           <div className="container-site">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
               <div>
-                <span className="text-label text-gray-400 block mb-2">Handgefertigte Unikate</span>
-                <h2 className="text-display text-3xl md:text-5xl text-[#121212]">
-                  Deko-Katalog & Werkstücke
+                <span className="text-craft-label block mb-2">Aus unserer Werkstatt</span>
+                <h2 className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal">
+                  Handgefertigte Werkstücke & Deko
                 </h2>
-                <p className="text-gray-500 max-w-xl text-lg mt-2">
-                  Massivholz-Schneidebretter und schwebende Wandregale direkt aus unserer Meisterwerkstatt.
+                <p className="text-[#5E564E] max-w-xl text-base md:text-lg mt-2">
+                  Massivholz-Schneidebretter und schwebende Wandregale aus heimischer Eiche zum Festpreis.
                 </p>
               </div>
-              <Link href="/shop" className="btn btn-primary text-sm flex items-center gap-2 self-start md:self-auto">
+              <Link href="/shop" className="btn btn-wood text-sm flex items-center gap-2 self-start md:self-auto">
                 Zum gesamten Shop & Deko-Katalog
                 <ArrowRight size={14} />
               </Link>
@@ -259,57 +245,63 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Product 1 */}
-              <div className="bg-[#f9fafb] rounded-2xl overflow-hidden border border-gray-100 p-6 flex flex-col justify-between">
+              <div className="craft-card rounded-lg p-6 flex flex-col justify-between">
                 <div>
-                  <div className="relative h-48 rounded-xl overflow-hidden mb-4 bg-white">
+                  <div className="relative h-52 rounded overflow-hidden mb-5 bg-[#FAF8F5]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/catalog-schneidebrett.jpg" alt="Schneidebrett Hirnholz XL" className="w-full h-full object-cover" />
                   </div>
-                  <h4 className="font-bold text-lg text-[#121212] mb-1" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+                  <span className="text-xs font-semibold text-[#8C6D4F] uppercase tracking-wider block mb-1">Eiche massiv</span>
+                  <h4 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-1">
                     Schneidebrett Hirnholz XL
                   </h4>
-                  <p className="text-xs text-gray-500 mb-3">Eiche massiv · 40 × 30 × 5 cm</p>
-                  <div className="text-xl font-black text-[#121212]">89,00 €</div>
+                  <p className="text-xs text-[#6B635B] mb-4">40 × 30 × 5 cm · Stirnholz geölt</p>
+                  <div className="font-serif-heading text-2xl text-[#1E1A17] font-semibold">89,00 €</div>
+                  <span className="text-[11px] text-[#8C8277] block mt-0.5">inkl. MwSt.</span>
                 </div>
-                <Link href="/shop" className="btn btn-outline-dark text-xs py-2 w-full mt-4 flex items-center justify-center gap-2">
+                <Link href="/shop" className="btn btn-outline-dark text-xs py-2.5 w-full mt-5 flex items-center justify-center gap-2">
                   <ShoppingBag size={13} />
                   Im Shop anfragen
                 </Link>
               </div>
 
               {/* Product 2 */}
-              <div className="bg-[#f9fafb] rounded-2xl overflow-hidden border border-gray-100 p-6 flex flex-col justify-between">
+              <div className="craft-card rounded-lg p-6 flex flex-col justify-between">
                 <div>
-                  <div className="relative h-48 rounded-xl overflow-hidden mb-4 bg-white">
+                  <div className="relative h-52 rounded overflow-hidden mb-5 bg-[#FAF8F5]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/catalog-regal.jpg" alt="Wandregal Eiche massiv" className="w-full h-full object-cover" />
                   </div>
-                  <h4 className="font-bold text-lg text-[#121212] mb-1" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+                  <span className="text-xs font-semibold text-[#8C6D4F] uppercase tracking-wider block mb-1">Massiveiche</span>
+                  <h4 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-1">
                     Schwebendes Wandregal Eiche
                   </h4>
-                  <p className="text-xs text-gray-500 mb-3">Massiveiche · 80 × 20 × 4 cm</p>
-                  <div className="text-xl font-black text-[#121212]">129,00 €</div>
+                  <p className="text-xs text-[#6B635B] mb-4">80 × 20 × 4 cm · Baumkante & Unsichtbare Träger</p>
+                  <div className="font-serif-heading text-2xl text-[#1E1A17] font-semibold">129,00 €</div>
+                  <span className="text-[11px] text-[#8C8277] block mt-0.5">inkl. MwSt.</span>
                 </div>
-                <Link href="/shop" className="btn btn-outline-dark text-xs py-2 w-full mt-4 flex items-center justify-center gap-2">
+                <Link href="/shop" className="btn btn-outline-dark text-xs py-2.5 w-full mt-5 flex items-center justify-center gap-2">
                   <ShoppingBag size={13} />
                   Im Shop anfragen
                 </Link>
               </div>
 
               {/* Product 3 */}
-              <div className="bg-[#f9fafb] rounded-2xl overflow-hidden border border-gray-100 p-6 flex flex-col justify-between">
+              <div className="craft-card rounded-lg p-6 flex flex-col justify-between">
                 <div>
-                  <div className="relative h-48 rounded-xl overflow-hidden mb-4 bg-white">
+                  <div className="relative h-52 rounded overflow-hidden mb-5 bg-[#FAF8F5]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/catalog-schneidebrett.jpg" alt="Schneidebrett Streifendesign" className="w-full h-full object-cover" />
                   </div>
-                  <h4 className="font-bold text-lg text-[#121212] mb-1" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+                  <span className="text-xs font-semibold text-[#8C6D4F] uppercase tracking-wider block mb-1">Eiche & Buche</span>
+                  <h4 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-1">
                     Schneidebrett Streifendesign
                   </h4>
-                  <p className="text-xs text-gray-500 mb-3">Eiche & Buche · 35 × 22 × 3 cm</p>
-                  <div className="text-xl font-black text-[#121212]">54,00 €</div>
+                  <p className="text-xs text-[#6B635B] mb-4">35 × 22 × 3 cm · Zweifarbig verleimt</p>
+                  <div className="font-serif-heading text-2xl text-[#1E1A17] font-semibold">54,00 €</div>
+                  <span className="text-[11px] text-[#8C8277] block mt-0.5">inkl. MwSt.</span>
                 </div>
-                <Link href="/shop" className="btn btn-outline-dark text-xs py-2 w-full mt-4 flex items-center justify-center gap-2">
+                <Link href="/shop" className="btn btn-outline-dark text-xs py-2.5 w-full mt-5 flex items-center justify-center gap-2">
                   <ShoppingBag size={13} />
                   Im Shop anfragen
                 </Link>
@@ -318,22 +310,22 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 7. Schnellkontakt-Banner */}
-        <section className="bg-[#121212] text-white py-20">
+        {/* 7. Schnellkontakt Banner */}
+        <section className="bg-[#1C1815] text-[#FAF8F5] py-24 border-t border-white/10">
           <div className="container-site text-center max-w-3xl">
-            <span className="text-label text-[#E5DECE] block mb-3">Wir beraten Sie gerne</span>
-            <h2 className="text-display text-3xl md:text-5xl text-white mb-6">
-              Haben Sie ein Projekt vor Augen?
+            <span className="text-craft-label text-[#CBB295] block mb-3">Persönliche Beratung vor Ort</span>
+            <h2 className="font-serif-heading text-3xl sm:text-4xl md:text-5xl text-[#FAF8F5] font-normal mb-6">
+              Haben Sie ein Bauvorhaben vor Augen?
             </h2>
-            <p className="text-white/70 text-lg mb-10 leading-relaxed">
-              Ob Neubau, Sanierung oder individuelle Sonderanfertigung – wir freuen uns auf den Dialog mit Ihnen.
+            <p className="text-[#A89F95] text-base md:text-lg mb-10 leading-relaxed">
+              Ob Neubau, Denkmalschutz oder individuelle Sanierung – wir beraten Sie mit handwerklicher Meisterschaft und erstellen Ihnen ein maßgeschneidertes Angebot.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/kontakt" className="btn bg-[#E5DECE] text-[#121212] border-[#E5DECE] hover:bg-white hover:border-white font-bold">
+              <Link href="/kontakt" className="btn btn-wood text-sm font-medium py-3.5 px-7">
                 Unverbindliches Angebot anfordern
               </Link>
-              <Link href="/galerie" className="btn btn-outline">
-                Galerie & Referenzen ansehen
+              <Link href="/galerie" className="btn btn-outline text-sm font-medium py-3.5 px-7">
+                Referenzen & Galerie ansehen
               </Link>
             </div>
           </div>

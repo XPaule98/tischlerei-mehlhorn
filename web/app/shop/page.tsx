@@ -5,7 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ModelViewerSection from "@/components/sections/ModelViewerSection";
 import InquiryDrawer, { DrawerProduct } from "@/components/ui/InquiryDrawer";
-import { ShoppingBag, Tag, Ruler, TreePine, Star, Sparkles, Truck, Store, ShieldCheck } from "lucide-react";
+import { ShoppingBag, Ruler, TreePine } from "lucide-react";
 
 const allProducts = [
   {
@@ -15,12 +15,11 @@ const allProducts = [
     description:
       "Massives Hirnholz-Schneidebrett aus heimischer Eiche. Messerschonend, antibakteriell durch natürliche Gerbsäuren und extrem formstabil.",
     dimensions: "40 × 30 × 5 cm",
-    woodType: "Eiche massiv",
+    woodType: "Eiche massiv (Stirnholz)",
     price: 89,
     image: "/images/catalog-schneidebrett.jpg",
     available: true,
-    rating: 5,
-    tag: "Bestseller",
+    tag: "Werkstatt-Klassiker",
   },
   {
     id: "wandregal-eiche",
@@ -29,11 +28,10 @@ const allProducts = [
     description:
       "Massives Eichenholzregal mit natürlicher Baumkante und unsichtbarer Schwerlast-Wandverankerung. Samtig matt geölt.",
     dimensions: "80 × 20 × 4 cm",
-    woodType: "Eiche massiv",
+    woodType: "Massiveiche natur",
     price: 129,
     image: "/images/catalog-regal.jpg",
     available: true,
-    rating: 5,
     tag: "Handarbeit",
   },
   {
@@ -47,8 +45,7 @@ const allProducts = [
     price: 54,
     image: "/images/catalog-schneidebrett.jpg",
     available: true,
-    rating: 5,
-    tag: "Beliebt",
+    tag: "Zweifarbig",
   },
   {
     id: "wandregal-kiefer",
@@ -61,8 +58,7 @@ const allProducts = [
     price: 79,
     image: "/images/catalog-regal.jpg",
     available: true,
-    rating: 4,
-    tag: "Natur pur",
+    tag: "Naturholz",
   },
   {
     id: "servierplatte-griff",
@@ -75,8 +71,7 @@ const allProducts = [
     price: 69,
     image: "/images/catalog-schneidebrett.jpg",
     available: true,
-    rating: 5,
-    tag: "Neu",
+    tag: "Unikat",
   },
   {
     id: "wandregal-nussbaum",
@@ -89,8 +84,7 @@ const allProducts = [
     price: 169,
     image: "/images/catalog-regal.jpg",
     available: true,
-    rating: 5,
-    tag: "Exklusiv",
+    tag: "Edelholz",
   },
 ];
 
@@ -114,67 +108,66 @@ export default function ShopPage() {
       <Header />
       <main className="pt-24 md:pt-28">
         {/* Hero Section */}
-        <section className="bg-[#121212] text-white py-16 md:py-24 relative overflow-hidden">
+        <section className="bg-[#1C1815] text-[#FAF8F5] py-20 md:py-28 relative overflow-hidden">
           <div className="container-site relative z-10">
-            <span className="text-label text-[#E5DECE] block mb-3">Aus unserer Meisterwerkstatt</span>
-            <h1 className="text-display text-4xl md:text-6xl max-w-3xl mb-6">
+            <span className="text-craft-label text-[#D4B28C] block mb-3">
+              Aus unserer Meisterwerkstatt
+            </span>
+            <h1 className="font-serif-heading text-4xl sm:text-5xl md:text-6xl max-w-3xl mb-6 font-normal leading-tight">
               Dekoartikel & handgefertigte Unikate.
             </h1>
-            <p className="text-white/70 text-lg md:text-xl max-w-2xl leading-relaxed">
-              Jedes Stück wird in traditioneller Handarbeit aus ausgewähltem Massivholz gefertigt. 
-              Persönliche Anfrage mit Wunschoption: Versand oder Selbstabholung in der Werkstatt.
+            <p className="text-[#D6CCC0] text-lg md:text-xl max-w-2xl leading-relaxed">
+              Jedes Stück wird in traditioneller Handarbeit aus ausgewähltem Massivholz gefertigt.
+              Unverbindliche Anfrage mit Wunschoption: Versand oder Abholung in der Werkstatt.
             </p>
           </div>
         </section>
 
         {/* Benefits Bar */}
-        <section className="bg-[#f3efe5] py-8 border-b border-[#E5DECE]">
+        <section className="bg-[#F3ECE2] py-6 border-b border-[#E6DED4]">
           <div className="container-site grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-            <div className="flex items-center justify-center gap-3">
-              <Sparkles className="text-[#121212]" size={20} />
-              <span className="text-sm font-bold text-[#121212]">100% Echtholz & Handarbeit</span>
+            <div className="text-xs font-semibold text-[#1E1A17] uppercase tracking-wider">
+              100% Echtholz & Handarbeit
             </div>
-            <div className="flex items-center justify-center gap-3">
-              <Store className="text-[#121212]" size={20} />
-              <span className="text-sm font-bold text-[#121212]">Abholung in der Werkstatt möglich</span>
+            <div className="text-xs font-semibold text-[#1E1A17] uppercase tracking-wider">
+              Abholung in der Werkstatt möglich
             </div>
-            <div className="flex items-center justify-center gap-3">
-              <Truck className="text-[#121212]" size={20} />
-              <span className="text-sm font-bold text-[#121212]">Sicherer & versicherter Versand</span>
+            <div className="text-xs font-semibold text-[#1E1A17] uppercase tracking-wider">
+              Sicherer & versicherter Versand
             </div>
           </div>
         </section>
 
-        {/* Interactive 3D Model Section */}
+        {/* 3D Model Viewer */}
         <ModelViewerSection />
 
-        {/* Catalog Grid Section */}
-        <section className="section-pad bg-white">
+        {/* Product Catalog */}
+        <section className="section-pad bg-[#FAF8F5]">
           <div className="container-site">
             <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-label text-gray-400 block mb-2">Werkstücke zum Festpreis</span>
-              <h2 className="text-display text-3xl md:text-5xl text-[#121212] mb-4">
+              <span className="text-craft-label block mb-2">Werkstücke zum Festpreis</span>
+              <h2 className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal mb-4">
                 Unsere aktuellen Dekoartikel
               </h2>
-              <p className="text-gray-500">
-                Wählen Sie einen Artikel aus und senden Sie uns eine unverbindliche Bestellanfrage.
+              <p className="text-[#5E564E] text-base">
+                Wählen Sie ein Werkstück aus und senden Sie uns eine unverbindliche Bestellanfrage.
               </p>
             </div>
 
-            {/* Filter */}
+            {/* Filter Tabs */}
             <div className="flex justify-center gap-2 mb-12">
               {[
-                { value: "alle", label: "Alle Artikel" },
+                { value: "alle", label: "Alle Werkstücke" },
                 { value: "schneidebretter", label: "Schneidebretter" },
                 { value: "regale", label: "Wandregale & Borde" },
               ].map((tab) => (
                 <button
                   key={tab.value}
                   onClick={() => setSelectedCategory(tab.value)}
-                  className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                  className={`px-5 py-2 rounded text-xs font-semibold uppercase tracking-wider transition-all ${
                     selectedCategory === tab.value
-                      ? "bg-[#121212] text-white shadow-md"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      ? "bg-[#1E1A17] text-white"
+                      : "bg-white text-[#5E564E] border border-[#E6DED4] hover:bg-[#F3ECE2]"
                   }`}
                 >
                   {tab.label}
@@ -187,79 +180,60 @@ export default function ShopPage() {
               {filtered.map((product) => (
                 <div
                   key={product.id}
-                  className="product-card bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm flex flex-col justify-between"
+                  className="craft-card rounded-lg p-6 flex flex-col justify-between"
                 >
                   <div>
-                    {/* Image */}
-                    <div className="relative h-64 overflow-hidden bg-[#f9fafb]">
+                    <div className="relative h-60 rounded overflow-hidden mb-5 bg-[#F3ECE2]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={product.image}
                         alt={product.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full object-cover"
                       />
-                      <div className="absolute top-3 left-3 bg-[#121212] text-white text-xs px-2.5 py-1 rounded-full font-semibold">
+                      <div className="absolute top-3 left-3 bg-[#1E1A17]/85 backdrop-blur-sm text-white text-[11px] px-2.5 py-1 rounded font-medium">
                         {product.tag}
-                      </div>
-                      <div className="absolute top-3 right-3 bg-green-50 text-green-700 text-xs px-2.5 py-1 rounded-full font-semibold border border-green-200">
-                        Sofort anfragbar
                       </div>
                     </div>
 
-                    {/* Content */}
-                    <div className="p-6">
-                      <div className="flex gap-0.5 mb-2">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star
-                            key={i}
-                            size={14}
-                            className={
-                              i < product.rating
-                                ? "text-amber-400 fill-amber-400"
-                                : "text-gray-200 fill-gray-200"
-                            }
-                          />
-                        ))}
+                    <span className="text-xs font-semibold text-[#8C6D4F] uppercase tracking-wider block mb-1">
+                      {product.woodType}
+                    </span>
+                    <h3 className="font-serif-heading text-2xl text-[#1E1A17] font-medium mb-2">
+                      {product.title}
+                    </h3>
+                    <p className="text-[#5E564E] text-sm leading-relaxed mb-4">
+                      {product.description}
+                    </p>
+
+                    <div className="space-y-1.5 border-t border-[#F3ECE2] pt-4 mb-4">
+                      <div className="flex items-center gap-2 text-xs text-[#6B635B]">
+                        <Ruler size={13} className="text-[#8C6D4F]" />
+                        <span>Maße: <strong>{product.dimensions}</strong></span>
                       </div>
-
-                      <h3 className="font-bold text-[#121212] text-xl mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                        {product.title}
-                      </h3>
-                      <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                        {product.description}
-                      </p>
-
-                      <div className="space-y-1.5 border-t border-gray-100 pt-4 mb-4">
-                        <div className="flex items-center gap-2 text-xs text-gray-500">
-                          <Ruler size={13} className="text-[#121212]" />
-                          <span>Maße: <strong>{product.dimensions}</strong></span>
-                        </div>
-                        <div className="flex items-center gap-2 text-xs text-gray-500">
-                          <TreePine size={13} className="text-[#121212]" />
-                          <span>Holzart: <strong>{product.woodType}</strong></span>
-                        </div>
+                      <div className="flex items-center gap-2 text-xs text-[#6B635B]">
+                        <TreePine size={13} className="text-[#8C6D4F]" />
+                        <span>Holz: <strong>{product.woodType}</strong></span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Price & Action */}
-                  <div className="p-6 pt-0 border-t border-gray-50 mt-auto">
-                    <div className="flex items-center justify-between pt-4">
+                  <div className="pt-4 border-t border-[#F3ECE2] mt-auto">
+                    <div className="flex items-center justify-between">
                       <div>
-                        <div className="text-2xl font-black text-[#121212]">
+                        <div className="font-serif-heading text-2xl font-semibold text-[#1E1A17]">
                           {product.price.toFixed(2).replace(".", ",")} €
                         </div>
-                        <span className="text-[11px] text-gray-400 block">
+                        <span className="text-[11px] text-[#8C8277] block">
                           inkl. MwSt., zzgl. Versand/Abholung
                         </span>
                       </div>
 
                       <button
                         onClick={() => handleInquiry({ name: product.title, price: product.price })}
-                        className="btn btn-primary text-sm py-2.5 px-4 flex items-center gap-2"
+                        className="btn btn-wood text-xs py-2.5 px-4 flex items-center gap-1.5"
                       >
-                        <ShoppingBag size={14} />
-                        Jetzt anfragen
+                        <ShoppingBag size={13} />
+                        Anfragen
                       </button>
                     </div>
                   </div>
@@ -267,13 +241,13 @@ export default function ShopPage() {
               ))}
             </div>
 
-            {/* Info Box */}
-            <div className="mt-16 bg-[#f9fafb] border border-gray-200/80 rounded-2xl p-8 max-w-2xl mx-auto text-center">
-              <h4 className="font-bold text-lg text-[#121212] mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-                Individuelle Sonderanfertigung gewünscht?
+            {/* Custom order notice */}
+            <div className="mt-16 bg-white border border-[#E6DED4] rounded-lg p-8 max-w-xl mx-auto text-center shadow-sm">
+              <h4 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-2">
+                Individuelles Wunschmaß?
               </h4>
-              <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                Sie wünschen ein Schneidebrett oder Regal in ganz bestimmten Maßen oder aus einer speziellen Holzart? Sprechen Sie uns gerne an!
+              <p className="text-[#5E564E] text-sm leading-relaxed mb-5">
+                Sie wünschen ein Schneidebrett oder Regal in ganz bestimmten Maßen oder aus einer speziellen Holzart? Sprechen Sie uns gerne an.
               </p>
               <button
                 onClick={() => handleInquiry({ name: "Sonderanfertigung Deko / Kleinmöbel" })}
@@ -286,7 +260,6 @@ export default function ShopPage() {
         </section>
       </main>
 
-      {/* Inquiry Drawer */}
       <InquiryDrawer
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}

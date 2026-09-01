@@ -14,7 +14,7 @@ export default function BeforeAfterSlider({
   beforeSrc = "/images/hero-bg.jpg",
   afterSrc = "/images/service-wintergarten.jpg",
   beforeLabel = "Werkstattfertigung",
-  afterLabel = "Fertige Montage",
+  afterLabel = "Montage beim Kunden",
 }: BeforeAfterSliderProps) {
   const [position, setPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
@@ -65,23 +65,24 @@ export default function BeforeAfterSlider({
 
   return (
     <section
-      id="referenzen"
-      className="section-pad bg-[#121212]"
+      id="vergleich"
+      className="section-pad bg-[#1C1815] text-[#FAF8F5]"
       aria-labelledby="beforeafter-heading"
     >
       <div className="container-site">
         {/* Header */}
-        <div className="text-center mb-12">
-          <p className="text-label text-[#E5DECE]/60 mb-3">Qualität sehen</p>
+        <div className="text-center max-w-2xl mx-auto mb-14">
+          <span className="text-craft-label text-[#CBB295] block mb-2">
+            Vorher & Nachher
+          </span>
           <h2
             id="beforeafter-heading"
-            className="text-display text-white text-3xl md:text-5xl mb-5"
+            className="font-serif-heading text-3xl md:text-5xl font-normal text-[#FAF8F5] mb-4"
           >
-            Vorher / Nachher
+            Vom Rohelement zum fertigen Bauwerk
           </h2>
-          <p className="text-white/50 max-w-md mx-auto">
-            Ziehen Sie den Regler, um Werkstattfertigung und fertige Montage zu
-            vergleichen.
+          <p className="text-[#A89F95] text-base">
+            Verschieben Sie den Regler, um den Übergang von der Werkstattfertigung zur fertigen Montage beim Kunden zu erleben.
           </p>
         </div>
 
@@ -89,7 +90,7 @@ export default function BeforeAfterSlider({
         <div className="max-w-4xl mx-auto">
           <div
             ref={containerRef}
-            className="before-after-container rounded-2xl overflow-hidden shadow-2xl"
+            className="before-after-container rounded-xl overflow-hidden shadow-2xl border border-white/10"
             style={{ aspectRatio: "16/9" }}
             onMouseDown={(e) => {
               setIsDragging(true);
@@ -105,7 +106,7 @@ export default function BeforeAfterSlider({
             aria-valuemin={0}
             aria-valuemax={100}
           >
-            {/* Before Image (full width) */}
+            {/* Before Image */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={beforeSrc}
@@ -114,7 +115,7 @@ export default function BeforeAfterSlider({
               draggable={false}
             />
 
-            {/* After Image (clipped) */}
+            {/* After Image */}
             <div
               className="absolute inset-0 overflow-hidden"
               style={{ width: `${position}%` }}
@@ -134,27 +135,22 @@ export default function BeforeAfterSlider({
               className="before-after-handle"
               style={{ left: `${position}%` }}
             >
-              {/* Vertical line */}
-              <div className="absolute top-0 bottom-0 left-1/2 w-[2px] bg-white -translate-x-px" />
-
-              {/* Circle */}
-              <div className="before-after-handle-circle z-10">
-                <MoveHorizontal size={20} className="text-[#121212]" />
+              <div className="before-after-handle-circle">
+                <MoveHorizontal size={18} className="text-[#1E1A17]" />
               </div>
             </div>
 
-            {/* Labels */}
-            <div className="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1.5 rounded-full font-semibold tracking-wide select-none">
+            {/* Subtle Minimal Labels */}
+            <div className="absolute top-4 left-4 bg-[#1E1A17]/85 backdrop-blur-sm text-white text-xs px-3.5 py-1.5 rounded font-medium select-none border border-white/10">
               {afterLabel}
             </div>
-            <div className="absolute top-4 right-4 bg-white/90 text-[#121212] text-xs px-3 py-1.5 rounded-full font-semibold tracking-wide select-none">
+            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#1E1A17] text-xs px-3.5 py-1.5 rounded font-medium select-none border border-[#E6DED4]">
               {beforeLabel}
             </div>
           </div>
 
-          {/* Hint */}
-          <p className="text-center text-white/30 text-sm mt-4">
-            ← Regler ziehen zum Vergleichen →
+          <p className="text-center text-[#8C8277] text-xs mt-4">
+            ← Regler mit Maus oder Finger ziehen →
           </p>
         </div>
       </div>
