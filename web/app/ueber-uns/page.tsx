@@ -64,6 +64,7 @@ export default async function UeberUnsPage() {
       <main>
         {/* Dynamic PageHeader with Atmospheric Image Background */}
         <PageHeader
+          breadcrumb="Über uns & Werkstatt"
           badge={badge}
           title={title}
           subtitle={subtitle}

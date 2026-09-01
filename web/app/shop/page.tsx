@@ -35,6 +35,7 @@ export default async function ShopPage() {
       <main>
         {/* Dynamic PageHeader with Image Background */}
         <PageHeader
+          breadcrumb="Shop & Deko-Katalog"
           badge={badge}
           title={title}
           subtitle={subtitle}

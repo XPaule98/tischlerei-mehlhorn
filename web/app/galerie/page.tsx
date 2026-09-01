@@ -36,6 +36,7 @@ export default async function GaleriePage() {
       <main>
         {/* Dynamic PageHeader with Image Background */}
         <PageHeader
+          breadcrumb="Galerie & Referenzen"
           badge={badge}
           title={title}
           subtitle={subtitle}

@@ -36,6 +36,7 @@ export default async function KontaktPage() {
       <main>
         {/* Dynamic PageHeader with Image Background */}
         <PageHeader
+          breadcrumb="Kontakt & Anfragen"
           badge={badge}
           title={title}
           subtitle={subtitle}

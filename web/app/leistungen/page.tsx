@@ -154,6 +154,7 @@ export default async function LeistungenPage() {
       <main>
         {/* Visual Hero Header with Background Image from Sanity */}
         <PageHeader
+          breadcrumb="Leistungen & Gewerke"
           badge={badge}
           title={title}
           subtitle={subtitle}
