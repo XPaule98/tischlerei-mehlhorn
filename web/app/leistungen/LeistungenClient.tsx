@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, ArrowRight, ChevronDown } from "lucide-react";
+import { Check, ArrowRight, ChevronDown, Maximize2, X } from "lucide-react";
 
 export interface ServiceItemData {
   _id: string;
@@ -32,6 +32,12 @@ export default function LeistungenClient({ services }: Props) {
     [eigenfertigung[0]?._id || ""]: true,
   });
 
+  // Track selected active image for items with multiple gallery images
+  const [activeImages, setActiveImages] = useState<Record<string, string>>({});
+
+  // Lightbox Modal state
+  const [lightboxImage, setLightboxImage] = useState<{ src: string; title: string } | null>(null);
+
   const toggleItem = (id: string) => {
     setOpenItems((prev) => ({
       ...prev,
@@ -47,10 +53,24 @@ export default function LeistungenClient({ services }: Props) {
     setOpenItems(next);
   };
 
+  const selectImage = (serviceId: string, url: string) => {
+    setActiveImages((prev) => ({
+      ...prev,
+      [serviceId]: url,
+    }));
+  };
+
   const renderServiceCard = (item: ServiceItemData) => {
     const isOpen = Boolean(openItems[item._id]);
-    const hasImage = Boolean(item.imageUrl);
-    const hasGallery = Boolean(item.galleryUrls && item.galleryUrls.length > 0);
+    
+    // Collect all available photos for this item (main image + gallery)
+    const allPhotos = Array.from(
+      new Set([item.imageUrl, ...(item.galleryUrls || [])].filter(Boolean))
+    ) as string[];
+
+    const currentImage = activeImages[item._id] || allPhotos[0] || item.imageUrl;
+    const hasImage = Boolean(currentImage);
+    const hasMultiplePhotos = allPhotos.length > 1;
 
     return (
       <div
@@ -59,7 +79,7 @@ export default function LeistungenClient({ services }: Props) {
           isOpen ? "border-[#CFCFCB] shadow-sm bg-white" : "hover:border-[#CFCFCB] bg-[#FAFAFA]"
         }`}
       >
-        {/* Collapsed / Expand Header Bar – Clean Typography, NO Thumbnail, NO Truncation */}
+        {/* Collapsed / Expand Header Bar */}
         <button
           onClick={() => toggleItem(item._id)}
           aria-expanded={isOpen}
@@ -91,31 +111,59 @@ export default function LeistungenClient({ services }: Props) {
           </div>
         </button>
 
-        {/* Expanded Details Body – Reveals Full Image, Concise Info & Bullet Points */}
+        {/* Expanded Details Body */}
         {isOpen && (
           <div className="px-5 pb-6 sm:px-8 sm:pb-8 pt-2 border-t border-[#F2F2F0] bg-white animate-in fade-in-50 duration-300">
-            <div className={`grid grid-cols-1 ${hasImage ? "lg:grid-cols-12 gap-8 lg:gap-10" : ""} items-center mt-2`}>
-              {/* Large Image (Expands with Details) */}
+            <div className={`grid grid-cols-1 ${hasImage ? "lg:grid-cols-12 gap-8 lg:gap-10" : ""} items-start mt-3`}>
+              {/* Image & Interactive Thumbnail Switcher */}
               {hasImage && (
                 <div className="lg:col-span-6 space-y-3">
-                  <div className="relative rounded-lg overflow-hidden bg-[#F9F9F8] border border-[#E8E8E6] shadow-xs">
+                  {/* Large Main Photo */}
+                  <div
+                    onClick={() => {
+                      if (currentImage) {
+                        setLightboxImage({ src: currentImage, title: item.title });
+                      }
+                    }}
+                    className="relative rounded-lg overflow-hidden bg-[#F9F9F8] border border-[#E8E8E6] shadow-xs cursor-pointer group"
+                  >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={item.imageUrl}
+                      src={currentImage}
                       alt={item.title}
-                      className="w-full h-[280px] sm:h-[340px] object-cover"
+                      className="w-full h-[280px] sm:h-[350px] object-cover transition-transform duration-500 group-hover:scale-102"
                     />
+                    <div className="absolute bottom-3 right-3 w-8 h-8 rounded bg-[#181818]/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+                      <Maximize2 size={14} />
+                    </div>
                   </div>
 
-                  {/* Optional Detail Gallery Photos */}
-                  {hasGallery && (
-                    <div className="grid grid-cols-4 gap-2">
-                      {item.galleryUrls?.map((gUrl, gIdx) => (
-                        <div key={gIdx} className="h-16 rounded overflow-hidden border border-[#E8E8E6] bg-[#F2F2F0]">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={gUrl} alt={`${item.title} Detail ${gIdx + 1}`} className="w-full h-full object-cover" />
-                        </div>
-                      ))}
+                  {/* Interactive Thumbnail Gallery – Click to Switch Main Photo */}
+                  {hasMultiplePhotos && (
+                    <div className="flex items-center gap-2.5 overflow-x-auto pb-1">
+                      {allPhotos.map((photoUrl, pIdx) => {
+                        const isSelected = photoUrl === currentImage;
+                        return (
+                          <button
+                            key={pIdx}
+                            type="button"
+                            onClick={() => selectImage(item._id, photoUrl)}
+                            aria-label={`Foto ${pIdx + 1} von ${item.title} anzeigen`}
+                            className={`relative h-18 w-24 sm:h-20 sm:w-28 rounded-md overflow-hidden border-2 transition-all cursor-pointer flex-shrink-0 ${
+                              isSelected
+                                ? "border-[#181818] shadow-sm scale-102"
+                                : "border-transparent opacity-65 hover:opacity-100 hover:border-[#CCCCCC]"
+                            }`}
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={photoUrl}
+                              alt={`${item.title} Vorschau ${pIdx + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          </button>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
@@ -159,72 +207,101 @@ export default function LeistungenClient({ services }: Props) {
   };
 
   return (
-    <div className="space-y-16 md:space-y-20 py-12 md:py-16">
-      {/* 1. Eigene Herstellung */}
-      {eigenfertigung.length > 0 && (
-        <section className="container-site">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-3 border-b border-[#E8E8E6]">
-            <div>
-              <span className="text-craft-label block mb-1">Tradition & Präzision</span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#181818] tracking-tight">
-                Eigene Herstellung in Schönheide
-              </h2>
+    <>
+      <div className="space-y-16 md:space-y-20 py-12 md:py-16">
+        {/* 1. Eigene Herstellung */}
+        {eigenfertigung.length > 0 && (
+          <section className="container-site">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-3 border-b border-[#E8E8E6]">
+              <div>
+                <span className="text-craft-label block mb-1">Tradition & Präzision</span>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#181818] tracking-tight">
+                  Eigene Herstellung in Schönheide
+                </h2>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => toggleAll(eigenfertigung, true)}
+                  className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
+                >
+                  Alle aufklappen
+                </button>
+                <button
+                  onClick={() => toggleAll(eigenfertigung, false)}
+                  className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
+                >
+                  Alle einklappen
+                </button>
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => toggleAll(eigenfertigung, true)}
-                className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
-              >
-                Alle aufklappen
-              </button>
-              <button
-                onClick={() => toggleAll(eigenfertigung, false)}
-                className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
-              >
-                Alle einklappen
-              </button>
+            <div className="space-y-4">
+              {eigenfertigung.map(renderServiceCard)}
             </div>
-          </div>
+          </section>
+        )}
 
-          <div className="space-y-4">
-            {eigenfertigung.map(renderServiceCard)}
+        {/* 2. Bauelemente & Montageservice */}
+        {bauelemente.length > 0 && (
+          <section className="container-site pt-8 border-t border-[#E8E8E6]">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-3 border-b border-[#E8E8E6]">
+              <div>
+                <span className="text-craft-label block mb-1">Geprüfte Markenqualität</span>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#181818] tracking-tight">
+                  Bauelemente & Montageservice
+                </h2>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => toggleAll(bauelemente, true)}
+                  className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
+                >
+                  Alle aufklappen
+                </button>
+                <button
+                  onClick={() => toggleAll(bauelemente, false)}
+                  className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
+                >
+                  Alle einklappen
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {bauelemente.map(renderServiceCard)}
+            </div>
+          </section>
+        )}
+      </div>
+
+      {/* Lightbox Modal for Services */}
+      {lightboxImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+          onClick={() => setLightboxImage(null)}
+        >
+          <div className="relative max-w-4xl max-h-[90vh] flex flex-col items-center">
+            <button
+              onClick={() => setLightboxImage(null)}
+              className="absolute -top-10 right-0 text-white/80 hover:text-white flex items-center gap-1 text-xs uppercase tracking-wider cursor-pointer"
+            >
+              <X size={18} /> Schließen
+            </button>
+
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={lightboxImage.src}
+              alt={lightboxImage.title}
+              className="max-h-[80vh] w-auto object-contain rounded shadow-2xl border border-white/10"
+            />
+            <p className="text-white text-sm font-semibold mt-3 text-center">
+              {lightboxImage.title}
+            </p>
           </div>
-        </section>
+        </div>
       )}
-
-      {/* 2. Bauelemente & Montageservice */}
-      {bauelemente.length > 0 && (
-        <section className="container-site pt-8 border-t border-[#E8E8E6]">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-3 border-b border-[#E8E8E6]">
-            <div>
-              <span className="text-craft-label block mb-1">Geprüfte Markenqualität</span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#181818] tracking-tight">
-                Bauelemente & Montageservice
-              </h2>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => toggleAll(bauelemente, true)}
-                className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
-              >
-                Alle aufklappen
-              </button>
-              <button
-                onClick={() => toggleAll(bauelemente, false)}
-                className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
-              >
-                Alle einklappen
-              </button>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            {bauelemente.map(renderServiceCard)}
-          </div>
-        </section>
-      )}
-    </div>
+    </>
   );
 }

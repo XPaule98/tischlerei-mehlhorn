@@ -5,7 +5,9 @@ export default defineCliConfig({
     projectId: 'z3grtien',
     dataset: 'production',
   },
+  studioHost: 'tischlerei-mehlhorn',
   deployment: {
+    appId: 'qn0bh6p0x8apolrznbhylrxv',
     autoUpdates: true,
   },
   typegen: {
