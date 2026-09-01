@@ -20,6 +20,19 @@ export const catalogProduct = defineType({
       description: "z. B. 89.00",
     }),
     defineField({
+      name: "categoryRef",
+      title: "Kategorie (Auswahl aus Shop-Kategorien)",
+      type: "reference",
+      to: [{ type: "productCategory" }],
+      description: "Wählen Sie eine der im Studio angelegten Kategorien aus.",
+    }),
+    defineField({
+      name: "category",
+      title: "Kategorie manuell (optional)",
+      type: "string",
+      description: "Alternative manuelle Eingabe, falls keine Kategorie ausgewählt wurde.",
+    }),
+    defineField({
       name: "images",
       title: "Produktbilder (mindestens 1 Bild empfohlen)",
       type: "array",
@@ -29,18 +42,6 @@ export const catalogProduct = defineType({
           options: { hotspot: true },
         },
       ],
-    }),
-    defineField({
-      name: "category",
-      title: "Kategorie (optional)",
-      type: "string",
-      options: {
-        list: [
-          { title: "Schneidebretter", value: "schneidebretter" },
-          { title: "Wandregale & Borde", value: "regale" },
-          { title: "Wohnaccessoires & Deko", value: "deko" },
-        ],
-      },
     }),
     defineField({
       name: "description",

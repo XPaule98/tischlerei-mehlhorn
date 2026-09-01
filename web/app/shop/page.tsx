@@ -3,8 +3,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHeader from "@/components/layout/PageHeader";
 import { client } from "@/sanity/lib/client";
-import { SHOP_PAGE_QUERY, PRODUCTS_QUERY } from "@/sanity/lib/queries";
-import ShopClient, { ShopProduct } from "./ShopClient";
+import { SHOP_PAGE_QUERY, PRODUCTS_QUERY, PRODUCT_CATEGORIES_QUERY } from "@/sanity/lib/queries";
+import ShopClient, { ShopProduct, ShopCategory } from "./ShopClient";
 
 export const revalidate = 30;
 
@@ -17,11 +17,13 @@ export const metadata: Metadata = {
 export default async function ShopPage() {
   let cmsHeaderData = null;
   let cmsProducts: ShopProduct[] | null = null;
+  let cmsCategories: ShopCategory[] | null = null;
 
   try {
-    [cmsHeaderData, cmsProducts] = await Promise.all([
+    [cmsHeaderData, cmsProducts, cmsCategories] = await Promise.all([
       client.fetch(SHOP_PAGE_QUERY, {}, { next: { revalidate: 30 } }),
       client.fetch(PRODUCTS_QUERY, {}, { next: { revalidate: 30 } }),
+      client.fetch(PRODUCT_CATEGORIES_QUERY, {}, { next: { revalidate: 30 } }),
     ]);
   } catch (e) {
     // Fallback
@@ -37,15 +39,19 @@ export default async function ShopPage() {
     <>
       <Header />
       <main>
-        {/* Minimalist PageHeader */}
+        {/* Minimalist PageHeader with Breadcrumb */}
         <PageHeader
+          breadcrumb="Shop & Deko-Katalog"
           title={title}
           subtitle={subtitle}
           headerImageUrl={headerImageUrl}
         />
 
-        {/* Interactive Shop Catalog with live CMS data */}
-        <ShopClient initialProducts={cmsProducts && cmsProducts.length > 0 ? cmsProducts : undefined} />
+        {/* Interactive Shop Catalog with live CMS products & categories */}
+        <ShopClient
+          initialProducts={cmsProducts && cmsProducts.length > 0 ? cmsProducts : undefined}
+          categories={cmsCategories && cmsCategories.length > 0 ? cmsCategories : undefined}
+        />
       </main>
       <Footer />
     </>

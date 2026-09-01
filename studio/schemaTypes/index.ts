@@ -7,6 +7,7 @@ import { shopPage } from "./shopPage";
 import { contactPage } from "./contactPage";
 import { serviceItem } from "./serviceItem";
 import { catalogProduct } from "./catalogProduct";
+import { productCategory } from "./productCategory";
 import { portfolioProject } from "./portfolioProject";
 import { teamMember } from "./teamMember";
 import { showcaseVideo } from "./showcaseVideo";
@@ -25,6 +26,7 @@ export const schemaTypes = [
   // Collection Items
   serviceItem,
   catalogProduct,
+  productCategory,
   portfolioProject,
   teamMember,
 ];

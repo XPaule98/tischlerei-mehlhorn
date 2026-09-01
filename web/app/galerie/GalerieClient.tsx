@@ -159,9 +159,12 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const displayedProjects = filtered.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  const handleCategoryChange = (category: string) => {
+  const handleCategoryChange = (category: string, e?: React.MouseEvent<HTMLButtonElement>) => {
     setActiveCategory(category);
     setCurrentPage(1);
+    if (e) {
+      e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    }
   };
 
   const handlePageChange = (page: number) => {
@@ -186,14 +189,14 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
 
   return (
     <>
-      {/* Category Filter Toolbar – 100% Emoji-Free & Clean */}
+      {/* Category Filter Toolbar – 100% Emoji-Free, Clean & Auto-Centering on Mobile */}
       <section className="bg-[#F9F9F8] py-3.5 border-b border-[#E8E8E6] sticky top-[72px] z-30 backdrop-blur-md bg-[#F9F9F8]/95">
-        <div className="container-site flex items-center justify-start sm:justify-center overflow-x-auto scrollbar-none gap-2">
+        <div className="container-site flex items-center justify-start sm:justify-center overflow-x-auto scrollbar-none gap-2 px-4 sm:px-0">
           {categoryTabs.map((tab) => (
             <button
               key={tab.value}
-              onClick={() => handleCategoryChange(tab.value)}
-              className={`px-4 py-1.5 rounded text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+              onClick={(e) => handleCategoryChange(tab.value, e)}
+              className={`px-4 py-2 rounded text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer flex-shrink-0 ${
                 activeCategory === tab.value
                   ? "bg-[#181818] text-white shadow-xs"
                   : "bg-white text-[#555555] border border-[#E8E8E6] hover:bg-[#F2F2F0]"

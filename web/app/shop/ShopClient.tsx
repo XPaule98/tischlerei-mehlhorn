@@ -11,6 +11,7 @@ export interface ShopProduct {
   title: string;
   price?: number;
   category?: string;
+  categorySlug?: string;
   woodType?: string;
   dimensions?: string;
   description?: string;
@@ -19,12 +20,19 @@ export interface ShopProduct {
   available?: boolean;
 }
 
+export interface ShopCategory {
+  _id: string;
+  title: string;
+  slug: string;
+}
+
 const fallbackShopProducts: ShopProduct[] = [
   {
     _id: "prod-schneidebrett-xl",
     id: "schneidebrett-xl",
     title: "Schneidebrett Hirnholz XL",
-    category: "schneidebretter",
+    category: "Schneidebretter",
+    categorySlug: "schneidebretter",
     woodType: "Eiche massiv",
     dimensions: "40 × 30 × 5 cm",
     price: 89.0,
@@ -36,7 +44,8 @@ const fallbackShopProducts: ShopProduct[] = [
     _id: "prod-wandregal-eiche",
     id: "wandregal-eiche",
     title: "Schwebendes Wandregal Eiche",
-    category: "regale",
+    category: "Wandregale & Borde",
+    categorySlug: "regale",
     woodType: "Eiche mit Natur-Baumkante",
     dimensions: "80 × 20 × 4 cm",
     price: 129.0,
@@ -48,7 +57,8 @@ const fallbackShopProducts: ShopProduct[] = [
     _id: "prod-schneidebrett-streifen",
     id: "schneidebrett-streifen",
     title: "Schneidebrett Streifendesign",
-    category: "schneidebretter",
+    category: "Schneidebretter",
+    categorySlug: "schneidebretter",
     woodType: "Eiche & Buche",
     dimensions: "35 × 22 × 3 cm",
     price: 54.0,
@@ -60,7 +70,8 @@ const fallbackShopProducts: ShopProduct[] = [
     _id: "prod-servierbrett",
     id: "servierbrett",
     title: "Servierbrett Eiche mit Griff",
-    category: "schneidebretter",
+    category: "Schneidebretter",
+    categorySlug: "schneidebretter",
     woodType: "Eiche massiv",
     dimensions: "45 × 18 × 2,5 cm",
     price: 45.0,
@@ -70,7 +81,12 @@ const fallbackShopProducts: ShopProduct[] = [
   },
 ];
 
-export default function ShopClient({ initialProducts }: { initialProducts?: ShopProduct[] }) {
+interface ShopClientProps {
+  initialProducts?: ShopProduct[];
+  categories?: ShopCategory[];
+}
+
+export default function ShopClient({ initialProducts, categories }: ShopClientProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("alle");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<DrawerProduct | null>(null);
@@ -78,29 +94,37 @@ export default function ShopClient({ initialProducts }: { initialProducts?: Shop
   const productList =
     initialProducts && initialProducts.length > 0 ? initialProducts : fallbackShopProducts;
 
-  // Extract unique categories present in the products
-  const categoryMap: Record<string, string> = {
-    schneidebretter: "Schneidebretter",
-    regale: "Wandregale & Borde",
-    deko: "Wohnaccessoires & Deko",
-  };
+  // Build filter tabs from CMS categories or products
+  let tabs = [{ value: "alle", label: "Alle Werkstücke" }];
 
-  const availableCategories = Array.from(
-    new Set(productList.map((p) => p.category).filter(Boolean))
-  ) as string[];
+  if (categories && categories.length > 0) {
+    categories.forEach((cat) => {
+      tabs.push({ value: cat.slug || cat.title.toLowerCase(), label: cat.title });
+    });
+  } else {
+    const uniqueCats = Array.from(
+      new Set(productList.map((p) => p.categorySlug || p.category).filter(Boolean))
+    ) as string[];
 
-  const tabs = [
-    { value: "alle", label: "Alle Werkstücke" },
-    ...availableCategories.map((cat) => ({
-      value: cat,
-      label: categoryMap[cat] || cat.charAt(0).toUpperCase() + cat.slice(1),
-    })),
-  ];
+    uniqueCats.forEach((c) => {
+      tabs.push({ value: c, label: c.charAt(0).toUpperCase() + c.slice(1) });
+    });
+  }
 
   const filtered =
     selectedCategory === "alle"
       ? productList
-      : productList.filter((p) => p.category === selectedCategory);
+      : productList.filter(
+          (p) =>
+            p.categorySlug === selectedCategory ||
+            p.category?.toLowerCase() === selectedCategory.toLowerCase() ||
+            p.category === selectedCategory
+        );
+
+  const handleTabClick = (val: string, e: React.MouseEvent<HTMLButtonElement>) => {
+    setSelectedCategory(val);
+    e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
 
   const handleInquiry = (product: ShopProduct, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -117,8 +141,8 @@ export default function ShopClient({ initialProducts }: { initialProducts?: Shop
   return (
     <>
       {/* Benefits Bar */}
-      <section className="bg-[#F9F9F8] py-3.5 border-b border-[#E8E8E6]">
-        <div className="container-site grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+      <section className="bg-[#F9F9F8] py-3 border-b border-[#E8E8E6]">
+        <div className="container-site grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-center">
           <div className="flex items-center justify-center gap-2 text-xs font-medium text-[#181818]">
             <Sparkles size={13} className="text-[#8C6D4F]" />
             100% Massivholz & Handarbeit
@@ -134,28 +158,30 @@ export default function ShopClient({ initialProducts }: { initialProducts?: Shop
         </div>
       </section>
 
+      {/* Horizontal Scrollable Sticky Filter Toolbar */}
+      {tabs.length > 1 && (
+        <section className="bg-[#F9F9F8] py-3 border-b border-[#E8E8E6] sticky top-[72px] z-30 backdrop-blur-md bg-[#F9F9F8]/95">
+          <div className="container-site flex items-center justify-start sm:justify-center overflow-x-auto scrollbar-none gap-2 px-4 sm:px-0">
+            {tabs.map((tab) => (
+              <button
+                key={tab.value}
+                onClick={(e) => handleTabClick(tab.value, e)}
+                className={`px-4 py-2 rounded text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer flex-shrink-0 ${
+                  selectedCategory === tab.value
+                    ? "bg-[#181818] text-white shadow-xs"
+                    : "bg-white text-[#555555] border border-[#E8E8E6] hover:bg-[#F2F2F0]"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Product Catalog */}
       <section className="py-12 md:py-16 bg-[#FFFFFF]">
         <div className="container-site">
-          {/* Filter Tabs (only show if multiple categories exist) */}
-          {tabs.length > 2 && (
-            <div className="flex flex-wrap justify-center gap-2 mb-10 md:mb-12">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.value}
-                  onClick={() => setSelectedCategory(tab.value)}
-                  className={`px-4 sm:px-5 py-2 rounded text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer ${
-                    selectedCategory === tab.value
-                      ? "bg-[#181818] text-white shadow-xs"
-                      : "bg-white text-[#555555] border border-[#E8E8E6] hover:bg-[#F9F9F8]"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          )}
-
           {/* Products Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filtered.map((product) => {
@@ -178,13 +204,13 @@ export default function ShopClient({ initialProducts }: { initialProducts?: Shop
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         {product.woodType && (
-                          <div className="absolute top-3 left-3 bg-[#181818]/90 text-white text-[11px] px-2.5 py-1 rounded font-medium">
+                          <div className="absolute top-3 left-3 bg-[#181818]/90 text-white text-[11px] px-2.5 py-1 rounded font-medium backdrop-blur-xs">
                             {product.woodType}
                           </div>
                         )}
                       </div>
                     ) : (
-                      <div className="h-28 rounded bg-[#F9F9F8] border border-[#E8E8E6] flex items-center justify-center mb-4 text-[#777777] text-xs">
+                      <div className="h-28 rounded bg-[#F9F9F8] border border-[#E8E8E6] flex items-center justify-center mb-4 text-[#777777] text-xs font-medium">
                         Handgefertigtes Werkstück
                       </div>
                     )}
@@ -208,7 +234,7 @@ export default function ShopClient({ initialProducts }: { initialProducts?: Shop
                       </p>
                     )}
 
-                    {/* Optional Meta Specs (Only rendered if at least one is provided) */}
+                    {/* Optional Meta Specs (Only rendered if provided) */}
                     {hasMeta && (
                       <div className="space-y-1 border-t border-[#F2F2F0] pt-3 mb-4 text-xs text-[#666666]">
                         {product.dimensions && (
@@ -227,7 +253,7 @@ export default function ShopClient({ initialProducts }: { initialProducts?: Shop
                     )}
                   </div>
 
-                  {/* Price & Actions (Mandatory / Handled gracefully) */}
+                  {/* Price & Actions */}
                   <div className="pt-3.5 border-t border-[#F2F2F0] mt-auto">
                     <div className="flex items-baseline justify-between gap-2 mb-3">
                       <span className="text-2xl font-bold text-[#181818] whitespace-nowrap">
@@ -254,6 +280,21 @@ export default function ShopClient({ initialProducts }: { initialProducts?: Shop
               );
             })}
           </div>
+
+          {/* Empty state fallback */}
+          {filtered.length === 0 && (
+            <div className="text-center py-16 bg-[#F9F9F8] rounded-lg border border-[#E8E8E6]">
+              <p className="text-[#555555] text-sm">
+                In dieser Kategorie sind aktuell keine Werkstücke verfügbar.
+              </p>
+              <button
+                onClick={() => setSelectedCategory("alle")}
+                className="btn btn-outline-dark text-xs mt-3 cursor-pointer"
+              >
+                Alle Werkstücke anzeigen
+              </button>
+            </div>
+          )}
 
           {/* Custom order notice */}
           <div className="mt-14 bg-[#F9F9F8] border border-[#E8E8E6] rounded-lg p-6 sm:p-8 max-w-xl mx-auto text-center">

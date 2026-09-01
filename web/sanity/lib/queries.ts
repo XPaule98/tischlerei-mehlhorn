@@ -98,6 +98,15 @@ export const SHOP_PAGE_QUERY = defineQuery(`
   }
 `);
 
+export const PRODUCT_CATEGORIES_QUERY = defineQuery(`
+  *[_type == "productCategory"] | order(order asc, _createdAt asc) {
+    _id,
+    title,
+    "slug": slug.current,
+    order
+  }
+`);
+
 export const CONTACT_PAGE_QUERY = defineQuery(`
   *[_id == "contactPage"][0] {
     badge,
@@ -138,7 +147,8 @@ export const PRODUCTS_QUERY = defineQuery(`
   *[_type == "catalogProduct"] {
     _id,
     title,
-    category,
+    "category": coalesce(categoryRef->title, categoryRef->slug.current, category),
+    "categorySlug": coalesce(categoryRef->slug.current, category),
     woodType,
     dimensions,
     price,

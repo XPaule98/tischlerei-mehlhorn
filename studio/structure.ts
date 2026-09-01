@@ -102,6 +102,7 @@ export const structure: StructureResolver = (S) =>
                     .documentId("shopPage")
                     .title("Shop Kopfbereich")
                 ),
+              S.documentTypeListItem("productCategory").title("Kategorien (Filter verwalten)"),
               S.documentTypeListItem("catalogProduct").title("Werkstücke & Produkte"),
             ])
         ),
