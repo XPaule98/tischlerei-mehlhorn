@@ -17,6 +17,52 @@ export const HERO_QUERY = defineQuery(`
   }
 `);
 
+export const SERVICES_PAGE_QUERY = defineQuery(`
+  *[_id == "servicesPage"][0] {
+    badge,
+    title,
+    subtitle,
+    "headerImageUrl": headerImage.asset->url
+  }
+`);
+
+export const ABOUT_PAGE_QUERY = defineQuery(`
+  *[_id == "aboutPage"][0] {
+    badge,
+    headline,
+    introText,
+    "headerImageUrl": headerImage.asset->url,
+    milestones
+  }
+`);
+
+export const GALLERY_PAGE_QUERY = defineQuery(`
+  *[_id == "galleryPage"][0] {
+    badge,
+    title,
+    subtitle,
+    "headerImageUrl": headerImage.asset->url
+  }
+`);
+
+export const SHOP_PAGE_QUERY = defineQuery(`
+  *[_id == "shopPage"][0] {
+    badge,
+    title,
+    subtitle,
+    "headerImageUrl": headerImage.asset->url
+  }
+`);
+
+export const CONTACT_PAGE_QUERY = defineQuery(`
+  *[_id == "contactPage"][0] {
+    badge,
+    title,
+    subtitle,
+    "headerImageUrl": headerImage.asset->url
+  }
+`);
+
 export const COMPANY_INFO_QUERY = defineQuery(`
   *[_id == "companyInfo"][0] {
     companyName,
@@ -53,13 +99,5 @@ export const PRODUCTS_QUERY = defineQuery(`
     available,
     description,
     "imageUrl": images[0].asset->url
-  }
-`);
-
-export const ABOUT_QUERY = defineQuery(`
-  *[_id == "aboutPage"][0] {
-    headline,
-    introText,
-    milestones
   }
 `);

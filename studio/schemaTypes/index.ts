@@ -1,15 +1,26 @@
 import { heroSettings } from "./heroSettings";
 import { companyInfo } from "./companyInfo";
 import { aboutPage } from "./aboutPage";
+import { servicesPage } from "./servicesPage";
+import { galleryPage } from "./galleryPage";
+import { shopPage } from "./shopPage";
+import { contactPage } from "./contactPage";
 import { serviceItem } from "./serviceItem";
-import { portfolioProject } from "./portfolioProject";
 import { catalogProduct } from "./catalogProduct";
+import { portfolioProject } from "./portfolioProject";
 
 export const schemaTypes = [
+  // Page Settings / Singletons
   heroSettings,
-  companyInfo,
+  servicesPage,
   aboutPage,
+  galleryPage,
+  shopPage,
+  contactPage,
+  companyInfo,
+
+  // Collection Items
   serviceItem,
-  portfolioProject,
   catalogProduct,
+  portfolioProject,
 ];
