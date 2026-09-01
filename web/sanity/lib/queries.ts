@@ -14,6 +14,18 @@ export const HERO_QUERY = defineQuery(`
   }
 `);
 
+export const SHOWCASE_VIDEO_QUERY = defineQuery(`
+  *[_id == "showcaseVideo"][0] {
+    title,
+    videoDesktopUrl,
+    videoMobileUrl,
+    "posterImageUrl": posterImage.asset->url,
+    badge,
+    headline,
+    subheadline
+  }
+`);
+
 export const SERVICES_PAGE_QUERY = defineQuery(`
   *[_id == "servicesPage"][0] {
     badge,

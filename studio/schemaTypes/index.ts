@@ -9,10 +9,12 @@ import { serviceItem } from "./serviceItem";
 import { catalogProduct } from "./catalogProduct";
 import { portfolioProject } from "./portfolioProject";
 import { teamMember } from "./teamMember";
+import { showcaseVideo } from "./showcaseVideo";
 
 export const schemaTypes = [
   // Page Settings / Singletons
   heroSettings,
+  showcaseVideo,
   servicesPage,
   aboutPage,
   galleryPage,

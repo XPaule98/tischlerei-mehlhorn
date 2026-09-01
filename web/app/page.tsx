@@ -2,17 +2,22 @@ import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
-import BeforeAfterSlider from "@/components/sections/BeforeAfterSlider";
+import FullwidthVideoSection from "@/components/sections/FullwidthVideoSection";
 import { client } from "@/sanity/lib/client";
-import { HERO_QUERY } from "@/sanity/lib/queries";
-import { ArrowRight, Check, ShoppingBag, Shield, Hammer, Clock } from "lucide-react";
+import { HERO_QUERY, SHOWCASE_VIDEO_QUERY } from "@/sanity/lib/queries";
+import { ArrowRight, Check, ShoppingBag } from "lucide-react";
 
 export const revalidate = 30;
 
 export default async function HomePage() {
   let heroData = null;
+  let videoData = null;
+
   try {
-    heroData = await client.fetch(HERO_QUERY, {}, { next: { revalidate: 30 } });
+    [heroData, videoData] = await Promise.all([
+      client.fetch(HERO_QUERY, {}, { next: { revalidate: 30 } }),
+      client.fetch(SHOWCASE_VIDEO_QUERY, {}, { next: { revalidate: 30 } }),
+    ]);
   } catch (e) {
     // Fallback gracefully
   }
@@ -21,7 +26,7 @@ export default async function HomePage() {
     <>
       <Header />
       <main id="main-content">
-        {/* 1. Fullscreen Hero Section */}
+        {/* 1. Fullscreen Hero Section with Calm Permanent Text */}
         <HeroSection data={heroData} />
 
         {/* 2. Story Section – Clean & Natural */}
@@ -128,7 +133,7 @@ export default async function HomePage() {
                   </div>
                 </div>
                 <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-4">
-                  <Link href="/leistungen#eigenfertigung" className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors">
+                  <Link href="/leistungen" className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors">
                     Mehr erfahren <ArrowRight size={12} />
                   </Link>
                 </div>
@@ -160,7 +165,7 @@ export default async function HomePage() {
                   </div>
                 </div>
                 <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-4">
-                  <Link href="/leistungen#eigenfertigung" className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors">
+                  <Link href="/leistungen" className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors">
                     Mehr erfahren <ArrowRight size={12} />
                   </Link>
                 </div>
@@ -192,7 +197,7 @@ export default async function HomePage() {
                   </div>
                 </div>
                 <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-4">
-                  <Link href="/leistungen#eigenfertigung" className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors">
+                  <Link href="/leistungen" className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors">
                     Mehr erfahren <ArrowRight size={12} />
                   </Link>
                 </div>
@@ -210,19 +215,21 @@ export default async function HomePage() {
                   Wir montieren geprüfte Bauelemente führender Markenhersteller sauber, zuverlässig und nach RAL-Standards.
                 </p>
               </div>
-              <Link href="/leistungen#bauelemente" className="btn btn-outline-dark text-xs flex-shrink-0">
+              <Link href="/leistungen" className="btn btn-outline-dark text-xs flex-shrink-0">
                 Bauelemente ansehen
               </Link>
             </div>
           </div>
         </section>
 
-        {/* 4. Vorher / Nachher Showcase */}
-        <BeforeAfterSlider
-          beforeSrc="/images/real/werkstatt-2.jpg"
-          afterSrc="/images/real/wintergarten-1.jpg"
-          beforeLabel="Werkstattfertigung Schönheide"
-          afterLabel="Montage beim Kunden"
+        {/* 4. Fullwidth Continuous Video Banner (replaces slider) */}
+        <FullwidthVideoSection
+          videoDesktopUrl={videoData?.videoDesktopUrl}
+          videoMobileUrl={videoData?.videoMobileUrl}
+          posterImageUrl={videoData?.posterImageUrl || "/images/real/werkstatt-2.jpg"}
+          badge={videoData?.badge}
+          headline={videoData?.headline}
+          subheadline={videoData?.subheadline}
         />
 
         {/* 5. Shop Highlights */}
@@ -248,12 +255,12 @@ export default async function HomePage() {
               {/* Product 1 */}
               <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white">
                 <div>
-                  <Link href="/shop/schneidebrett-xl" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
+                  <Link href="/shop" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/catalog-schneidebrett.jpg" alt="Schneidebrett Hirnholz XL" className="w-full h-full object-cover" />
                   </Link>
                   <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">Eiche massiv</span>
-                  <Link href="/shop/schneidebrett-xl">
+                  <Link href="/shop">
                     <h3 className="text-lg font-bold text-[#181818] mb-1 hover:underline">
                       Schneidebrett Hirnholz XL
                     </h3>
@@ -265,7 +272,7 @@ export default async function HomePage() {
                     <span className="text-xl font-bold text-[#181818] whitespace-nowrap">89,00 €</span>
                     <span className="text-[11px] text-[#777777] whitespace-nowrap">inkl. 19% MwSt.</span>
                   </div>
-                  <Link href="/shop/schneidebrett-xl" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
+                  <Link href="/shop" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
                     <ShoppingBag size={13} />
                     Details & Anfragen
                   </Link>
@@ -275,12 +282,12 @@ export default async function HomePage() {
               {/* Product 2 */}
               <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white">
                 <div>
-                  <Link href="/shop/wandregal-eiche" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
+                  <Link href="/shop" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/catalog-regal.jpg" alt="Wandregal Eiche massiv" className="w-full h-full object-cover" />
                   </Link>
                   <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">Massiveiche</span>
-                  <Link href="/shop/wandregal-eiche">
+                  <Link href="/shop">
                     <h3 className="text-lg font-bold text-[#181818] mb-1 hover:underline">
                       Schwebendes Wandregal Eiche
                     </h3>
@@ -292,7 +299,7 @@ export default async function HomePage() {
                     <span className="text-xl font-bold text-[#181818] whitespace-nowrap">129,00 €</span>
                     <span className="text-[11px] text-[#777777] whitespace-nowrap">inkl. 19% MwSt.</span>
                   </div>
-                  <Link href="/shop/wandregal-eiche" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
+                  <Link href="/shop" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
                     <ShoppingBag size={13} />
                     Details & Anfragen
                   </Link>
@@ -302,12 +309,12 @@ export default async function HomePage() {
               {/* Product 3 */}
               <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white">
                 <div>
-                  <Link href="/shop/schneidebrett-streifen" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
+                  <Link href="/shop" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/catalog-schneidebrett.jpg" alt="Schneidebrett Streifendesign" className="w-full h-full object-cover" />
                   </Link>
                   <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">Eiche & Buche</span>
-                  <Link href="/shop/schneidebrett-streifen">
+                  <Link href="/shop">
                     <h3 className="text-lg font-bold text-[#181818] mb-1 hover:underline">
                       Schneidebrett Streifendesign
                     </h3>
@@ -319,7 +326,7 @@ export default async function HomePage() {
                     <span className="text-xl font-bold text-[#181818] whitespace-nowrap">54,00 €</span>
                     <span className="text-[11px] text-[#777777] whitespace-nowrap">inkl. 19% MwSt.</span>
                   </div>
-                  <Link href="/shop/schneidebrett-streifen" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
+                  <Link href="/shop" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
                     <ShoppingBag size={13} />
                     Details & Anfragen
                   </Link>

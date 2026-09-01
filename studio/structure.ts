@@ -6,99 +6,115 @@ export const structure: StructureResolver = (S) =>
     .items([
       // 1. Startseite
       S.listItem()
-        .title("🖼️ Startseite (Hero-Slides & Intro)")
+        .title("Startseite")
         .child(
-          S.document()
-            .schemaType("heroSettings")
-            .documentId("heroSettings")
-            .title("Hero-Bereich Startseite")
+          S.list()
+            .title("Startseite verwalten")
+            .items([
+              S.listItem()
+                .title("Hero-Bereich & Slideshow")
+                .child(
+                  S.document()
+                    .schemaType("heroSettings")
+                    .documentId("heroSettings")
+                    .title("Hero-Bereich Startseite")
+                ),
+              S.listItem()
+                .title("Fullwidth Video-Sektion")
+                .child(
+                  S.document()
+                    .schemaType("showcaseVideo")
+                    .documentId("showcaseVideo")
+                    .title("Fullwidth Video-Sektion")
+                ),
+            ])
         ),
 
       // 2. Leistungen
       S.listItem()
-        .title("🪵 Leistungen (Kopfbereich & Gewerke)")
+        .title("Leistungen")
         .child(
           S.list()
             .title("Leistungen verwalten")
             .items([
               S.listItem()
-                .title("📄 Seiten-Kopfbereich (Titel & Bild)")
+                .title("Seiten-Kopfbereich (Titel & Bild)")
                 .child(
                   S.document()
                     .schemaType("servicesPage")
                     .documentId("servicesPage")
                     .title("Leistungen Kopfbereich")
                 ),
-              S.documentTypeListItem("serviceItem").title("🛠️ Gewerke-Liste"),
+              S.documentTypeListItem("serviceItem").title("Gewerke-Liste"),
             ])
         ),
 
       // 3. Über uns & Team
       S.listItem()
-        .title("📖 Über uns & Team")
+        .title("Über uns & Team")
         .child(
           S.list()
             .title("Über uns verwalten")
             .items([
               S.listItem()
-                .title("📄 Über uns (Texte, Video & Werkstatt-Galerie)")
+                .title("Über uns (Texte & Werkstatt-Galerie)")
                 .child(
                   S.document()
                     .schemaType("aboutPage")
                     .documentId("aboutPage")
                     .title("Über uns Seite")
                 ),
-              S.documentTypeListItem("teamMember").title("👥 Mitarbeiter & Team"),
+              S.documentTypeListItem("teamMember").title("Mitarbeiter & Team"),
             ])
         ),
 
       // 4. Galerie
       S.listItem()
-        .title("📸 Galerie & Referenzen")
+        .title("Galerie & Referenzen")
         .child(
           S.list()
             .title("Galerie verwalten")
             .items([
               S.listItem()
-                .title("📄 Seiten-Kopfbereich (Titel & Bild/Video)")
+                .title("Seiten-Kopfbereich (Titel & Bild/Video)")
                 .child(
                   S.document()
                     .schemaType("galleryPage")
                     .documentId("galleryPage")
                     .title("Galerie Kopfbereich")
                 ),
-              S.documentTypeListItem("portfolioProject").title("🖼️ Referenz-Projekte"),
+              S.documentTypeListItem("portfolioProject").title("Referenz-Projekte"),
             ])
         ),
 
       // 5. Shop & Deko
       S.listItem()
-        .title("🛍️ Shop & Deko")
+        .title("Shop & Deko")
         .child(
           S.list()
             .title("Shop verwalten")
             .items([
               S.listItem()
-                .title("📄 Seiten-Kopfbereich (Titel & Bild)")
+                .title("Seiten-Kopfbereich (Titel & Bild)")
                 .child(
                   S.document()
                     .schemaType("shopPage")
                     .documentId("shopPage")
                     .title("Shop Kopfbereich")
                 ),
-              S.documentTypeListItem("catalogProduct").title("🪵 Werkstücke & Produkte"),
+              S.documentTypeListItem("catalogProduct").title("Werkstücke & Produkte"),
             ])
         ),
 
       // 6. Kontakt & Firmendaten
       S.listItem()
-        .title("✉️ Kontaktseite & Firmendaten")
+        .title("Kontaktseite & Firmendaten")
         .child(
           S.list()
             .title("Kontakt verwalten")
             .items([
               S.listItem()
-                .title("📄 Seiten-Kopfbereich (Titel & Bild)")
+                .title("Seiten-Kopfbereich (Titel & Bild)")
                 .child(
                   S.document()
                     .schemaType("contactPage")
@@ -106,7 +122,7 @@ export const structure: StructureResolver = (S) =>
                     .title("Kontakt Kopfbereich")
                 ),
               S.listItem()
-                .title("🏢 Firmendaten, Telefon & Zeiten")
+                .title("Firmendaten, Telefon & Zeiten")
                 .child(
                   S.document()
                     .schemaType("companyInfo")
