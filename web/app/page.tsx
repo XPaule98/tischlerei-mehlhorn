@@ -252,72 +252,90 @@ export default async function HomePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Product 1 */}
-              <div className="craft-card rounded-lg p-6 flex flex-col justify-between">
+              <div className="craft-card rounded-lg p-5 sm:p-6 flex flex-col justify-between h-full">
                 <div>
-                  <Link href="/shop/schneidebrett-xl" className="block relative h-56 rounded overflow-hidden mb-5 bg-[#FAF8F5]">
+                  <Link href="/shop/schneidebrett-xl" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-5 bg-[#FAF8F5]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/catalog-schneidebrett.jpg" alt="Schneidebrett Hirnholz XL" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                   </Link>
-                  <span className="text-xs font-semibold text-[#8C6D4F] uppercase tracking-wider block mb-1">Eiche massiv</span>
+                  <span className="text-xs font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">Eiche massiv</span>
                   <Link href="/shop/schneidebrett-xl">
-                    <h4 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-1 hover:underline">
+                    <h3 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-1 hover:underline">
                       Schneidebrett Hirnholz XL
-                    </h4>
+                    </h3>
                   </Link>
                   <p className="text-xs text-[#6B635B] mb-4">40 × 30 × 5 cm · Stirnholz geölt</p>
-                  <div className="font-serif-heading text-2xl text-[#1E1A17] font-semibold">89,00 €</div>
-                  <span className="text-[11px] text-[#8C8277] block mt-0.5">inkl. MwSt.</span>
                 </div>
-                <Link href="/shop/schneidebrett-xl" className="btn btn-outline-dark text-xs py-2.5 w-full mt-5 flex items-center justify-center gap-2">
-                  <ShoppingBag size={13} />
-                  Details & anfragen
-                </Link>
+                <div className="pt-4 border-t border-[#F3ECE2] mt-auto">
+                  <div className="flex items-baseline justify-between gap-2 mb-3">
+                    <span className="font-serif-heading text-2xl font-bold text-[#1E1A17] whitespace-nowrap">
+                      89,00 €
+                    </span>
+                    <span className="text-[11px] text-[#8C8277] whitespace-nowrap">inkl. MwSt.</span>
+                  </div>
+                  <Link href="/shop/schneidebrett-xl" className="btn btn-wood text-xs py-2.5 w-full flex items-center justify-center gap-2 font-medium">
+                    <ShoppingBag size={13} />
+                    Details & Anfragen
+                  </Link>
+                </div>
               </div>
 
               {/* Product 2 */}
-              <div className="craft-card rounded-lg p-6 flex flex-col justify-between">
+              <div className="craft-card rounded-lg p-5 sm:p-6 flex flex-col justify-between h-full">
                 <div>
-                  <Link href="/shop/wandregal-eiche" className="block relative h-56 rounded overflow-hidden mb-5 bg-[#FAF8F5]">
+                  <Link href="/shop/wandregal-eiche" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-5 bg-[#FAF8F5]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/catalog-regal.jpg" alt="Wandregal Eiche massiv" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                   </Link>
-                  <span className="text-xs font-semibold text-[#8C6D4F] uppercase tracking-wider block mb-1">Massiveiche</span>
+                  <span className="text-xs font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">Massiveiche</span>
                   <Link href="/shop/wandregal-eiche">
-                    <h4 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-1 hover:underline">
+                    <h3 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-1 hover:underline">
                       Schwebendes Wandregal Eiche
-                    </h4>
+                    </h3>
                   </Link>
                   <p className="text-xs text-[#6B635B] mb-4">80 × 20 × 4 cm · Baumkante</p>
-                  <div className="font-serif-heading text-2xl text-[#1E1A17] font-semibold">129,00 €</div>
-                  <span className="text-[11px] text-[#8C8277] block mt-0.5">inkl. MwSt.</span>
                 </div>
-                <Link href="/shop/wandregal-eiche" className="btn btn-outline-dark text-xs py-2.5 w-full mt-5 flex items-center justify-center gap-2">
-                  <ShoppingBag size={13} />
-                  Details & anfragen
-                </Link>
+                <div className="pt-4 border-t border-[#F3ECE2] mt-auto">
+                  <div className="flex items-baseline justify-between gap-2 mb-3">
+                    <span className="font-serif-heading text-2xl font-bold text-[#1E1A17] whitespace-nowrap">
+                      129,00 €
+                    </span>
+                    <span className="text-[11px] text-[#8C8277] whitespace-nowrap">inkl. MwSt.</span>
+                  </div>
+                  <Link href="/shop/wandregal-eiche" className="btn btn-wood text-xs py-2.5 w-full flex items-center justify-center gap-2 font-medium">
+                    <ShoppingBag size={13} />
+                    Details & Anfragen
+                  </Link>
+                </div>
               </div>
 
               {/* Product 3 */}
-              <div className="craft-card rounded-lg p-6 flex flex-col justify-between">
+              <div className="craft-card rounded-lg p-5 sm:p-6 flex flex-col justify-between h-full">
                 <div>
-                  <Link href="/shop/schneidebrett-streifen" className="block relative h-56 rounded overflow-hidden mb-5 bg-[#FAF8F5]">
+                  <Link href="/shop/schneidebrett-streifen" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-5 bg-[#FAF8F5]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/images/catalog-schneidebrett.jpg" alt="Schneidebrett Streifendesign" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                   </Link>
-                  <span className="text-xs font-semibold text-[#8C6D4F] uppercase tracking-wider block mb-1">Eiche & Buche</span>
+                  <span className="text-xs font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">Eiche & Buche</span>
                   <Link href="/shop/schneidebrett-streifen">
-                    <h4 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-1 hover:underline">
+                    <h3 className="font-serif-heading text-xl text-[#1E1A17] font-medium mb-1 hover:underline">
                       Schneidebrett Streifendesign
-                    </h4>
+                    </h3>
                   </Link>
                   <p className="text-xs text-[#6B635B] mb-4">35 × 22 × 3 cm · Zweifarbig verleimt</p>
-                  <div className="font-serif-heading text-2xl text-[#1E1A17] font-semibold">54,00 €</div>
-                  <span className="text-[11px] text-[#8C8277] block mt-0.5">inkl. MwSt.</span>
                 </div>
-                <Link href="/shop/schneidebrett-streifen" className="btn btn-outline-dark text-xs py-2.5 w-full mt-5 flex items-center justify-center gap-2">
-                  <ShoppingBag size={13} />
-                  Details & anfragen
-                </Link>
+                <div className="pt-4 border-t border-[#F3ECE2] mt-auto">
+                  <div className="flex items-baseline justify-between gap-2 mb-3">
+                    <span className="font-serif-heading text-2xl font-bold text-[#1E1A17] whitespace-nowrap">
+                      54,00 €
+                    </span>
+                    <span className="text-[11px] text-[#8C8277] whitespace-nowrap">inkl. MwSt.</span>
+                  </div>
+                  <Link href="/shop/schneidebrett-streifen" className="btn btn-wood text-xs py-2.5 w-full flex items-center justify-center gap-2 font-medium">
+                    <ShoppingBag size={13} />
+                    Details & Anfragen
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
