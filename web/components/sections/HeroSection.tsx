@@ -24,13 +24,13 @@ export interface HeroData {
 
 const defaultImages = [
   "/images/real/gebaeude-1.jpg",
-  "/images/real/fenster-holzalu-buendig.jpg",
-  "/images/real/tuer-5.jpg",
-  "/images/real/wintergarten-1.jpg",
   "/images/real/werkstatt-2.jpg",
+  "/images/real/fenster-holzalu-buendig.jpg",
+  "/images/real/werkstatt-3.jpg",
+  "/images/real/wintergarten-1.jpg",
 ];
 
-const SLIDE_DURATION = 6500; // Fixed calm slide duration (6.5 seconds)
+const SLIDE_DURATION = 6500;
 
 export default function HeroSection({ data }: { data?: HeroData | null }) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -46,7 +46,6 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
   const currentSlide = slideItems[currentSlideIndex] || slideItems[0];
 
   // Default global texts
-  const defaultBadge = data?.craftBadge || "Meisterbetrieb seit 1977 · Schönheide (Erzgebirge)";
   const defaultTitle = data?.title || "Präzision in Holz. Beständigkeit für Generationen.";
   const defaultSubtitle =
     data?.subtitle ||
@@ -86,7 +85,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
       className="relative min-h-screen min-h-[100dvh] flex items-center overflow-hidden bg-[#141414] text-white"
       aria-label="Tischlerei Mehlhorn Startseite"
     >
-      {/* Background Slideshow – Enhanced Visibility (Less Dark) */}
+      {/* Background Slideshow Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {videoUrl ? (
           <video
@@ -94,7 +93,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover opacity-60 object-center"
           >
             <source src={videoUrl} type="video/mp4" />
           </video>
@@ -104,8 +103,8 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
             return (
               <div
                 key={slide.imageUrl || index}
-                className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${
-                  isActive ? "opacity-55" : "opacity-0"
+                className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                  isActive ? "opacity-60 z-10" : "opacity-0 z-0"
                 }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -119,34 +118,27 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
           })
         )}
 
-        {/* Softened Natural Vignette Overlay for better image clarity */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#141414]/90 via-[#141414]/35 to-[#141414]/15" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#141414]/65 via-transparent to-[#141414]/15" />
+        {/* Rock-solid contrast gradient for flawless text readability on ALL screens */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#141414]/95 via-[#141414]/75 to-transparent w-full md:w-[70%]" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#141414] via-[#141414]/50 to-transparent" />
       </div>
 
       {/* Hero Content Area */}
-      <div className="container-site relative z-10 pt-28 pb-20 md:pt-36 md:pb-28">
+      <div className="container-site relative z-20 pt-28 pb-20 md:pt-36 md:pb-28">
         <div className="max-w-2xl">
-          {/* Badge: Always stays firmly and calmly in place */}
-          <div className="inline-block mb-4">
-            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/90 border-b border-white/30 pb-0.5 drop-shadow-xs">
-              {defaultBadge}
-            </span>
-          </div>
-
           {/* Headline & Subtitle */}
           {!hasCustomTexts ? (
             /* Case 1: Standard text stays completely STATIC with ZERO jumpiness or flickering */
             <div>
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight drop-shadow-sm">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight drop-shadow-md">
                 {defaultTitle}
               </h1>
-              <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal drop-shadow-xs">
+              <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal drop-shadow-sm">
                 {defaultSubtitle}
               </p>
             </div>
           ) : (
-            /* Case 2: Custom slide text with ultra-soft 1s cross-fade */
+            /* Case 2: Custom slide text with ultra-soft cross-fade */
             <div className="relative min-h-[160px] sm:min-h-[180px]">
               {slideItems.map((slide, index) => {
                 const isActive = index === currentSlideIndex;
@@ -156,16 +148,16 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
                 return (
                   <div
                     key={index}
-                    className={`transition-opacity duration-1000 ease-in-out ${
+                    className={`transition-opacity duration-700 ease-in-out ${
                       isActive
                         ? "opacity-100 relative z-10"
                         : "opacity-0 absolute inset-0 pointer-events-none z-0"
                     }`}
                   >
-                    <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight drop-shadow-sm">
+                    <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight drop-shadow-md">
                       {title}
                     </h1>
-                    <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal drop-shadow-xs">
+                    <p className="text-white/90 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-xl font-normal drop-shadow-sm">
                       {subtitle}
                     </p>
                   </div>
@@ -174,11 +166,11 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
             </div>
           )}
 
-          {/* CTA Buttons: Calm & solid */}
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <Link
               href={primaryLink}
-              className="btn bg-white text-[#181818] hover:bg-[#F0EFEB] font-semibold text-xs sm:text-sm py-3 px-6 rounded flex items-center justify-center gap-1.5 shadow-sm"
+              className="btn bg-white text-[#181818] hover:bg-[#F0EFEB] font-semibold text-xs sm:text-sm py-3 px-6 rounded flex items-center justify-center gap-1.5 shadow-md"
             >
               {primaryText}
               <ChevronRight size={15} />
