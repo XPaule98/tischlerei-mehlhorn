@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Phone, Mail, MapPin, Clock, ChevronRight, Loader2, CheckCircle, AlertCircle, Sparkles } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ChevronRight, Loader2, CheckCircle, AlertCircle, Smartphone, Printer } from "lucide-react";
 import { sendInquiryAction, type ActionResult } from "@/actions/sendInquiryAction";
 import { useActionState } from "react";
 
@@ -10,15 +10,16 @@ const initialState: ActionResult = { success: false, message: "", errors: undefi
 
 const gewerkeOptions = [
   "Allgemeine Anfrage",
-  "Holzfenster & Holz-Alu-Fenster",
-  "Hauseingangstüren (Massivholz)",
+  "Holzfenster (Eigene Fertigung / Denkmalschutz)",
+  "Holz-Aluminium-Fenster (Gutmann Mira)",
+  "Massivholz-Haustüren nach Maß",
   "Wintergärten & Glasbauten",
-  "Kunststoff- & Aluminiumfenster",
+  "Kunststofffenster (VEKA / Gealan)",
   "Innentüren & Zargen",
   "Garagentore & Antriebe",
   "Rollladen- & Klappläden",
-  "Dekoartikel / Werkstücke",
-  "Sonstiges / Reparatur",
+  "Dekoartikel / Werkstücke (Shop)",
+  "Reparatur & Wartung",
 ];
 
 function ContactForm() {
@@ -34,7 +35,6 @@ function ContactForm() {
   useEffect(() => {
     const g = searchParams.get("gewerk");
     if (g) {
-      // Find closest matching option or set directly
       const match = gewerkeOptions.find((opt) => opt.toLowerCase().includes(g.toLowerCase()));
       setSelectedGewerk(match || g);
     }
@@ -43,13 +43,13 @@ function ContactForm() {
   if (state.success) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center gap-4">
-        <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center">
-          <CheckCircle size={32} className="text-green-600" />
+        <div className="w-14 h-14 bg-[#F3ECE2] rounded-full flex items-center justify-center">
+          <CheckCircle size={30} className="text-[#8C6D4F]" />
         </div>
-        <h3 className="text-2xl font-bold text-[#121212]" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+        <h3 className="font-serif-heading text-2xl font-medium text-[#1E1A17]">
           Anfrage erfolgreich gesendet!
         </h3>
-        <p className="text-gray-600 max-w-sm leading-relaxed">{state.message}</p>
+        <p className="text-[#5E564E] text-sm max-w-sm leading-relaxed">{state.message}</p>
       </div>
     );
   }
@@ -58,14 +58,14 @@ function ContactForm() {
     <form action={formAction} className="space-y-5">
       {/* Error Banner */}
       {!state.success && state.message && (
-        <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded text-sm text-red-700">
           <AlertCircle size={16} className="text-red-500 mt-0.5 flex-shrink-0" />
-          <p className="text-sm text-red-700">{state.message}</p>
+          <p>{state.message}</p>
         </div>
       )}
 
       {/* Honeypot Spam Protection */}
-      <div className="absolute left-[-9999px] opacity-0" aria-hidden="true">
+      <div className="absolute left-[-9999px] top-[-9999px] opacity-0" aria-hidden="true">
         <input type="text" name="website" tabIndex={-1} autoComplete="off" />
       </div>
       <input type="hidden" name="deliveryOption" value="abholung" />
@@ -93,7 +93,7 @@ function ContactForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label htmlFor="contact-name" className="form-label">
-            Name <span className="text-red-400">*</span>
+            Name <span className="text-[#8C6D4F]">*</span>
           </label>
           <input
             id="contact-name"
@@ -115,7 +115,7 @@ function ContactForm() {
             type="tel"
             name="phone"
             className="form-input"
-            placeholder="+49 (0) 123 456 789"
+            placeholder="+49 (0) ..."
             autoComplete="tel"
           />
         </div>
@@ -123,14 +123,14 @@ function ContactForm() {
 
       <div>
         <label htmlFor="contact-email" className="form-label">
-          E-Mail-Adresse <span className="text-red-400">*</span>
+          E-Mail-Adresse <span className="text-[#8C6D4F]">*</span>
         </label>
         <input
           id="contact-email"
           type="email"
           name="email"
           className="form-input"
-          placeholder="max@beispiel.de"
+          placeholder="ihre@email.de"
           required
           autoComplete="email"
         />
@@ -141,14 +141,14 @@ function ContactForm() {
 
       <div>
         <label htmlFor="contact-message" className="form-label">
-          Ihre Nachricht / Projektbeschreibung <span className="text-red-400">*</span>
+          Ihre Nachricht / Projektbeschreibung <span className="text-[#8C6D4F]">*</span>
         </label>
         <textarea
           id="contact-message"
           name="message"
           className="form-input resize-none"
           rows={5}
-          placeholder="Beschreiben Sie Ihr geplantes Vorhaben, Maße, Wünsche oder Termine…"
+          placeholder="Beschreiben Sie Ihr Bauvorhaben, Maße, Vor-Ort-Terminwünsche oder Fragen…"
           required
         />
         {state.errors?.message && (
@@ -162,14 +162,14 @@ function ContactForm() {
           id="contact-dsgvo"
           type="checkbox"
           name="dsgvo"
-          className="mt-1 w-4 h-4 accent-[#121212] cursor-pointer"
+          className="mt-1 w-4 h-4 accent-[#1E1A17] cursor-pointer"
           required
         />
-        <label htmlFor="contact-dsgvo" className="text-xs text-gray-500 leading-relaxed cursor-pointer">
+        <label htmlFor="contact-dsgvo" className="text-xs text-[#5E564E] leading-relaxed cursor-pointer">
           Ich habe die{" "}
-          <a href="/datenschutz" className="underline hover:text-[#121212]">Datenschutzerklärung</a>
-          {" "}gelesen und willige ein, dass meine Daten zur Bearbeitung meiner Anfrage gespeichert und verarbeitet werden.{" "}
-          <span className="text-red-400">*</span>
+          <a href="/datenschutz" className="underline hover:text-[#1E1A17]">Datenschutzerklärung</a>
+          {" "}gelesen und willige ein, dass meine Daten zur Bearbeitung meiner Anfrage verarbeitet werden.{" "}
+          <span className="text-[#8C6D4F]">*</span>
         </label>
       </div>
 
@@ -177,7 +177,7 @@ function ContactForm() {
         id="contact-submit-btn"
         type="submit"
         disabled={isPending}
-        className="btn btn-primary w-full"
+        className="btn btn-wood w-full font-medium"
       >
         {isPending ? (
           <>
@@ -201,124 +201,124 @@ export default function ContactSection() {
   return (
     <section
       id="kontakt"
-      className="section-pad bg-white"
+      className="section-pad bg-[#FAF8F5]"
       aria-labelledby="contact-heading"
     >
       <div className="container-site">
         {/* Header */}
-        <div className="text-center mb-16">
-          <p className="text-label text-gray-400 mb-3">Persönliche Beratung</p>
+        <div className="text-center mb-16 max-w-2xl mx-auto">
+          <span className="text-craft-label block mb-2">Ihr Meisterbetrieb im Erzgebirge</span>
           <h2
             id="contact-heading"
-            className="text-display text-[#121212] text-3xl md:text-5xl mb-5"
+            className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal mb-4"
           >
-            Kontakt & Angebotsanfrage
+            Kontakt & Vor-Ort-Beratung
           </h2>
-          <p className="text-gray-500 max-w-lg mx-auto text-lg">
-            Haben Sie ein konkretes Projekt oder möchten Sie sich beraten lassen?
-            Wir stehen Ihnen mit meisterhafter Kompetenz zur Seite.
+          <p className="text-[#5E564E] text-base md:text-lg">
+            Haben Sie ein konkretes Bauvorhaben oder möchten Sie sich in unserer Werkstatt in Schönheide beraten lassen?
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Contact Info */}
-          <div>
-            <div className="space-y-4 mb-10">
-              {[
-                {
-                  icon: MapPin,
-                  title: "Standort & Werkstatt",
-                  lines: ["Tischlerei Mehlhorn", "Musterstraße 1", "00000 Musterstadt"],
-                },
-                {
-                  icon: Phone,
-                  title: "Telefonischer Kontakt",
-                  lines: ["+49 (0) 00 00 00 00"],
-                  href: "tel:+490000000000",
-                },
-                {
-                  icon: Mail,
-                  title: "E-Mail-Anfragen",
-                  lines: ["info@tischlerei-mehlhorn.de"],
-                  href: "mailto:info@tischlerei-mehlhorn.de",
-                },
-                {
-                  icon: Clock,
-                  title: "Werkstatt-Öffnungszeiten",
-                  lines: [
-                    "Montag – Freitag: 07:00 – 17:00 Uhr",
-                    "Samstag: 08:00 – 12:00 Uhr",
-                    "Sonntag & Feiertage: Geschlossen",
-                  ],
-                },
-              ].map((item) => (
-                <div
-                  key={item.title}
-                  className="flex items-start gap-4 p-5 bg-[#f9fafb] rounded-xl border border-gray-100"
-                >
-                  <div className="w-10 h-10 bg-[#121212] rounded-full flex items-center justify-center flex-shrink-0">
-                    <item.icon size={16} className="text-white" />
-                  </div>
-                  <div>
-                    <div className="text-label text-gray-400 mb-1">{item.title}</div>
-                    {item.lines.map((line, i) =>
-                      item.href && i === 0 ? (
-                        <a
-                          key={i}
-                          href={item.href}
-                          className="block text-[#121212] font-semibold hover:underline"
-                        >
-                          {line}
-                        </a>
-                      ) : (
-                        <p key={i} className="text-[#121212] text-sm font-medium">
-                          {line}
-                        </p>
-                      )
-                    )}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="space-y-4">
+              {/* Adresse */}
+              <div className="p-6 bg-white rounded-lg border border-[#E6DED4] shadow-sm flex items-start gap-4">
+                <div className="w-10 h-10 bg-[#F3ECE2] rounded flex items-center justify-center flex-shrink-0 text-[#8C6D4F]">
+                  <MapPin size={20} />
+                </div>
+                <div>
+                  <span className="text-craft-label block mb-1">Werkstatt & Büro</span>
+                  <p className="font-semibold text-[#1E1A17] text-base">Tischlerei Ronny Mehlhorn</p>
+                  <p className="text-sm text-[#5E564E]">Neuheider Straße 64 b</p>
+                  <p className="text-sm text-[#5E564E]">08304 Schönheide (Erzgebirge)</p>
+                </div>
+              </div>
+
+              {/* Telefon & Mobil */}
+              <div className="p-6 bg-white rounded-lg border border-[#E6DED4] shadow-sm flex items-start gap-4">
+                <div className="w-10 h-10 bg-[#F3ECE2] rounded flex items-center justify-center flex-shrink-0 text-[#8C6D4F]">
+                  <Phone size={20} />
+                </div>
+                <div>
+                  <span className="text-craft-label block mb-1">Direktkontakt</span>
+                  <div className="space-y-1 text-sm text-[#1E1A17]">
+                    <p>
+                      <strong>Telefon:</strong>{" "}
+                      <a href="tel:+49377552346" className="hover:underline font-semibold">
+                        037755 / 2346
+                      </a>
+                    </p>
+                    <p>
+                      <strong>Mobil:</strong>{" "}
+                      <a href="tel:+4915123304776" className="hover:underline font-semibold">
+                        0151 / 23304776
+                      </a>
+                    </p>
+                    <p className="text-[#6B635B]">
+                      <strong>Telefax:</strong> 037755 / 3240
+                    </p>
                   </div>
                 </div>
-              ))}
+              </div>
+
+              {/* E-Mail */}
+              <div className="p-6 bg-white rounded-lg border border-[#E6DED4] shadow-sm flex items-start gap-4">
+                <div className="w-10 h-10 bg-[#F3ECE2] rounded flex items-center justify-center flex-shrink-0 text-[#8C6D4F]">
+                  <Mail size={20} />
+                </div>
+                <div>
+                  <span className="text-craft-label block mb-1">E-Mail-Anfragen</span>
+                  <a
+                    href="mailto:tischlerei.mehlhorn@t-online.de"
+                    className="text-[#1E1A17] font-semibold text-sm hover:underline block"
+                  >
+                    tischlerei.mehlhorn@t-online.de
+                  </a>
+                  <p className="text-xs text-[#8C8277] mt-0.5">
+                    Wir antworten zeitnah auf alle schriftlichen Anfragen.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* DSGVO-konformer Map Embed */}
-            <div className="rounded-2xl overflow-hidden border border-gray-100 bg-[#f9fafb]">
+            {/* DSGVO-konformer Map Embed für Schönheide */}
+            <div className="rounded-lg overflow-hidden border border-[#E6DED4] bg-white shadow-sm">
               {!mapVisible ? (
-                <div className="flex flex-col items-center justify-center h-48 gap-3 text-center px-6">
-                  <MapPin size={32} className="text-gray-300" />
-                  <p className="text-xs text-gray-400 max-w-xs">
-                    Zum Schutz Ihrer Privatsphäre wird die interaktive Google Maps Karte erst nach Klick geladen.
+                <div className="flex flex-col items-center justify-center h-48 gap-3 text-center px-6 bg-[#F3ECE2]/40">
+                  <MapPin size={28} className="text-[#8C6D4F]" />
+                  <p className="text-xs text-[#6B635B] max-w-xs">
+                    Standort Neuheider Str. 64 b, 08304 Schönheide auf Google Maps laden:
                   </p>
                   <button
                     onClick={() => setMapVisible(true)}
                     className="btn btn-outline-dark text-xs py-2 px-4"
                   >
-                    Karte anzeigen (Google Maps)
+                    Karte aktivieren
                   </button>
                 </div>
               ) : (
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2428.654!2d13.404954!3d52.520008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDMxJzEyLjAiTiAxM8KwMjQnMTcuOCJF!5e0!3m2!1sde!2sde!4v1600000000000!5m2!1sde!2sde"
+                  src="https://maps.google.com/maps?q=Neuheider%20Stra%C3%9Fe%2064b,%2008304%20Sch%C3%B6nheide&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   width="100%"
-                  height="200"
+                  height="220"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Standort Tischlerei Mehlhorn"
+                  title="Standort Tischlerei Mehlhorn in Schönheide"
                 />
               )}
             </div>
           </div>
 
           {/* Contact Form */}
-          <div>
-            <div className="bg-white border border-gray-100 rounded-3xl p-8 md:p-10 shadow-lg">
-              <h3
-                className="text-2xl font-bold text-[#121212] mb-6"
-                style={{ fontFamily: "var(--font-space-grotesk)" }}
-              >
-                Unverbindliche Anfrage senden
+          <div className="lg:col-span-7">
+            <div className="bg-white border border-[#E6DED4] rounded-lg p-8 md:p-10 shadow-sm">
+              <span className="text-craft-label block mb-1">Unverbindlich & Kostenlos</span>
+              <h3 className="font-serif-heading text-2xl md:text-3xl font-medium text-[#1E1A17] mb-6">
+                Angebot oder Vor-Ort-Termin anfragen
               </h3>
               <ContactForm />
             </div>

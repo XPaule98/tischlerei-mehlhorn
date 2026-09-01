@@ -6,35 +6,35 @@ import AboutTimeline from "@/components/sections/AboutTimeline";
 import { Check, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Über uns | Meisterbetrieb Tischlerei Mehlhorn",
+  title: "Über uns | Tischlerei Ronny Mehlhorn Schönheide",
   description:
-    "Erfahren Sie mehr über die Tischlerei Mehlhorn: Gegründet 1977 durch Roland Mehlhorn, heute geführt von Tischlermeister Ronny Mehlhorn. Einblicke in Werkstatt, Team & Werte.",
+    "Erfahren Sie mehr über die Tischlerei Ronny Mehlhorn in Schönheide (Erzgebirge): Gegründet 1977 durch Roland Mehlhorn, 1992 Neubau in der Neuheider Straße, heute geführt von Tischlermeister Ronny Mehlhorn.",
 };
 
 const values = [
   {
     number: "01",
-    title: "Meisterliche Handwerkskunst",
+    title: "Meisterliche Fertigung in Schönheide",
     description:
-      "Über 45 Jahre fundierte Erfahrung im Holzhandwerk. Jeder Handgriff sitzt – von der Holzauswahl bis zur finalen Oberflächenveredelung.",
+      "Über 45 Jahre fundierte Handwerkserfahrung im Erzgebirge. Wir fertigen individuelle Holzfenster, Haustüren und Wintergärten direkt in unserer eigenen Werkstatt.",
   },
   {
     number: "02",
-    title: "Nachhaltige Rohstoffe",
+    title: "Ausgewählte Hölzer & langlebige Systeme",
     description:
-      "Wir verarbeiten bevorzugt zertifizierte, heimische Edelhölzer (Eiche, Lärche, Kiefer) mit umweltfreundlichen, schadstoffarmen Lasuren und biologischen Ölen.",
+      "Wir verarbeiten erstklassige Edelhölzer (Eiche, Lärche, Kiefer) und kombinieren sie auf Wunsch mit wartungsfreien Aluminium-Vorsatzschalen (System Gutmann Mira).",
   },
   {
     number: "03",
-    title: "Moderner Maschinenpark",
+    title: "Moderner Maschinenpark & Handarbeit",
     description:
-      "Die ideale Symbiose aus computergestützter Präzisionsbearbeitung und traditioneller Handwerksarbeit an der klassischen Hobelbank.",
+      "Unser 1992 erbautes Firmengebäude bietet die ideale Ausstattung für präzise Computerbearbeitung, kombiniert mit traditioneller Tischlerarbeit.",
   },
   {
     number: "04",
-    title: "Verlässlichkeit & Termintreue",
+    title: "Zuverlässige Vor-Ort-Montage",
     description:
-      "Von der Erstberatung über das Aufmaß vor Ort bis zur sauberen Endmontage garantieren wir höchste Zuverlässigkeit und transparente Absprachen.",
+      "Von der ersten Fachberatung über das Aufmaß bis zum sauberen, normgerechten Einbau aller Bauelemente stehen wir persönlich für Qualität ein.",
   },
 ];
 
@@ -47,10 +47,10 @@ export default function UeberUnsPage() {
         <section className="bg-[#1C1815] text-[#FAF8F5] py-20 md:py-28 relative overflow-hidden">
           <div className="container-site relative z-10">
             <span className="text-craft-label text-[#D4B28C] block mb-3">
-              Familienbetrieb in 2. Generation
+              Familienbetrieb im Erzgebirge seit 1977
             </span>
             <h1 className="font-serif-heading text-4xl sm:text-5xl md:text-6xl max-w-3xl mb-6 font-normal leading-tight">
-              Holzhandwerk mit Leidenschaft – seit über 45 Jahren.
+              Holzhandwerk mit Leidenschaft – Tischlerei Mehlhorn Schönheide.
             </h1>
             <p className="text-[#D6CCC0] text-lg md:text-xl max-w-2xl leading-relaxed">
               Gegründet 1977 durch Roland Mehlhorn, heute mit meisterhafter Präzision geführt durch Tischlermeister Ronny Mehlhorn.
@@ -66,48 +66,72 @@ export default function UeberUnsPage() {
                 <div className="relative rounded-lg overflow-hidden border border-[#E6DED4] shadow-md">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/hero-bg.jpg"
-                    alt="Werkstatt der Tischlerei Mehlhorn"
+                    src="/images/real/gebaeude-1.jpg"
+                    alt="Firmengebäude der Tischlerei Mehlhorn in Schönheide"
                     className="w-full h-[460px] object-cover"
                   />
-                  <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm text-[#1E1A17] p-4 rounded border border-[#E6DED4] max-w-xs">
-                    <div className="font-serif-heading text-xl font-medium">Meister Ronny Mehlhorn</div>
-                    <div className="text-xs text-[#8C6D4F] font-semibold uppercase tracking-wider mt-0.5">Betriebsleiter & Tischlermeister</div>
+                  <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm text-[#1E1A17] p-4 rounded border border-[#E6DED4] max-w-xs shadow-sm">
+                    <div className="font-serif-heading text-lg font-medium">Werkstatt Schönheide</div>
+                    <div className="text-xs text-[#8C6D4F] font-semibold uppercase tracking-wider mt-0.5">Neuheider Straße 64 b</div>
                   </div>
                 </div>
               </div>
 
               <div className="lg:col-span-6">
-                <span className="text-craft-label block mb-2">Unsere Geschichte</span>
+                <span className="text-craft-label block mb-2">Familienbetrieb & Werkstatt</span>
                 <h2 className="font-serif-heading text-3xl md:text-4xl text-[#1E1A17] font-normal mb-6">
                   Tradition trifft modernen Bauelementebau
                 </h2>
                 <div className="space-y-4 text-[#5E564E] text-base md:text-lg leading-relaxed mb-8">
                   <p>
-                    Was im <strong>Januar 1977</strong> durch Roland Mehlhorn mit einer kleinen Werkstatt begann, hat sich über vier Jahrzehnte kontinuierlich weiterentwickelt.
+                    Was im <strong>Januar 1977</strong> durch Roland Mehlhorn in Schönheide als traditioneller Gestellbau begann, hat sich über Jahrzehnte zu einem gefragten Fachbetrieb für Holzbau und Bauelemente entwickelt.
                   </p>
                   <p>
-                    1992 folgte der Bezug des neu erbauten Firmengebäudes mit großzügiger Produktionsfläche. Am <strong>1. Juli 2012</strong> übergab Roland Mehlhorn die Leitung erfolgreich an seinen Sohn <strong>Ronny Mehlhorn</strong>.
+                    <strong>1992</strong> folgte der Umzug in das neu erbaute Firmengebäude in der <strong>Neuheider Straße 64 b</strong> mit großzügigen Fertigungshallen für Fenster-, Türen- und Wintergartenbau.
                   </p>
                   <p>
-                    Heute steht der Name Mehlhorn für die harmonische Verbindung aus solider Tischlertradition, modernster computergestützter Vorfertigung und lückenloser Fachmontage.
+                    Seit dem <strong>1. Juli 2012</strong> führt Sohn und Tischlermeister <strong>Ronny Mehlhorn</strong> die Tischlerei erfolgreich in zweiter Generation mit modernster Technik und unverändertem Meisteranspruch.
                   </p>
                 </div>
 
                 <div className="space-y-2.5 pt-4 border-t border-[#E6DED4]">
                   <div className="flex items-center gap-3 text-sm text-[#1E1A17]">
                     <Check size={16} className="text-[#8C6D4F] flex-shrink-0" />
-                    <span>Eigene Herstellung von Fenstern, Haustüren & Wintergärten</span>
+                    <span>Eigene Herstellung von Holz- & Holz-Alu-Fenstern (Gutmann Mira)</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-[#1E1A17]">
                     <Check size={16} className="text-[#8C6D4F] flex-shrink-0" />
-                    <span>Fachgerechte Vor-Ort-Montage nach aktuellem RAL-Standard</span>
+                    <span>Haustüren nach Maß & Wintergärten aus eigener Werkstatt</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-[#1E1A17]">
                     <Check size={16} className="text-[#8C6D4F] flex-shrink-0" />
-                    <span>Individuelle Sonderlösungen für Denkmalschutz und Architekten</span>
+                    <span>Kunststoff-Bauelemente führender Marken (VEKA, Gealan)</span>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Werkstatt-Galerie */}
+        <section className="py-12 bg-white border-y border-[#E6DED4]">
+          <div className="container-site">
+            <span className="text-craft-label block mb-2 text-center">Einblick in die Fertigung</span>
+            <h3 className="font-serif-heading text-2xl md:text-3xl text-center text-[#1E1A17] font-normal mb-8">
+              Unsere Werkstatt in Schönheide
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div className="rounded overflow-hidden border border-[#E6DED4] h-64">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/real/werkstatt-1.jpg" alt="Maschinenpark Tischlerei Mehlhorn" className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded overflow-hidden border border-[#E6DED4] h-64">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/real/werkstatt-2.jpg" alt="Hobelbank und Holzverarbeitung" className="w-full h-full object-cover" />
+              </div>
+              <div className="rounded overflow-hidden border border-[#E6DED4] h-64">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/real/werkstatt-3.jpg" alt="Fensterbau und Endmontage" className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
@@ -155,10 +179,10 @@ export default function UeberUnsPage() {
               <div>
                 <span className="text-craft-label text-[#D4B28C] block mb-2">Interesse geweckt?</span>
                 <h3 className="font-serif-heading text-2xl md:text-3xl font-normal mb-2">
-                  Lassen Sie uns über Ihr Vorhaben sprechen
+                  Lassen Sie uns über Ihr Bauvorhaben sprechen
                 </h3>
                 <p className="text-[#A89F95] text-sm max-w-xl">
-                  Ob Neubau, Denkmalschutz oder Sanierung – wir beraten Sie persönlich in unserer Werkstatt oder direkt bei Ihnen vor Ort.
+                  Besuchen Sie uns in der Neuheider Straße 64 b in Schönheide oder vereinbaren Sie einen Vor-Ort-Termin für Aufmaß und Beratung.
                 </p>
               </div>
               <div className="flex gap-4 flex-shrink-0">

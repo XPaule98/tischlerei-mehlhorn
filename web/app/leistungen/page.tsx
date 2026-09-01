@@ -2,76 +2,76 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, ShieldCheck, Sparkles, Layers } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Leistungen & Gewerke | Tischlerei Mehlhorn",
+  title: "Leistungen & Gewerke | Tischlerei Ronny Mehlhorn",
   description:
-    "Umfassender Leistungsumfang der Tischlerei Mehlhorn: Eigene Herstellung von Holzfenstern, Haustüren & Wintergärten sowie Handel und Fachmontage aller Bauelemente.",
+    "Eigene Herstellung von Holzfenstern, Holz-Aluminium-Fenstern (Gutmann Mira), Massivholz-Haustüren und Wintergärten sowie Fachmontage von Kunststofffenstern (VEKA, Gealan) in Schönheide.",
 };
 
 const eigenfertigung = [
   {
     id: "holzfenster",
-    title: "Holzfenster & Denkmalschutz",
-    subtitle: "Natürlichkeit, Wärme und höchste Dämmwerte",
-    image: "/images/service-fenster.jpg",
+    title: "Holzfenster aus eigener Produktion",
+    subtitle: "Maßanfertigung für Neubau, Altbau & Denkmalschutz",
+    image: "/images/real/fenster-holz-1.jpg",
     description:
-      "Unsere handgefertigten Holzfenster vereinen traditionelle Handwerkskunst mit modernster Isolierglastechnologie. Ideal für anspruchsvolle Neubauten sowie detailgetreue denkmalgeschützte Sanierungen.",
+      "Unsere handgefertigten Holzfenster entstehen in eigener Werkstatt in Schönheide. Sie verbinden traditionelle Zimmermannskunst mit modernsten Isolierverglasungen und denkmalgerechten Zierprofilen.",
     features: [
-      "Auswahl edler Hölzer: Eiche massiv, Lärche, Kiefer, Meranti",
-      "Modernste 2-fach und 3-fach Wärmeschutz- & Schallschutzverglasungen",
-      "Spezielle, langlebige 4-fach Oberflächenbeschichtungen mit Bio-Ölen",
-      "Hochwertige Markenbeschläge mit integrierter Einbruchhemmung",
-      "Historische Zierprofile, Kämpfer & Zierleisten nach Denkmalamtsvorgaben",
+      "Auswahl edler Hölzer: Eiche massiv, Lärche, Kiefer",
+      "2-fach und 3-fach Wärmeschutz- & Schallschutzverglasung",
+      "Langlebige, umweltschonende Mehrschicht-Oberflächenlasuren",
+      "Marken-Sicherheitsbeschläge mit Einbruchhemmung",
+      "Historische Kämpfer, Sprossen und Zierleisten nach Denkmalschutzvorgaben",
     ],
     gewerkParam: "Holzfenster",
   },
   {
     id: "holz-alu-fenster",
-    title: "Holz-Aluminium-Fenster",
-    subtitle: "Das Premium-System für lebenslange Haltbarkeit",
-    image: "/images/service-fenster.jpg",
+    title: "Holz-Aluminium-Fenster (System Gutmann Mira)",
+    subtitle: "Flächenbündige & flächenversetzte Ausführung",
+    image: "/images/real/fenster-holzalu-buendig.jpg",
     description:
-      "Die perfekte Verbindung zweier hochwertiger Werkstoffe: Innen wohnliche Holzatmosphäre mit natürlicher Ausstrahlung, außen eine witterungsbeständige Aluminium-Vorsatzschale, die nie wieder gestrichen werden muss.",
+      "Die Premium-Kombination aus eigener Fertigung: Innen natürliche Holzatmosphäre, außen eine witterungsbeständige Aluminium-Vorsatzschale im bewährten System Gutmann Mira. Höchste Formstabilität, die nie wieder gestrichen werden muss.",
     features: [
-      "Kein Nachstreichen der Außenseite erforderlich",
-      "Extrem hohe Formstabilität und Energieeffizienz (Passivhaus-Standard möglich)",
-      "Aluminiumschalen in allen RAL-Farben und Eloxaltönen pulverbeschichtet",
-      "Verdeckt liegende Beschläge für minimalistisches Design",
-      "Perfekter Schutz gegen Schlagregen, Hagel und UV-Strahlung",
+      "Flächenbündige und flächenversetzte Ausführungsvarianten",
+      "Original Profilsystem GUTMANN MIRA für lebenslangen Wetterschutz",
+      "Aluminiumschalen in allen RAL-Farbtönen pulverbeschichtet",
+      "Verdeckt liegende Beschläge und schlanke Profilansichten",
+      "Maximale Energieeffizienz für Niedrigenergie- und Passivhäuser",
     ],
     gewerkParam: "Holz-Alu-Fenster",
   },
   {
     id: "haustueren",
-    title: "Massivholz-Hauseingangstüren",
-    subtitle: "Die Visitenkarte Ihres Hauses – sicher und individuell",
-    image: "/images/service-tuer.jpg",
+    title: "Hauseingangstüren aus eigener Produktion",
+    subtitle: "Massivholz & individuelle Unikate nach Kundenwunsch",
+    image: "/images/real/tuer-5.jpg",
     description:
-      "Wir fertigen Hauseingangstüren nach Maß, die Ästhetik, höchste Sicherheit und Wärmedämmung vereinen. Ob traditionell im Landhausstil oder geradlinig modern mit Glas- und Edelstahlelementen.",
+      "Jede Haustür ist eine maßgefertigte Visitenkarte für Ihr Haus. In unserer Werkstatt fertigen wir individuelle Holztüren mit gefrästen Kassetten, sandgestrahlten Lichtausschnitten und hochsicherer Mehrfachverriegelung.",
     features: [
-      "Massivholz- oder formstabile Sandwich-Verbundkonstruktion",
-      "Mehrfachverriegelungen mit Schwenkriegeln (RC2 / RC3 Sicherheit)",
-      "Elektronische Zutrittssysteme (Fingerprint, Code, Smart Home)",
-      "Schall- und Wärmeschutz mit thermisch getrennter Bodenschwelle",
-      "Unikate in Wunschmaßen und individueller Oberflächenoptik",
+      "Massivholzkonstruktion oder formstabile Sandwich-Verbundplatten",
+      "Sicherheits-Mehrfachverriegelungen mit Schwenkriegeln (RC2 / RC3)",
+      "Elektronische Zutrittskontrollen (Fingerprint, Code, Smart Home)",
+      "Thermisch getrennte Bodenschwellen für perfekte Zugluftdämmung",
+      "Individuelle Fräsungen, Sprossen und Oberflächen nach Wunsch",
     ],
     gewerkParam: "Hauseingangstüren",
   },
   {
     id: "wintergaerten",
     title: "Wintergärten & Glasbauten",
-    subtitle: "Lichtdurchflutetes Wohnen im Einklang mit der Natur",
-    image: "/images/service-wintergarten.jpg",
+    subtitle: "Lichtdurchfluteter Wohnraum zu jeder Jahreszeit",
+    image: "/images/real/wintergarten-1.jpg",
     description:
-      "Maßgeschneiderte Kalt- und Warmwintergärten in tragender Holz- oder Holz-Aluminium-Konstruktion. Wir planen, fertigen und montieren Ihre Glasoase für ganzjährigen Wohnkomfort.",
+      "Individuell geplante Kalt- und Warmwintergärten in tragender Holz- oder Holz-Aluminium-Konstruktion. Wir planen die Statik, fertigen die Tragglieder in Schönheide und montieren Ihre Glasoase schlüsselfertig.",
     features: [
-      "Tragwerksplanung und individuelle Statikberechnung",
+      "Tragwerksplanung und präzise statische Berechnung",
       "Sonnenschutz- und selbstreinigendes Isolierglas im Dachbereich",
-      "Integrierte Be- und Entlüftungssysteme sowie Beschattungslösungen",
-      "Großflächige Hebe-Schiebetüren und Falttüranlagen für maximale Öffnungsweiten",
-      "Schlüsselfertige Montage inklusive aller Abdichtungsarbeiten",
+      "Großflächige Hebe-Schiebetüren für barrierefreie Öffnung in den Garten",
+      "Integrierte Belüftungs- und Beschattungssysteme",
+      "Komplette Montage inklusive fachgerechter Bauanschlussabdichtung",
     ],
     gewerkParam: "Wintergärten",
   },
@@ -79,36 +79,52 @@ const eigenfertigung = [
 
 const montage = [
   {
-    id: "kunststoff-alu-fenster",
-    title: "Kunststoff- & Aluminiumfenster",
+    id: "kunststoff-fenster",
+    title: "Kunststofffenster (VEKA & GEALAN)",
     description:
-      "Modernste Fenster führender Markenhersteller. Hohe Energieeffizienz, pflegeleichte Oberflächen und vielfältige Farbvarianten.",
-    features: ["Mehrkammer-Profilsysteme", "Schallschutzklassen 1-5", "RAL-zertifizierte Fachmontage"],
-    gewerkParam: "Kunststoff- & Alufenster",
+      "Modernste Mehrkammer-Kunststofffenster führender Profilsysteme wie VEKA und Gealan. Pflegeleicht, hochisolierend und in vielen Dekorfarben erhältlich.",
+    features: [
+      "Markenprofile VEKA & Gealan",
+      "Schallschutzklassen 1 bis 5",
+      "RAL-zertifizierte Fachmontage durch unser Team",
+    ],
+    gewerkParam: "Kunststofffenster",
   },
   {
     id: "innentueren",
-    title: "Innentüren & Zargen",
+    title: "Innentüren & Zargensysteme",
     description:
-      "Von der klassischen Normtür über edle Echtholzfurniere bis hin zu raumhohen Ganzglastüren und Schiebetürsystemen.",
-    features: ["CPL-, Furnier- & Weißlacktüren", "Glastüren & Schiebetürbeschläge", "Passgenaue Montage inklusive Zargen"],
+      "Von der klassischen Weißlacktür über hochwertige Echtholzfurniere bis hin zu modernen Ganzglastüren und Schiebetürsystemen.",
+    features: [
+      "CPL-, Furnier- und Massivholztüren",
+      "Ganzglastüren mit Edelstahlbeschlägen",
+      "Passgenaue Zargenmontage",
+    ],
     gewerkParam: "Innentüren",
   },
   {
     id: "garagentore",
     title: "Garagentore & Antriebe",
     description:
-      "Hochwertige Sektionaltore, Rolltore und Schwingtore mit moderner Funk- und Smart-Home-Antriebstechnik.",
-    features: ["Wärmegedämmte Lamellen", "Flüsterleise Elektroantriebe", "Sicherheits-Abschaltautomatik"],
+      "Wärmegedämmte Sektionaltore und Rolltore führender Hersteller inklusive leiser Funk-Elektroantriebe.",
+    features: [
+      "Sektionaltore & Schwingtore",
+      "Sicherheits-Abschaltautomatik",
+      "Handsender & Smart-Home-Bedienung",
+    ],
     gewerkParam: "Garagentore",
   },
   {
-    id: "rollladen",
-    title: "Rollladen- & Klappläden",
+    id: "beschattungen",
+    title: "Beschattungen & Rollladensysteme",
     description:
-      "Vorbau-, Aufsatzrollladen und Klappläden für effektiven Sonnen-, Sicht- und Einbruchschutz. Manuell oder motorisiert.",
-    features: ["Aluminium- & Kunststofflamellen", "Funkmotorisierung & Zeitschaltuhren", "Insektenschutzgitter integrierbar"],
-    gewerkParam: "Rollladensysteme",
+      "Vorbau- und Aufsatzrollladen, Klappläden und Insektenschutzgitter für zuverlässigen Sonnen-, Sicht- und Einbruchschutz.",
+    features: [
+      "Aluminium- & Kunststofflamellen",
+      "Funk- und Zeitschaltuhrmotorisierung",
+      "Integrierbare Insektenschutzrollos",
+    ],
+    gewerkParam: "Beschattungssysteme",
   },
 ];
 
@@ -121,14 +137,13 @@ export default function LeistungenPage() {
         <section className="bg-[#1C1815] text-[#FAF8F5] py-20 md:py-28 relative overflow-hidden">
           <div className="container-site relative z-10">
             <span className="text-craft-label text-[#D4B28C] block mb-3">
-              Leistungsspektrum & Gewerke
+              Leistungsumfang der Tischlerei Mehlhorn
             </span>
             <h1 className="font-serif-heading text-4xl sm:text-5xl md:text-6xl max-w-3xl mb-6 font-normal leading-tight">
-              Maßarbeit in Holz & fachgerechte Montage.
+              Eigene Herstellung in Schönheide & fachgerechte Montage.
             </h1>
             <p className="text-[#D6CCC0] text-lg md:text-xl max-w-2xl leading-relaxed">
-              Ob handgefertigte Einzelstücke aus unserer eigenen Werkstatt oder
-              geprüfte Marken-Bauelemente – wir garantieren höchste Qualität für Ihr Zuhause.
+              Vom handgefertigten Holzfenster und exklusiven Holz-Alu-Systemen über maßgeschneiderte Haustüren bis hin zu geprüften Kunststoff-Bauelementen.
             </p>
           </div>
         </section>
@@ -136,12 +151,12 @@ export default function LeistungenPage() {
         {/* Section 1: Eigene Fertigung */}
         <section id="eigenfertigung" className="section-pad bg-[#FAF8F5]">
           <div className="container-site">
-            <span className="text-craft-label block mb-2">Meisterwerkstatt</span>
+            <span className="text-craft-label block mb-2">Meisterbetrieb Schönheide</span>
             <h2 className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal mb-4">
-              1. Eigene Herstellung
+              1. Eigene Produktion
             </h2>
             <p className="text-[#5E564E] max-w-2xl text-base md:text-lg mb-16">
-              In unserer modern ausgestatteten Werkstatt fertigen wir individuelle Holzelemente nach Maß. Jedes Stück entsteht mit meisterhafter Präzision.
+              In unserer modern ausgestatteten Werkstatt in der Neuheider Straße 64 b fertigen wir individuelle Holzelemente nach Maß.
             </p>
 
             <div className="space-y-20">
@@ -152,13 +167,16 @@ export default function LeistungenPage() {
                 >
                   {/* Image */}
                   <div className={`lg:col-span-6 ${index % 2 === 1 ? "lg:order-2" : ""}`}>
-                    <div className="relative rounded overflow-hidden">
+                    <div className="relative rounded overflow-hidden shadow-sm">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-[360px] object-cover"
+                        className="w-full h-[380px] object-cover"
                       />
+                      <div className="absolute top-3 left-3 bg-[#1E1A17]/85 backdrop-blur-sm text-white text-xs px-3 py-1 rounded font-medium">
+                        Eigene Herstellung Schönheide
+                      </div>
                     </div>
                   </div>
 
@@ -200,12 +218,12 @@ export default function LeistungenPage() {
         {/* Section 2: Bauelemente & Montage */}
         <section id="bauelemente" className="section-pad bg-white border-t border-[#E6DED4]">
           <div className="container-site">
-            <span className="text-craft-label block mb-2">Handel & Montageservice</span>
+            <span className="text-craft-label block mb-2">Handel & Fachmontage</span>
             <h2 className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal mb-4">
-              2. Bauelemente & Fachmontage
+              2. Bauelemente & Montageservice
             </h2>
             <p className="text-[#5E564E] max-w-2xl text-base md:text-lg mb-16">
-              Wir arbeiten mit führenden Markenherstellern zusammen und garantieren den fachgerechten, sauberen Einbau vor Ort nach aktuellen Gütestandards.
+              Wir arbeiten mit führenden Markenherstellern (wie VEKA, Gealan, Gutmann, GU, Roto) zusammen und garantieren die fachgerechte Montage vor Ort.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -247,15 +265,15 @@ export default function LeistungenPage() {
         {/* Beratungsbanner */}
         <section className="bg-[#FAF8F5] py-20 border-t border-[#E6DED4]">
           <div className="container-site text-center max-w-2xl">
-            <span className="text-craft-label block mb-2">Persönliche Beratung</span>
+            <span className="text-craft-label block mb-2">Aufmaß & Beratung</span>
             <h3 className="font-serif-heading text-3xl font-normal text-[#1E1A17] mb-4">
-              Haben Sie Fragen zu speziellen Sondermaßen?
+              Sonderanfertigung oder Altbausanierung?
             </h3>
             <p className="text-[#5E564E] text-sm md:text-base mb-8 leading-relaxed">
-              Jedes Bauvorhaben ist einzigartig. Wir beraten Sie persönlich, nehmen präzise Aufmaße vor Ort und erstellen Ihnen ein transparentes Angebot.
+              Wir beraten Sie persönlich in Schönheide und der gesamten Region Erzgebirge / Vogtland. Wir nehmen präzise Aufmaße und erstellen Ihnen ein transparentes Angebot.
             </p>
             <Link href="/kontakt" className="btn btn-wood">
-              Kostenlose Beratung anfragen
+              Kostenlose Vor-Ort-Beratung anfragen
             </Link>
           </div>
         </section>

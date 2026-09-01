@@ -1,26 +1,28 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin, Clock, Share2, Users, ArrowRight } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ArrowRight, Smartphone, Printer } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#121212] text-white" id="footer">
+    <footer className="bg-[#1C1815] text-[#FAF8F5]" id="footer">
       {/* Pre-Footer Banner */}
-      <div className="border-b border-white/10 py-12 bg-gradient-to-r from-[#121212] via-[#1a1a1a] to-[#121212]">
+      <div className="border-b border-white/10 py-12 bg-gradient-to-r from-[#141210] via-[#1C1815] to-[#141210]">
         <div className="container-site flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <span className="text-label text-[#E5DECE] block mb-1">Ihr Projekt in Meisterhand</span>
-            <h3 className="text-2xl md:text-3xl font-bold text-white" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+            <span className="text-craft-label text-[#D4B28C] block mb-1">
+              Ihr Meisterbetrieb im Erzgebirge
+            </span>
+            <h3 className="font-serif-heading text-2xl md:text-3xl text-white font-normal">
               Planen Sie ein Bau- oder Sanierungsvorhaben?
             </h3>
           </div>
           <Link
             href="/kontakt"
-            className="btn bg-[#E5DECE] text-[#121212] border-[#E5DECE] hover:bg-white hover:border-white font-bold flex items-center gap-2 flex-shrink-0"
+            className="btn btn-wood text-sm font-medium py-3.5 px-6 flex items-center gap-2 flex-shrink-0"
           >
             Jetzt unverbindlich anfragen
-            <ArrowRight size={16} />
+            <ArrowRight size={15} />
           </Link>
         </div>
       </div>
@@ -32,56 +34,32 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-3 mb-6 group inline-flex">
               <div className="w-10 h-10 bg-white flex items-center justify-center flex-shrink-0">
-                <span
-                  className="text-xl font-black text-[#121212]"
-                  style={{ fontFamily: "var(--font-space-grotesk)" }}
-                >
+                <span className="font-serif-heading text-xl font-bold text-[#1C1815]">
                   M
                 </span>
               </div>
               <div className="flex flex-col leading-none">
-                <span
-                  className="text-sm font-black tracking-[0.15em] uppercase text-white"
-                  style={{ fontFamily: "var(--font-space-grotesk)" }}
-                >
+                <span className="text-xs font-bold tracking-[0.18em] uppercase text-white">
                   TISCHLEREI
                 </span>
-                <span
-                  className="text-sm font-black tracking-[0.15em] uppercase text-white"
-                  style={{ fontFamily: "var(--font-space-grotesk)" }}
-                >
+                <span className="text-xs font-bold tracking-[0.18em] uppercase text-[#D4B28C]">
                   MEHLHORN
                 </span>
               </div>
             </Link>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Präzision in Holz & moderne Bauelemente seit 1977. Meisterbetrieb
-              unter Leitung von Ronny Mehlhorn. Eigene Fertigung, Handel und Fachmontage.
+            <p className="text-[#A89F95] text-sm leading-relaxed mb-6">
+              Meisterbetrieb seit 1977 in Schönheide (Erzgebirge). Eigene Herstellung
+              von Holzfenstern, Holz-Alu-Systemen, Haustüren und Wintergärten sowie
+              Fachmontage geprüfter Bauelemente.
             </p>
-            <div className="flex gap-3">
-              <a
-                href="#"
-                aria-label="Teilen"
-                className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors text-white"
-              >
-                <Share2 size={16} />
-              </a>
-              <a
-                href="/ueber-uns"
-                aria-label="Über uns"
-                className="w-9 h-9 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors text-white"
-              >
-                <Users size={16} />
-              </a>
+            <div className="text-xs text-[#8C8277]">
+              Inhaber: Tischlermeister Ronny Mehlhorn
             </div>
           </div>
 
           {/* Navigation Links */}
           <div>
-            <h3
-              className="text-label text-gray-400 mb-5"
-              style={{ fontFamily: "var(--font-space-grotesk)" }}
-            >
+            <h3 className="text-craft-label text-[#D4B28C] mb-5">
               Navigation
             </h3>
             <ul className="space-y-3 text-sm">
@@ -96,9 +74,9 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-gray-400 hover:text-[#E5DECE] transition-colors flex items-center gap-1.5"
+                    className="text-[#A89F95] hover:text-[#FAF8F5] transition-colors flex items-center gap-2"
                   >
-                    <ArrowRight size={12} className="text-[#E5DECE]/50" />
+                    <span className="text-[#8C6D4F]">›</span>
                     {item.label}
                   </Link>
                 </li>
@@ -108,80 +86,86 @@ export default function Footer() {
 
           {/* Leistungen Highlights */}
           <div>
-            <h3
-              className="text-label text-gray-400 mb-5"
-              style={{ fontFamily: "var(--font-space-grotesk)" }}
-            >
-              Gewerke
+            <h3 className="text-craft-label text-[#D4B28C] mb-5">
+              Gewerke & Systeme
             </h3>
-            <ul className="space-y-3 text-sm">
-              {[
-                { label: "Holz- & Holz-Alu-Fenster", href: "/leistungen#eigenfertigung" },
-                { label: "Massivholz-Haustüren", href: "/leistungen#eigenfertigung" },
-                { label: "Wintergärten & Glasbauten", href: "/leistungen#eigenfertigung" },
-                { label: "Kunststoff- & Alufenster", href: "/leistungen#bauelemente" },
-                { label: "Innentüren & Zargen", href: "/leistungen#bauelemente" },
-                { label: "Garagentore & Antriebe", href: "/leistungen#bauelemente" },
-                { label: "Rollladen & Klappläden", href: "/leistungen#bauelemente" },
-              ].map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+            <ul className="space-y-3 text-sm text-[#A89F95]">
+              <li>
+                <Link href="/leistungen#eigenfertigung" className="hover:text-white transition-colors">
+                  Holzfenster eigene Produktion
+                </Link>
+              </li>
+              <li>
+                <Link href="/leistungen#eigenfertigung" className="hover:text-white transition-colors">
+                  Holz-Aluminium (Gutmann Mira)
+                </Link>
+              </li>
+              <li>
+                <Link href="/leistungen#eigenfertigung" className="hover:text-white transition-colors">
+                  Massivholz-Haustüren nach Maß
+                </Link>
+              </li>
+              <li>
+                <Link href="/leistungen#eigenfertigung" className="hover:text-white transition-colors">
+                  Wintergärten & Glasbauten
+                </Link>
+              </li>
+              <li>
+                <Link href="/leistungen#bauelemente" className="hover:text-white transition-colors">
+                  Kunststofffenster (VEKA / Gealan)
+                </Link>
+              </li>
+              <li>
+                <Link href="/leistungen#bauelemente" className="hover:text-white transition-colors">
+                  Innentüren, Tore & Beschattungen
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Kontakt & Öffnungszeiten */}
+          {/* Kontakt & Anschrift Schönheide */}
           <div>
-            <h3
-              className="text-label text-gray-400 mb-5"
-              style={{ fontFamily: "var(--font-space-grotesk)" }}
-            >
-              Kontakt & Zeiten
+            <h3 className="text-craft-label text-[#D4B28C] mb-5">
+              Werkstatt Schönheide
             </h3>
-            <ul className="space-y-4 text-sm">
+            <ul className="space-y-3.5 text-sm">
               <li className="flex items-start gap-3">
-                <MapPin size={16} className="text-[#E5DECE] mt-0.5 flex-shrink-0" />
-                <span className="text-gray-300">
-                  Musterstraße 1<br />
-                  00000 Musterstadt
+                <MapPin size={16} className="text-[#B48A58] mt-0.5 flex-shrink-0" />
+                <span className="text-[#D6CCC0]">
+                  Neuheider Straße 64 b<br />
+                  08304 Schönheide (Erzgebirge)
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone size={16} className="text-[#E5DECE] flex-shrink-0" />
+                <Phone size={16} className="text-[#B48A58] flex-shrink-0" />
                 <a
-                  href="tel:+490000000000"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  href="tel:+49377552346"
+                  className="text-[#D6CCC0] hover:text-white transition-colors"
                 >
-                  +49 (0) 00 00 00 00
+                  037755 / 2346
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail size={16} className="text-[#E5DECE] flex-shrink-0" />
+                <Smartphone size={16} className="text-[#B48A58] flex-shrink-0" />
                 <a
-                  href="mailto:info@tischlerei-mehlhorn.de"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  href="tel:+4915123304776"
+                  className="text-[#D6CCC0] hover:text-white transition-colors"
                 >
-                  info@tischlerei-mehlhorn.de
+                  0151 / 23304776
                 </a>
               </li>
-              <li className="flex items-start gap-3 pt-2 border-t border-white/10">
-                <Clock size={16} className="text-[#E5DECE] mt-0.5 flex-shrink-0" />
-                <div className="text-xs text-gray-300">
-                  <div className="flex justify-between gap-4">
-                    <span>Mo – Fr:</span>
-                    <span className="font-semibold">07:00 – 17:00</span>
-                  </div>
-                  <div className="flex justify-between gap-4 mt-0.5">
-                    <span>Samstag:</span>
-                    <span className="font-semibold">08:00 – 12:00</span>
-                  </div>
-                </div>
+              <li className="flex items-center gap-3">
+                <Printer size={16} className="text-[#B48A58] flex-shrink-0" />
+                <span className="text-[#A89F95]">Fax: 037755 / 3240</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail size={16} className="text-[#B48A58] flex-shrink-0" />
+                <a
+                  href="mailto:tischlerei.mehlhorn@t-online.de"
+                  className="text-[#D6CCC0] hover:text-white transition-colors"
+                >
+                  tischlerei.mehlhorn@t-online.de
+                </a>
               </li>
             </ul>
           </div>
@@ -190,13 +174,13 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
-        <div className="container-site py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500">
-          <span>© {currentYear} Tischlerei Mehlhorn · Inh. Ronny Mehlhorn. Alle Rechte vorbehalten.</span>
+        <div className="container-site py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#8C8277]">
+          <span>© {currentYear} Tischlerei Ronny Mehlhorn · Schönheide. Alle Rechte vorbehalten.</span>
           <div className="flex gap-6">
-            <Link href="/impressum" className="hover:text-gray-300 transition-colors">
+            <Link href="/impressum" className="hover:text-[#D6CCC0] transition-colors">
               Impressum
             </Link>
-            <Link href="/datenschutz" className="hover:text-gray-300 transition-colors">
+            <Link href="/datenschutz" className="hover:text-[#D6CCC0] transition-colors">
               Datenschutz
             </Link>
           </div>

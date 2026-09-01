@@ -13,10 +13,11 @@ export interface HeroData {
 }
 
 const defaultImages = [
-  "/images/hero-bg.jpg",
-  "/images/service-fenster.jpg",
-  "/images/service-wintergarten.jpg",
-  "/images/service-tuer.jpg",
+  "/images/real/gebaeude-1.jpg",
+  "/images/real/tuer-5.jpg",
+  "/images/real/fenster-holzalu-buendig.jpg",
+  "/images/real/wintergarten-1.jpg",
+  "/images/real/werkstatt-2.jpg",
 ];
 
 export default function HeroSection({ data }: { data?: HeroData | null }) {

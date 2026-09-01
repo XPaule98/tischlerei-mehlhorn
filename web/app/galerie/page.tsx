@@ -7,62 +7,98 @@ import BeforeAfterSlider from "@/components/sections/BeforeAfterSlider";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-type Category = "alle" | "fenster" | "tueren" | "wintergarten" | "deko";
+type Category = "alle" | "fenster" | "tueren" | "wintergarten" | "werkstatt";
 
-const projects = [
+const realProjects = [
   {
-    id: "1",
-    title: "Denkmalgeschützte Eichen-Kastenfenster",
-    category: "fenster" as const,
-    categoryLabel: "Holzfenster",
-    image: "/images/service-fenster.jpg",
-    description: "Rekonstruktion historischer Sprossenfenster nach Denkmalschutzauflagen mit integrierter Wärmeschutzverglasung.",
-    details: "Eiche massiv · 3-fach Isolierglas · Zierprofile",
-  },
-  {
-    id: "2",
-    title: "Massivholz-Eingangstür mit Lichtausschnitt",
+    id: "tuer-5",
+    title: "Massivholz-Haustür mit Segmentbogen & Kassetten",
     category: "tueren" as const,
     categoryLabel: "Haustüren",
-    image: "/images/service-tuer.jpg",
-    description: "Moderne Haustüranlage in Räuchereiche-Optik mit verdeckten Bändern, Sicherheitsverriegelung und sandgestrahltem Lichtband.",
-    details: "Eiche geräuchert · RC3 Einbruchschutz · Fingerscan",
+    image: "/images/real/tuer-5.jpg",
+    description: "Handgefertigte Hauseingangstür mit handwerklich gefrästen Füllungen, Doppelverglasung und historischem Segmentbogen.",
+    details: "Eigene Fertigung Schönheide · Massivholz · Mehrfachverriegelung",
   },
   {
-    id: "3",
-    title: "Warmwintergarten als Wohnraumerweiterung",
-    category: "wintergarten" as const,
-    categoryLabel: "Wintergärten",
-    image: "/images/service-wintergarten.jpg",
-    description: "Ganzjährig bewohnbarer Wintergarten mit tragender Leimholzkonstruktion, selbstreinigendem Glasdach und Hebeschiebetüren.",
-    details: "Holz-Aluminium · Sonnenschutzglas · Beheizt",
-  },
-  {
-    id: "4",
-    title: "Holz-Alu Fensterelemente für Architektenhaus",
+    id: "fenster-holzalu",
+    title: "Holz-Aluminium-Fenster (Gutmann Mira)",
     category: "fenster" as const,
     categoryLabel: "Holz-Alu Fenster",
-    image: "/images/hero-bg.jpg",
-    description: "Großflächige Festverglasungen und Hebe-Schiebe-Elemente mit anthrazitfarbener Aluminiumschale außen.",
-    details: "Passivhausstandard · RAL 7016 Anthrazit · Eiche natur",
+    image: "/images/real/fenster-holzalu-buendig.jpg",
+    description: "Flächenbündige Holz-Alu-Fensterkonstruktion mit witterungsbeständiger Aluminiumschale und edler Holzinnenansicht.",
+    details: "System Gutmann Mira · Flächenbündig · Hohe Wärmedämmung",
   },
   {
-    id: "5",
-    title: "Handgefertigte Massivholz-Hirnholzbretter",
-    category: "deko" as const,
-    categoryLabel: "Deko & Werkstücke",
-    image: "/images/catalog-schneidebrett.jpg",
-    description: "Artisan-Küchenaccessoires aus massiver Eiche mit natürlicher biologischer Ölung.",
-    details: "Eiche massiv · Bio-Leinöl · Stirnholz",
+    id: "tuer-6",
+    title: "Klassische Massivholztür mit Rautenverglasung",
+    category: "tueren" as const,
+    categoryLabel: "Haustüren",
+    image: "/images/real/tuer-6.jpg",
+    description: "Traditionelle Hauseingangstür mit aufgesetzten Leisten, Isolierglas-Lichtausschnitt und Sicherheitsdrückergarnitur.",
+    details: "Eiche massiv · Isolierglas · Sicherheitsbeschlag",
   },
   {
-    id: "6",
-    title: "Schwebendes Wandregalsystem aus Massiveiche",
-    category: "deko" as const,
-    categoryLabel: "Deko & Werkstücke",
-    image: "/images/catalog-regal.jpg",
-    description: "Minimalistische Wandborde mit unsichtbarer Trägeraufhängung und natürlicher Baumkante.",
-    details: "Massiveiche natur · Unsichtbare Schwerlastanker",
+    id: "wintergarten-1",
+    title: "Tragender Holz-Wintergarten mit Glasdach",
+    category: "wintergarten" as const,
+    categoryLabel: "Wintergärten",
+    image: "/images/real/wintergarten-1.jpg",
+    description: "Individuell geplanter Wintergartenanbau mit tragender Leimholzkonstruktion und großzügigen Glasfeldern.",
+    details: "Eigene Statik & Fertigung · Sonnenschutzglas · Beheizbar",
+  },
+  {
+    id: "tuer-7",
+    title: "Eingangstüranlage mit Seitenteil & Sprossenfenster",
+    category: "tueren" as const,
+    categoryLabel: "Haustüren",
+    image: "/images/real/tuer-7.jpg",
+    description: "Mehrteilige Haustürkombination mit festverglastem Oberlicht und Seitenteil für maximalen Lichteinfall im Flurbereich.",
+    details: "Massivholz · Isolierglas mit echten Sprossen",
+  },
+  {
+    id: "fenster-holz-1",
+    title: "Holzfenster aus eigener Produktion",
+    category: "fenster" as const,
+    categoryLabel: "Holzfenster",
+    image: "/images/real/fenster-holz-1.jpg",
+    description: "Traditionell gefertigte Holzfenster mit Mehrschicht-Verleimung und umweltfreundlicher Tauchgrundierung.",
+    details: "Eigene Fertigung Schönheide · 3-fach Isolierglas",
+  },
+  {
+    id: "tuer-8",
+    title: "Landhaus-Eingangstür mit Schnitzornamenten",
+    category: "tueren" as const,
+    categoryLabel: "Haustüren",
+    image: "/images/real/tuer-8.jpg",
+    description: "Individuell gefertigte Haustür mit detailreichen Profilfräsungen im regionalen Erzgebirgs-Stil.",
+    details: "Eigene Werkstattfertigung · Unikat",
+  },
+  {
+    id: "wintergarten-2",
+    title: "Wintergarten mit integrierten Schiebetüren",
+    category: "wintergarten" as const,
+    categoryLabel: "Wintergärten",
+    image: "/images/real/wintergarten-2.jpg",
+    description: "Maßgefertigte Holzkonstruktion mit integrierten Hebeschiebe-Elementen für nahtlosen Übergang in den Garten.",
+    details: "Holzbau Schönheide · Schlüsselfertige Montage",
+  },
+  {
+    id: "werkstatt-gebaeude",
+    title: "Firmengebäude & Werkstatt in Schönheide",
+    category: "werkstatt" as const,
+    categoryLabel: "Werkstatt & Betrieb",
+    image: "/images/real/gebaeude-1.jpg",
+    description: "Unser 1992 bezogenes Firmengebäude in der Neuheider Straße 64 b – ausgestattet mit modernem Maschinenpark.",
+    details: "Gegründet 1977 · Meisterbetrieb Ronny Mehlhorn",
+  },
+  {
+    id: "tuer-10",
+    title: "Exklusive Haustür mit Edelstahl- und Glaselementen",
+    category: "tueren" as const,
+    categoryLabel: "Haustüren",
+    image: "/images/real/tuer-10.jpg",
+    description: "Moderne Hauseingangstür mit sandgestrahltem Designglas, Stangengriff und thermisch getrennter Schwelle.",
+    details: "Moderne Optik · RC3 Sicherheit · Einbruchhemmend",
   },
 ];
 
@@ -71,8 +107,8 @@ export default function GaleriePage() {
 
   const filteredProjects =
     activeCategory === "alle"
-      ? projects
-      : projects.filter((p) => p.category === activeCategory);
+      ? realProjects
+      : realProjects.filter((p) => p.category === activeCategory);
 
   return (
     <>
@@ -82,24 +118,23 @@ export default function GaleriePage() {
         <section className="bg-[#1C1815] text-[#FAF8F5] py-20 md:py-28 relative overflow-hidden">
           <div className="container-site relative z-10">
             <span className="text-craft-label text-[#D4B28C] block mb-3">
-              Referenzen & Werkstatt-Einblicke
+              Referenzen aus unserer Meisterwerkstatt
             </span>
             <h1 className="font-serif-heading text-4xl sm:text-5xl md:text-6xl max-w-3xl mb-6 font-normal leading-tight">
-              Handwerkliche Meisterwerke in Bildern.
+              Echte Arbeiten der Tischlerei Mehlhorn.
             </h1>
             <p className="text-[#D6CCC0] text-lg md:text-xl max-w-2xl leading-relaxed">
-              Lassen Sie sich von unseren realisierten Projekten inspirieren. Von
-              historischen Kastenfenstern über anspruchsvolle Wintergärten bis hin zu
-              exklusiven Werkstücken.
+              Entdecken Sie echte Fotos von maßgefertigten Fenstern, Haustüren und Wintergärten, 
+              die in unserer Werkstatt in Schönheide entstanden sind.
             </p>
           </div>
         </section>
 
         {/* Interactive Before / After Section */}
         <BeforeAfterSlider
-          beforeSrc="/images/hero-bg.jpg"
-          afterSrc="/images/service-wintergarten.jpg"
-          beforeLabel="Werkstattfertigung"
+          beforeSrc="/images/real/werkstatt-2.jpg"
+          afterSrc="/images/real/wintergarten-1.jpg"
+          beforeLabel="Werkstattfertigung Schönheide"
           afterLabel="Montage beim Kunden"
         />
 
@@ -107,12 +142,12 @@ export default function GaleriePage() {
         <section className="section-pad bg-[#FAF8F5]">
           <div className="container-site">
             <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-craft-label block mb-2">Projektübersicht</span>
+              <span className="text-craft-label block mb-2">Originalfotos unserer Arbeiten</span>
               <h2 className="font-serif-heading text-3xl md:text-5xl text-[#1E1A17] font-normal mb-4">
-                Ausgewählte Referenzen
+                Bildergalerie realisierter Projekte
               </h2>
               <p className="text-[#5E564E] text-base">
-                Filtern Sie nach Gewerk oder entdecken Sie alle Arbeiten im Überblick.
+                Filtern Sie nach Gewerk oder entdecken Sie alle gefertigten Werkstücke im Überblick.
               </p>
             </div>
 
@@ -120,15 +155,15 @@ export default function GaleriePage() {
             <div className="flex flex-wrap justify-center gap-2 mb-14">
               {[
                 { value: "alle", label: "Alle Referenzen" },
-                { value: "fenster", label: "Holz- & Alufenster" },
                 { value: "tueren", label: "Haustüren" },
+                { value: "fenster", label: "Holz- & Holz-Alu-Fenster" },
                 { value: "wintergarten", label: "Wintergärten" },
-                { value: "deko", label: "Deko & Werkstücke" },
+                { value: "werkstatt", label: "Werkstatt & Gebäude" },
               ].map((tab) => (
                 <button
                   key={tab.value}
                   onClick={() => setActiveCategory(tab.value as Category)}
-                  className={`px-5 py-2 rounded text-xs font-semibold uppercase tracking-wider transition-all ${
+                  className={`px-5 py-2.5 rounded text-xs font-semibold uppercase tracking-wider transition-all ${
                     activeCategory === tab.value
                       ? "bg-[#1E1A17] text-white"
                       : "bg-white text-[#5E564E] border border-[#E6DED4] hover:bg-[#F3ECE2]"
@@ -147,14 +182,14 @@ export default function GaleriePage() {
                   className="craft-card rounded-lg overflow-hidden flex flex-col justify-between"
                 >
                   <div>
-                    <div className="relative h-64 overflow-hidden bg-[#F3ECE2]">
+                    <div className="relative h-72 overflow-hidden bg-[#F3ECE2]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
-                      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-[#1E1A17] text-xs px-2.5 py-1 rounded font-medium border border-[#E6DED4]">
+                      <div className="absolute top-3 left-3 bg-[#1E1A17]/85 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded font-medium">
                         {project.categoryLabel}
                       </div>
                     </div>
@@ -188,10 +223,10 @@ export default function GaleriePage() {
             <div className="mt-16 text-center bg-[#1C1815] text-[#FAF8F5] p-10 md:p-14 rounded-lg">
               <span className="text-craft-label text-[#D4B28C] block mb-2">Ihr Bauvorhaben</span>
               <h3 className="font-serif-heading text-2xl md:text-3xl font-normal mb-3">
-                Haben Sie ein konkretes Vorhaben im Kopf?
+                Wünschen Sie eine Maßanfertigung nach Ihren Vorstellungen?
               </h3>
               <p className="text-[#A89F95] text-sm md:text-base max-w-md mx-auto mb-8 leading-relaxed">
-                Wir setzen Ihre individuellen Wünsche mit meisterhafter Präzision in die Tat um.
+                Wir beraten Sie persönlich in Schönheide und der gesamten Region Erzgebirge und fertigen Ihr Wunschbauteil passgenau an.
               </p>
               <Link href="/kontakt" className="btn btn-wood text-sm font-medium">
                 Unverbindliches Angebot einholen
