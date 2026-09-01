@@ -33,14 +33,23 @@ export const structure: StructureResolver = (S) =>
             ])
         ),
 
-      // 3. Über uns
+      // 3. Über uns & Team
       S.listItem()
-        .title("📖 Über uns & Historie")
+        .title("📖 Über uns & Team")
         .child(
-          S.document()
-            .schemaType("aboutPage")
-            .documentId("aboutPage")
-            .title("Über uns Seite")
+          S.list()
+            .title("Über uns verwalten")
+            .items([
+              S.listItem()
+                .title("📄 Über uns (Texte, Video & Werkstatt-Galerie)")
+                .child(
+                  S.document()
+                    .schemaType("aboutPage")
+                    .documentId("aboutPage")
+                    .title("Über uns Seite")
+                ),
+              S.documentTypeListItem("teamMember").title("👥 Mitarbeiter & Team"),
+            ])
         ),
 
       // 4. Galerie
@@ -51,7 +60,7 @@ export const structure: StructureResolver = (S) =>
             .title("Galerie verwalten")
             .items([
               S.listItem()
-                .title("📄 Seiten-Kopfbereich (Titel & Bild)")
+                .title("📄 Seiten-Kopfbereich (Titel & Bild/Video)")
                 .child(
                   S.document()
                     .schemaType("galleryPage")

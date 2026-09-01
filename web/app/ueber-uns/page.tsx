@@ -3,50 +3,72 @@ import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHeader from "@/components/layout/PageHeader";
-import AboutTimeline from "@/components/sections/AboutTimeline";
+import WorkshopSlideGallery, { WorkshopSlide } from "@/components/sections/WorkshopSlideGallery";
 import { client } from "@/sanity/lib/client";
-import { ABOUT_PAGE_QUERY } from "@/sanity/lib/queries";
-import { History, Building2, Award } from "lucide-react";
+import { ABOUT_PAGE_QUERY, TEAM_MEMBERS_QUERY } from "@/sanity/lib/queries";
+import { ArrowRight, UserCheck, HeartHandshake, ShieldCheck, Sparkles } from "lucide-react";
 
 export const revalidate = 30;
 
 export const metadata: Metadata = {
-  title: "Über uns | Tischlerei Ronny Mehlhorn Schönheide",
+  title: "Über uns & Team | Tischlerei Ronny Mehlhorn Schönheide",
   description:
-    "Erfahren Sie mehr über die Tischlerei Ronny Mehlhorn in Schönheide (Erzgebirge): Gegründet 1977 durch Roland Mehlhorn, 1992 Neubau in der Neuheider Straße, heute geführt von Tischlermeister Ronny Mehlhorn.",
+    "Lernen Sie die Tischlerei Ronny Mehlhorn kennen: Gegründet 1977 durch Roland Mehlhorn, 1992 Neubau in der Neuheider Straße 64 b, heute geführt von Tischlermeister Ronny Mehlhorn. Unser Team, unsere Werkstatt und unsere Philosophie.",
 };
 
-const values = [
+interface TeamMemberData {
+  _id: string;
+  name: string;
+  role: string;
+  imageUrl?: string;
+  bio?: string;
+  since?: string;
+}
+
+const fallbackTeam: TeamMemberData[] = [
   {
-    number: "01",
-    title: "Meisterliche Fertigung in Schönheide",
-    description:
-      "Über 45 Jahre fundierte Handwerkserfahrung im Erzgebirge. Wir fertigen individuelle Holzfenster, Haustüren und Wintergärten direkt in unserer eigenen Werkstatt.",
+    _id: "ronny",
+    name: "Ronny Mehlhorn",
+    role: "Inhaber & Tischlermeister",
+    imageUrl: "/images/real/werkstatt-2.jpg",
+    bio: "Übernahme der Meisterwerkstatt 2012 in 2. Generation. Verantwortlich für Kundenberatung, Arbeitsvorbereitung, Statikplanung und Fertigung.",
+    since: "Im Betrieb seit 1995 · Meisterbrief 2005",
   },
   {
-    number: "02",
-    title: "Ausgewählte Hölzer & langlebige Systeme",
-    description:
-      "Wir verarbeiten erstklassige Edelhölzer (Eiche, Lärche, Kiefer) und kombinieren sie auf Wunsch mit wartungsfreien Aluminium-Vorsatzschalen (System Gutmann Mira).",
+    _id: "roland",
+    name: "Roland Mehlhorn",
+    role: "Firmengründer & Senior",
+    imageUrl: "/images/real/werkstatt-1.jpg",
+    bio: "Gründete den Betrieb 1977 mit traditionellem Gestellbau und baute 1992 das heutige Werkstattgebäude in der Neuheider Straße auf.",
+    since: "Gründer 1977",
   },
   {
-    number: "03",
-    title: "Moderner Maschinenpark & Handarbeit",
-    description:
-      "Unser 1992 erbautes Firmengebäude bietet die ideale Ausstattung für präzise Computerbearbeitung, kombiniert mit traditioneller Tischlerarbeit.",
+    _id: "geselle",
+    name: "Werkstatt-Team & Gesellen",
+    role: "Tischlergesellen & Fachmonteure",
+    imageUrl: "/images/real/werkstatt-3.jpg",
+    bio: "Erfahrene Fachkräfte für den präzisen Zuschnitt, die Profilbearbeitung, Oberflächenveredelung und saubere RAL-Montage vor Ort.",
+    since: "Langjährige Handwerkserfahrung",
   },
   {
-    number: "04",
-    title: "Zuverlässige Vor-Ort-Montage",
-    description:
-      "Von der ersten Fachberatung über das Aufmaß bis zum sauberen, normgerechten Einbau aller Bauelemente stehen wir persönlich für Qualität ein.",
+    _id: "hund",
+    name: "Balou",
+    role: "Werkstatthund 🐾",
+    imageUrl: "/images/real/gebaeude-1.jpg",
+    bio: "Sorgt stets für gute Laune im Betrieb, begrüßt treue Kunden und überwacht zuverlässig die wohlverdienten Kaffeepausen.",
+    since: "Im Dienst für gute Stimmung",
   },
 ];
 
 export default async function UeberUnsPage() {
   let cmsData = null;
+  let teamMembers: TeamMemberData[] | null = null;
+
   try {
-    cmsData = await client.fetch(ABOUT_PAGE_QUERY, {}, { next: { revalidate: 30 } });
+    [cmsData, teamMembers] = await Promise.all([
+      client.fetch(ABOUT_PAGE_QUERY, {}, { next: { revalidate: 30 } }),
+      client.fetch(TEAM_MEMBERS_QUERY, {}, { next: { revalidate: 30 } }),
+    ]);
   } catch (e) {
     // Fallback
   }
@@ -57,124 +79,202 @@ export default async function UeberUnsPage() {
     cmsData?.introText ||
     "Tradition, Meisterhandwerk & moderner Bauelementebau in der Neuheider Straße 64 b in Schönheide.";
   const headerImageUrl = cmsData?.headerImageUrl || "/images/real/werkstatt-2.jpg";
+  const headerVideoUrl = cmsData?.headerVideoUrl || undefined;
+
+  const storyHeadline =
+    cmsData?.storyHeadline || "Vom traditionellen Gestellbau zum modernen Meisterbetrieb";
+  const p1 =
+    cmsData?.storyParagraph1 ||
+    "Die Geschichte unserer Tischlerei begann im Januar 1977, als Roland Mehlhorn den Schritt in die Selbstständigkeit wagte. Was mit traditionellem Gestellbau und solider Handarbeit seinen Anfang nahm, wuchs über die Jahrzehnte durch kontinuierliche Weiterentwicklung und kompromisslose Qualitätsorientierung zu einem festen Begriff im Westerzgebirge heran.";
+  const p2 =
+    cmsData?.storyParagraph2 ||
+    "1992 folgte der Neubau des heutigen Firmengebäudes in der Neuheider Straße 64 b – mit großzügigen Werkstatträumen und modernem Maschinenpark. Seit Juli 2012 führt Tischlermeister Ronny Mehlhorn die Geschicke des Familienunternehmens in zweiter Generation. Dabei verbinden wir überlieferte Handwerkstradition mit modernster Profiltechnik (wie dem System Gutmann Mira) und zukunftssicherer Isoliertechnologie.";
+  const p3 =
+    cmsData?.storyParagraph3 ||
+    "Für uns ist Holz nicht bloß ein Werkstoff, sondern lebendige Natur. Wir verarbeiten vorrangig hochwertige heimische Hölzer wie Eiche, Kiefer und Lärche. Jedes Fenster, jede Haustür und jeder Wintergarten verlässt unsere Werkstatt erst, wenn Passgenauigkeit, Oberflächenveredelung und Funktionalität höchsten meisterlichen Ansprüchen genügen.";
+
+  const workshopSlides: WorkshopSlide[] | undefined = cmsData?.workshopGallery?.map(
+    (item: { imageUrl: string; caption?: string }) => ({
+      imageUrl: item.imageUrl,
+      caption: item.caption,
+    })
+  );
+
+  const teamList =
+    teamMembers && teamMembers.length > 0 ? teamMembers : fallbackTeam;
 
   return (
     <>
       <Header />
       <main>
-        {/* Standardized 100% Consistent PageHeader */}
+        {/* Standardized 100% Consistent PageHeader (with optional background video) */}
         <PageHeader
           breadcrumb="Über uns & Werkstatt"
           badge={badge}
           title={title}
           subtitle={subtitle}
           headerImageUrl={headerImageUrl}
+          headerVideoUrl={headerVideoUrl}
         />
 
-        {/* Dedicated Key Facts Bar below Header */}
-        <section className="bg-[#F9F9F8] py-3.5 border-b border-[#E8E8E6]">
-          <div className="container-site flex flex-wrap items-center justify-between gap-3">
-            <span className="text-xs text-[#777777] font-medium">Meisterbetrieb auf einen Blick:</span>
-            <div className="flex flex-wrap gap-2">
-              <div className="flex items-center gap-1.5 text-xs text-[#181818] bg-white px-3 py-1.5 rounded border border-[#E8E8E6] font-medium">
-                <History size={13} className="text-[#8C6D4F]" />
-                Seit 1977
+        {/* 1. Ausführliche Geschichte & Philosophie (Editorial Fließtext) */}
+        <section className="py-16 md:py-24 bg-[#FFFFFF]">
+          <div className="container-site">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+              {/* Left Column: Authentic Craft Story */}
+              <div className="lg:col-span-7">
+                <span className="text-craft-label block mb-2">
+                  Meisterhandwerk aus Schönheide
+                </span>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#181818] mb-6 leading-tight">
+                  {storyHeadline}
+                </h2>
+
+                <div className="space-y-5 text-[#555555] text-base leading-relaxed">
+                  <p>{p1}</p>
+                  <p>{p2}</p>
+                  <p>{p3}</p>
+                </div>
+
+                {/* Handwerks-Qualitätsmerkmale */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 mt-8 border-t border-[#E8E8E6]">
+                  <div className="flex items-start gap-2.5">
+                    <ShieldCheck size={18} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-bold text-xs text-[#181818]">100% Meisterqualität</h4>
+                      <p className="text-[11px] text-[#777777] mt-0.5">Eigene Fertigung in Schönheide</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <HeartHandshake size={18} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-bold text-xs text-[#181818]">Persönliche Betreuung</h4>
+                      <p className="text-[11px] text-[#777777] mt-0.5">Von Aufmaß bis Montage</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2.5">
+                    <Sparkles size={18} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-bold text-xs text-[#181818]">Heimische Hölzer</h4>
+                      <p className="text-[11px] text-[#777777] mt-0.5">Eiche, Kiefer & Lärche</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-[#181818] bg-white px-3 py-1.5 rounded border border-[#E8E8E6] font-medium">
-                <Building2 size={13} className="text-[#8C6D4F]" />
-                1992 Neubau
-              </div>
-              <div className="flex items-center gap-1.5 text-xs text-[#181818] bg-white px-3 py-1.5 rounded border border-[#E8E8E6] font-medium">
-                <Award size={13} className="text-[#8C6D4F]" />
-                Inh. Ronny Mehlhorn
+
+              {/* Right Column: Large Authentic Workshop Images */}
+              <div className="lg:col-span-5 space-y-4">
+                <div className="relative rounded-lg overflow-hidden border border-[#E8E8E6] bg-[#F9F9F8]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/real/gebaeude-1.jpg"
+                    alt="Firmengebäude Tischlerei Mehlhorn in Schönheide"
+                    className="w-full h-64 sm:h-80 object-cover"
+                  />
+                  <div className="p-3.5 bg-white border-t border-[#E8E8E6] text-xs text-[#555555]">
+                    <strong className="text-[#181818] block">Neuheider Straße 64 b, Schönheide</strong>
+                    <span>1992 neu erbautes Firmengebäude mit Meisterwerkstatt</span>
+                  </div>
+                </div>
+
+                <div className="relative rounded-lg overflow-hidden border border-[#E8E8E6] bg-[#F9F9F8]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/real/werkstatt-2.jpg"
+                    alt="Werkstatt & Holzverarbeitung"
+                    className="w-full h-48 sm:h-56 object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Werkstatt-Galerie & Fertigung */}
-        <section className="py-12 md:py-16 bg-white">
+        {/* 2. Team & Mitarbeiter Vorstellung (im Backend pflegbar) */}
+        <section className="py-16 md:py-24 bg-[#F9F9F8] border-t border-[#E8E8E6]">
           <div className="container-site">
-            <div className="text-center max-w-2xl mx-auto mb-10">
-              <span className="text-craft-label block mb-1">Einblick in die Fertigung</span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#181818]">
-                Unsere Werkstatt in Schönheide
+            <div className="text-center max-w-2xl mx-auto mb-14">
+              <span className="text-craft-label block mb-1">
+                Die Gesichter hinter dem Handwerk
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#181818] tracking-tight mb-3">
+                Unser Team
               </h2>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <div className="rounded-lg overflow-hidden border border-[#E8E8E6] h-60 sm:h-72 bg-[#F9F9F8]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/real/werkstatt-1.jpg" alt="Maschinenpark Tischlerei Mehlhorn" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-              </div>
-              <div className="rounded-lg overflow-hidden border border-[#E8E8E6] h-60 sm:h-72 bg-[#F9F9F8]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/real/werkstatt-2.jpg" alt="Hobelbank und Holzverarbeitung" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-              </div>
-              <div className="rounded-lg overflow-hidden border border-[#E8E8E6] h-60 sm:h-72 bg-[#F9F9F8]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/images/real/werkstatt-3.jpg" alt="Fensterbau und Endmontage" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Timeline Component */}
-        <AboutTimeline />
-
-        {/* Values Section */}
-        <section className="py-12 md:py-16 bg-[#F9F9F8] border-t border-[#E8E8E6]">
-          <div className="container-site">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-craft-label block mb-1">Unser Qualitätsversprechen</span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#181818] mb-2">
-                Werte, auf die Sie bauen können
-              </h2>
-              <p className="text-[#555555] text-xs sm:text-sm">
-                Verlässlichkeit, meisterliche Präzision und der respektvolle Umgang mit dem Naturbaustoff Holz.
+              <p className="text-[#555555] text-sm sm:text-base leading-relaxed">
+                Mit Leidenschaft, handwerklichem Können und einem geschulten Auge für Details arbeiten wir täglich für zufriedene Bauherren.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-              {values.map((v) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              {teamList.map((member) => (
                 <div
-                  key={v.title}
-                  className="craft-card p-6 flex flex-col justify-between bg-white"
+                  key={member._id}
+                  className="craft-card p-6 bg-white flex flex-col justify-between h-full group shadow-xs hover:shadow-sm"
                 >
                   <div>
-                    <span className="text-2xl font-bold text-[#8C6D4F] block mb-2">
-                      {v.number}
+                    {/* Portrait Photo */}
+                    <div className="relative h-56 sm:h-60 rounded overflow-hidden mb-4 bg-[#F2F2F0] border border-[#E8E8E6]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={member.imageUrl || "/images/real/werkstatt-2.jpg"}
+                        alt={member.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+
+                    {/* Role Badge */}
+                    <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
+                      {member.role}
                     </span>
-                    <h3 className="text-base sm:text-lg font-bold text-[#181818] mb-2">
-                      {v.title}
+
+                    {/* Name */}
+                    <h3 className="text-xl font-bold text-[#181818] mb-2">
+                      {member.name}
                     </h3>
-                    <p className="text-[#666666] text-xs sm:text-sm leading-relaxed">
-                      {v.description}
-                    </p>
+
+                    {/* Bio */}
+                    {member.bio && (
+                      <p className="text-xs sm:text-sm text-[#555555] leading-relaxed mb-4">
+                        {member.bio}
+                      </p>
+                    )}
                   </div>
+
+                  {/* Since / Experience info */}
+                  {member.since && (
+                    <div className="pt-3 border-t border-[#F2F2F0] text-[11px] text-[#777777] flex items-center gap-1.5 mt-auto">
+                      <UserCheck size={13} className="text-[#8C6D4F]" />
+                      <span>{member.since}</span>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
+          </div>
+        </section>
 
-            {/* Bottom CTA */}
-            <div className="mt-14 bg-[#181818] text-white rounded-lg p-6 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60 block mb-1">Interesse geweckt?</span>
-                <h3 className="text-xl sm:text-2xl font-bold mb-1">
-                  Lassen Sie uns über Ihr Bauvorhaben sprechen
-                </h3>
-                <p className="text-white/70 text-xs sm:text-sm max-w-xl">
-                  Besuchen Sie uns in der Neuheider Straße 64 b in Schönheide oder vereinbaren Sie einen Vor-Ort-Termin.
-                </p>
-              </div>
-              <div className="flex gap-2.5 flex-shrink-0">
-                <Link href="/leistungen" className="btn btn-outline text-xs py-2 px-3.5">
-                  Leistungen ansehen
-                </Link>
-                <Link href="/kontakt" className="btn bg-white text-[#181818] hover:bg-white/90 text-xs py-2 px-3.5 font-semibold">
-                  Kontakt aufnehmen
-                </Link>
-              </div>
+        {/* 3. Slide-Galerie der Firma & Werkstatt */}
+        <WorkshopSlideGallery slides={workshopSlides} />
+
+        {/* 4. Bottom CTA Section */}
+        <section className="bg-[#181818] text-white py-16">
+          <div className="container-site text-center max-w-2xl">
+            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60 block mb-1.5">
+              Persönliche Beratung in Schönheide
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3">
+              Möchten Sie Ihr Projekt persönlich besprechen?
+            </h2>
+            <p className="text-white/70 text-sm sm:text-base mb-8 leading-relaxed">
+              Tischlermeister Ronny Mehlhorn berät Sie gerne vor Ort oder direkt bei uns in der Werkstatt.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-3">
+              <Link href="/kontakt" className="btn bg-white text-[#181818] hover:bg-white/90 text-xs sm:text-sm py-3 px-6">
+                Kontakt aufnehmen
+              </Link>
+              <Link href="/leistungen" className="btn btn-outline text-xs sm:text-sm py-3 px-6">
+                Leistungen entdecken
+              </Link>
             </div>
           </div>
         </section>

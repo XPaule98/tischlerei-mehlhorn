@@ -8,6 +8,7 @@ import { contactPage } from "./contactPage";
 import { serviceItem } from "./serviceItem";
 import { catalogProduct } from "./catalogProduct";
 import { portfolioProject } from "./portfolioProject";
+import { teamMember } from "./teamMember";
 
 export const schemaTypes = [
   // Page Settings / Singletons
@@ -23,4 +24,5 @@ export const schemaTypes = [
   serviceItem,
   catalogProduct,
   portfolioProject,
+  teamMember,
 ];

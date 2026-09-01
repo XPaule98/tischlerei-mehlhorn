@@ -6,6 +6,7 @@ interface PageHeaderProps {
   title: string;
   subtitle: string;
   headerImageUrl?: string;
+  headerVideoUrl?: string;
   defaultImage?: string;
 }
 
@@ -15,20 +16,33 @@ export default function PageHeader({
   title,
   subtitle,
   headerImageUrl,
+  headerVideoUrl,
   defaultImage = "/images/real/gebaeude-1.jpg",
 }: PageHeaderProps) {
   const bgImage = headerImageUrl || defaultImage;
 
   return (
     <section className="relative bg-[#141414] text-white pt-28 pb-10 md:pt-36 md:pb-14 overflow-hidden border-b border-[#2A2A28]">
-      {/* Background Image with Unified Overlay */}
+      {/* Background Media with Unified Overlay */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={bgImage}
-          alt={title}
-          className="w-full h-full object-cover opacity-35 object-center"
-        />
+        {headerVideoUrl ? (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-35 object-center"
+          >
+            <source src={headerVideoUrl} type="video/mp4" />
+          </video>
+        ) : (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={bgImage}
+            alt={title}
+            className="w-full h-full object-cover opacity-35 object-center"
+          />
+        )}
         {/* Clean Vignette & Gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/60 to-[#141414]/30" />
       </div>

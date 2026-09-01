@@ -33,7 +33,26 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     headline,
     introText,
     "headerImageUrl": headerImage.asset->url,
-    milestones
+    headerVideoUrl,
+    storyHeadline,
+    storyParagraph1,
+    storyParagraph2,
+    storyParagraph3,
+    "workshopGallery": workshopGallery[] {
+      "imageUrl": image.asset->url,
+      caption
+    }
+  }
+`);
+
+export const TEAM_MEMBERS_QUERY = defineQuery(`
+  *[_type == "teamMember"] | order(order asc, _createdAt asc) {
+    _id,
+    name,
+    role,
+    "imageUrl": image.asset->url,
+    bio,
+    since
   }
 `);
 
@@ -42,7 +61,8 @@ export const GALLERY_PAGE_QUERY = defineQuery(`
     badge,
     title,
     subtitle,
-    "headerImageUrl": headerImage.asset->url
+    "headerImageUrl": headerImage.asset->url,
+    headerVideoUrl
   }
 `);
 
