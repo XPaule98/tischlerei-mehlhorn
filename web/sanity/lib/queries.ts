@@ -2,18 +2,14 @@ import { defineQuery } from "next-sanity";
 
 export const HERO_QUERY = defineQuery(`
   *[_id == "heroSettings"][0] {
-    craftBadge,
     title,
     subtitle,
     primaryButtonText,
     primaryButtonLink,
     secondaryButtonText,
     secondaryButtonLink,
-    "slides": slides[] {
-      "imageUrl": image.asset->url,
-      customTitle,
-      customSubtitle
-    },
+    "imageUrls": images[].asset->url,
+    "legacySlideUrls": slides[].image.asset->url,
     backgroundVideoUrl
   }
 `);
