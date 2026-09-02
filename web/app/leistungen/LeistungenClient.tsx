@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, ArrowRight, ChevronDown, Maximize2, X } from "lucide-react";
+import { Check, ArrowRight, Maximize2, X, Hammer, Layers, Sparkles } from "lucide-react";
 
 export interface ServiceItemData {
   _id: string;
@@ -20,17 +20,10 @@ interface Props {
   services: ServiceItemData[];
 }
 
-export default function LeistungenClient({ services }: Props) {
-  // Split into categories
-  const eigenfertigung = services.filter(
-    (s) => s.category === "eigenfertigung" || !s.category
-  );
-  const bauelemente = services.filter((s) => s.category === "bauelemente");
+type FilterCategory = "alle" | "eigenfertigung" | "bauelemente";
 
-  // Track open state for each item (first item open by default)
-  const [openItems, setOpenItems] = useState<Record<string, boolean>>({
-    [eigenfertigung[0]?._id || ""]: true,
-  });
+export default function LeistungenClient({ services }: Props) {
+  const [activeCategory, setActiveCategory] = useState<FilterCategory>("alle");
 
   // Track selected active image for items with multiple gallery images
   const [activeImages, setActiveImages] = useState<Record<string, string>>({});
@@ -38,20 +31,11 @@ export default function LeistungenClient({ services }: Props) {
   // Lightbox Modal state
   const [lightboxImage, setLightboxImage] = useState<{ src: string; title: string } | null>(null);
 
-  const toggleItem = (id: string) => {
-    setOpenItems((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
-  const toggleAll = (items: ServiceItemData[], open: boolean) => {
-    const next: Record<string, boolean> = { ...openItems };
-    items.forEach((item) => {
-      next[item._id] = open;
-    });
-    setOpenItems(next);
-  };
+  // Split into categories
+  const eigenfertigung = services.filter(
+    (s) => s.category === "eigenfertigung" || !s.category
+  );
+  const bauelemente = services.filter((s) => s.category === "bauelemente");
 
   const selectImage = (serviceId: string, url: string) => {
     setActiveImages((prev) => ({
@@ -60,217 +44,287 @@ export default function LeistungenClient({ services }: Props) {
     }));
   };
 
-  const renderServiceCard = (item: ServiceItemData) => {
-    const isOpen = Boolean(openItems[item._id]);
-    
-    // Collect all available photos for this item (main image + gallery)
-    const allPhotos = Array.from(
-      new Set([item.imageUrl, ...(item.galleryUrls || [])].filter(Boolean))
-    ) as string[];
-
-    const currentImage = activeImages[item._id] || allPhotos[0] || item.imageUrl;
-    const hasImage = Boolean(currentImage);
-    const hasMultiplePhotos = allPhotos.length > 1;
-
-    return (
-      <div
-        key={item._id}
-        className={`craft-card overflow-hidden transition-all duration-300 ${
-          isOpen ? "border-[#CFCFCB] shadow-sm bg-white" : "hover:border-[#CFCFCB] bg-[#FAFAFA]"
-        }`}
-      >
-        {/* Collapsed / Expand Header Bar */}
-        <button
-          onClick={() => toggleItem(item._id)}
-          aria-expanded={isOpen}
-          className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 cursor-pointer hover:bg-black/[0.015] transition-colors"
-        >
-          <div className="flex-1 pr-2">
-            {item.subtitle && (
-              <span className="text-[11px] sm:text-xs font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
-                {item.subtitle}
-              </span>
-            )}
-            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[#181818] leading-snug">
-              {item.title}
-            </h3>
-          </div>
-
-          {/* Toggle Button & Icon */}
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <span className="hidden sm:inline-block text-xs font-semibold text-[#777777]">
-              {isOpen ? "Einklappen" : "Details ansehen"}
-            </span>
-            <div
-              className={`w-9 h-9 rounded-full bg-white border border-[#E8E8E6] flex items-center justify-center text-[#181818] transition-transform duration-300 ${
-                isOpen ? "rotate-180 bg-[#181818] text-white border-[#181818]" : ""
-              }`}
-            >
-              <ChevronDown size={18} />
-            </div>
-          </div>
-        </button>
-
-        {/* Expanded Details Body */}
-        {isOpen && (
-          <div className="px-5 pb-6 sm:px-8 sm:pb-8 pt-2 border-t border-[#F2F2F0] bg-white animate-in fade-in-50 duration-300">
-            <div className={`grid grid-cols-1 ${hasImage ? "lg:grid-cols-12 gap-8 lg:gap-10" : ""} items-start mt-3`}>
-              {/* Image & Interactive Thumbnail Switcher */}
-              {hasImage && (
-                <div className="lg:col-span-6 space-y-3">
-                  {/* Large Main Photo */}
-                  <div
-                    onClick={() => {
-                      if (currentImage) {
-                        setLightboxImage({ src: currentImage, title: item.title });
-                      }
-                    }}
-                    className="relative rounded-lg overflow-hidden bg-[#F9F9F8] border border-[#E8E8E6] shadow-xs cursor-pointer group"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={currentImage}
-                      alt={item.title}
-                      className="w-full h-[280px] sm:h-[350px] object-cover transition-transform duration-500 group-hover:scale-102"
-                    />
-                    <div className="absolute bottom-3 right-3 w-8 h-8 rounded bg-[#181818]/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
-                      <Maximize2 size={14} />
-                    </div>
-                  </div>
-
-                  {/* Interactive Thumbnail Gallery – Click to Switch Main Photo */}
-                  {hasMultiplePhotos && (
-                    <div className="flex items-center gap-2.5 overflow-x-auto pb-1">
-                      {allPhotos.map((photoUrl, pIdx) => {
-                        const isSelected = photoUrl === currentImage;
-                        return (
-                          <button
-                            key={pIdx}
-                            type="button"
-                            onClick={() => selectImage(item._id, photoUrl)}
-                            aria-label={`Foto ${pIdx + 1} von ${item.title} anzeigen`}
-                            className={`relative h-18 w-24 sm:h-20 sm:w-28 rounded-md overflow-hidden border-2 transition-all cursor-pointer flex-shrink-0 ${
-                              isSelected
-                                ? "border-[#181818] shadow-sm scale-102"
-                                : "border-transparent opacity-65 hover:opacity-100 hover:border-[#CCCCCC]"
-                            }`}
-                          >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={photoUrl}
-                              alt={`${item.title} Vorschau ${pIdx + 1}`}
-                              className="w-full h-full object-cover"
-                            />
-                          </button>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Text, Bullet Points & CTA */}
-              <div className={hasImage ? "lg:col-span-6" : "w-full max-w-3xl"}>
-                {item.description && (
-                  <p className="text-[#555555] text-sm sm:text-base leading-relaxed mb-5">
-                    {item.description}
-                  </p>
-                )}
-
-                {item.features && item.features.length > 0 && (
-                  <div className="space-y-2 mb-6 p-4 bg-[#F9F9F8] rounded-lg border border-[#E8E8E6]">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-[#181818] mb-2.5">
-                      Ausstattungsmerkmale & Vorteile:
-                    </h4>
-                    {item.features.map((feat, i) => (
-                      <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#444444]">
-                        <Check size={14} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
-                        <span>{feat}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <Link
-                  href={`/kontakt?gewerk=${encodeURIComponent(item.title)}`}
-                  className="btn btn-primary text-xs sm:text-sm inline-flex items-center gap-1.5"
-                >
-                  Angebot für {item.title} anfordern
-                  <ArrowRight size={13} />
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
+  const showEigenfertigung = activeCategory === "alle" || activeCategory === "eigenfertigung";
+  const showBauelemente = activeCategory === "alle" || activeCategory === "bauelemente";
 
   return (
     <>
-      <div className="space-y-16 md:space-y-20 py-12 md:py-16">
-        {/* 1. Eigene Herstellung */}
-        {eigenfertigung.length > 0 && (
-          <section className="container-site">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-3 border-b border-[#E8E8E6]">
-              <div>
-                <span className="text-craft-label block mb-1">Tradition & Präzision</span>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#181818] tracking-tight">
-                  Eigene Herstellung in Schönheide
-                </h2>
-              </div>
+      {/* Category Navigation Bar */}
+      <section className="bg-[#F9F9F8] border-b border-[#E8E8E6] sticky top-[60px] md:top-[72px] z-30 shadow-xs">
+        <div className="container-site py-4">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <button
+              onClick={() => setActiveCategory("alle")}
+              className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                activeCategory === "alle"
+                  ? "bg-[#181818] text-white shadow-sm"
+                  : "bg-white text-[#555555] hover:text-[#181818] border border-[#E8E8E6] hover:bg-gray-50"
+              }`}
+            >
+              Alle Leistungen ({services.length})
+            </button>
 
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => toggleAll(eigenfertigung, true)}
-                  className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
-                >
-                  Alle aufklappen
-                </button>
-                <button
-                  onClick={() => toggleAll(eigenfertigung, false)}
-                  className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
-                >
-                  Alle einklappen
-                </button>
-              </div>
+            <button
+              onClick={() => setActiveCategory("eigenfertigung")}
+              className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer inline-flex items-center gap-1.5 ${
+                activeCategory === "eigenfertigung"
+                  ? "bg-[#181818] text-white shadow-sm"
+                  : "bg-white text-[#555555] hover:text-[#181818] border border-[#E8E8E6] hover:bg-gray-50"
+              }`}
+            >
+              <Hammer size={14} className={activeCategory === "eigenfertigung" ? "text-white" : "text-[#8C6D4F]"} />
+              Eigene Herstellung ({eigenfertigung.length})
+            </button>
+
+            <button
+              onClick={() => setActiveCategory("bauelemente")}
+              className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer inline-flex items-center gap-1.5 ${
+                activeCategory === "bauelemente"
+                  ? "bg-[#181818] text-white shadow-sm"
+                  : "bg-white text-[#555555] hover:text-[#181818] border border-[#E8E8E6] hover:bg-gray-50"
+              }`}
+            >
+              <Layers size={14} className={activeCategory === "bauelemente" ? "text-white" : "text-[#8C6D4F]"} />
+              Bauelemente & Montage ({bauelemente.length})
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div className="space-y-20 md:space-y-28 py-12 md:py-20">
+        {/* =========================================================================
+            1. EIGENE HERSTELLUNG (Offene, großzügige Visual Showcase Blöcke)
+           ========================================================================= */}
+        {showEigenfertigung && eigenfertigung.length > 0 && (
+          <section id="eigenfertigung" className="container-site scroll-mt-28">
+            {/* Section Header */}
+            <div className="max-w-3xl mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-4xl font-bold text-[#181818] tracking-tight mb-3">
+                1. Eigene Herstellung & Meisterfertigung
+              </h2>
+              <p className="text-[#555555] text-sm sm:text-base leading-relaxed">
+                In unserer Meisterwerkstatt in Schönheide fertigen wir individuelle Holzelemente nach Maß.
+                Jedes Stück entsteht aus erlesenem Massivholz mit modernster CNC-Präzision und traditioneller Handwerkskunst.
+              </p>
             </div>
 
-            <div className="space-y-4">
-              {eigenfertigung.map(renderServiceCard)}
+            {/* Showcase Items (Alternating Layout) */}
+            <div className="space-y-16 sm:space-y-24">
+              {eigenfertigung.map((item, index) => {
+                // Collect all available photos for this item (main image + gallery)
+                const allPhotos = Array.from(
+                  new Set([item.imageUrl, ...(item.galleryUrls || [])].filter(Boolean))
+                ) as string[];
+
+                const currentImage = activeImages[item._id] || allPhotos[0] || item.imageUrl || "/images/real/werkstatt-2.jpg";
+                const hasMultiplePhotos = allPhotos.length > 1;
+                const isReversed = index % 2 === 1;
+
+                return (
+                  <div
+                    key={item._id}
+                    className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center pb-16 border-b border-[#E8E8E6] last:border-b-0 last:pb-0"
+                  >
+                    {/* Image Column */}
+                    <div className={`lg:col-span-6 ${isReversed ? "lg:order-2" : "lg:order-1"}`}>
+                      <div className="space-y-3">
+                        {/* Main High-Res Photo */}
+                        <div
+                          onClick={() => setLightboxImage({ src: currentImage, title: item.title })}
+                          className="relative rounded-xl overflow-hidden bg-[#F2F2F0] border border-[#E8E8E6] shadow-sm cursor-pointer group"
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={currentImage}
+                            alt={item.title}
+                            className="w-full h-[280px] sm:h-[380px] object-cover transition-transform duration-700 group-hover:scale-102"
+                          />
+
+                          {/* Subtle zoom indicator */}
+                          <div className="absolute bottom-3 right-3 w-8 h-8 rounded bg-[#181818]/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+                            <Maximize2 size={14} />
+                          </div>
+
+                          {/* Authentic Workshop Badge */}
+                          <div className="absolute top-3 left-3 bg-[#181818]/85 text-white text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded shadow-sm flex items-center gap-1.5">
+                            <Sparkles size={12} className="text-[#E5DECE]" />
+                            Eigene Werkstattfertigung
+                          </div>
+                        </div>
+
+                        {/* Gallery Thumbnails (if multiple exist) */}
+                        {hasMultiplePhotos && (
+                          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                            {allPhotos.map((photoUrl, pIdx) => {
+                              const isSelected = photoUrl === currentImage;
+                              return (
+                                <button
+                                  key={pIdx}
+                                  type="button"
+                                  onClick={() => selectImage(item._id, photoUrl)}
+                                  aria-label={`Foto ${pIdx + 1} von ${item.title} anzeigen`}
+                                  className={`relative h-16 w-20 sm:h-20 sm:w-24 rounded-lg overflow-hidden border-2 transition-all cursor-pointer flex-shrink-0 ${
+                                    isSelected
+                                      ? "border-[#181818] shadow-sm scale-102"
+                                      : "border-transparent opacity-60 hover:opacity-100 hover:border-[#CCCCCC]"
+                                  }`}
+                                >
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img
+                                    src={photoUrl}
+                                    alt={`${item.title} Detail ${pIdx + 1}`}
+                                    className="w-full h-full object-cover"
+                                  />
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Content Column (No confusing lines above title) */}
+                    <div className={`lg:col-span-6 ${isReversed ? "lg:order-1" : "lg:order-2"}`}>
+                      {/* Clean H3 Title */}
+                      <h3 className="text-2xl sm:text-3xl font-bold text-[#181818] leading-tight mb-2">
+                        {item.title}
+                      </h3>
+
+                      {/* Optional Subtitle / Tagline below title */}
+                      {item.subtitle && (
+                        <p className="text-sm font-semibold text-[#8C6D4F] mb-4">
+                          {item.subtitle}
+                        </p>
+                      )}
+
+                      {/* Detailed Description */}
+                      {item.description && (
+                        <p className="text-[#555555] text-sm sm:text-base leading-relaxed mb-6">
+                          {item.description}
+                        </p>
+                      )}
+
+                      {/* Feature Bullet Points */}
+                      {item.features && item.features.length > 0 && (
+                        <div className="space-y-2.5 mb-8 p-4 sm:p-5 bg-[#F9F9F8] rounded-xl border border-[#E8E8E6]">
+                          <span className="text-xs font-bold uppercase tracking-wider text-[#181818] block mb-2">
+                            Qualitätsmerkmale:
+                          </span>
+                          <div className="space-y-2">
+                            {item.features.map((feat, fIdx) => (
+                              <div key={fIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#444444]">
+                                <Check size={15} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
+                                <span>{feat}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Direct CTA */}
+                      <Link
+                        href={`/kontakt?gewerk=${encodeURIComponent(item.title)}`}
+                        className="btn btn-primary text-xs sm:text-sm inline-flex items-center justify-center gap-2 w-full sm:w-auto"
+                      >
+                        Angebot für {item.title.split(" ")[0]} anfordern
+                        <ArrowRight size={14} />
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </section>
         )}
 
-        {/* 2. Bauelemente & Montageservice */}
-        {bauelemente.length > 0 && (
-          <section className="container-site pt-8 border-t border-[#E8E8E6]">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-3 border-b border-[#E8E8E6]">
-              <div>
-                <span className="text-craft-label block mb-1">Geprüfte Markenqualität</span>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#181818] tracking-tight">
-                  Bauelemente & Montageservice
-                </h2>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => toggleAll(bauelemente, true)}
-                  className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
-                >
-                  Alle aufklappen
-                </button>
-                <button
-                  onClick={() => toggleAll(bauelemente, false)}
-                  className="text-xs font-semibold text-[#555555] hover:text-[#181818] px-3 py-1.5 rounded border border-[#E8E8E6] bg-white transition-colors cursor-pointer"
-                >
-                  Alle einklappen
-                </button>
-              </div>
+        {/* =========================================================================
+            2. BAUELEMENTE & MONTAGESERVICE (Strukturierte, übersichtliche Karten)
+           ========================================================================= */}
+        {showBauelemente && bauelemente.length > 0 && (
+          <section id="bauelemente" className="container-site scroll-mt-28">
+            {/* Section Header */}
+            <div className="max-w-3xl mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-4xl font-bold text-[#181818] tracking-tight mb-3">
+                2. Bauelemente, Handel & Fachmontage
+              </h2>
+              <p className="text-[#555555] text-sm sm:text-base leading-relaxed">
+                Kompletter Vor-Ort-Service führender Markenhersteller: Beratung, exaktes Aufmaß, Lieferung
+                und RAL-zertifizierter Einbau aller Bauelemente durch unser erfahrenes Montageteam.
+              </p>
             </div>
 
-            <div className="space-y-4">
-              {bauelemente.map(renderServiceCard)}
+            {/* Structured Card Grid (Nothing gets lost) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              {bauelemente.map((item) => {
+                const cardImage = item.imageUrl || "/images/service-fenster.jpg";
+
+                return (
+                  <div
+                    key={item._id}
+                    className="craft-card bg-white flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-md transition-shadow group"
+                  >
+                    <div>
+                      {/* Card Preview Image */}
+                      <div className="relative h-44 sm:h-48 overflow-hidden bg-[#F2F2F0]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={cardImage}
+                          alt={item.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute top-2.5 left-2.5 bg-[#181818]/85 text-white text-[10px] font-semibold px-2 py-0.5 rounded">
+                          Handel & Montage
+                        </div>
+                      </div>
+
+                      {/* Content Area */}
+                      <div className="p-5 sm:p-6">
+                        {/* Clean Title */}
+                        <h3 className="text-lg sm:text-xl font-bold text-[#181818] leading-snug mb-1.5">
+                          {item.title}
+                        </h3>
+
+                        {/* Optional Subtitle below title */}
+                        {item.subtitle && (
+                          <p className="text-xs font-semibold text-[#8C6D4F] mb-3">
+                            {item.subtitle}
+                          </p>
+                        )}
+
+                        {/* Description */}
+                        {item.description && (
+                          <p className="text-xs sm:text-sm text-[#555555] leading-relaxed mb-5">
+                            {item.description}
+                          </p>
+                        )}
+
+                        {/* Features */}
+                        {item.features && item.features.length > 0 && (
+                          <div className="space-y-2 mb-6 pt-4 border-t border-[#F2F2F0]">
+                            {item.features.map((feat, idx) => (
+                              <div key={idx} className="flex items-start gap-2 text-xs text-[#555555]">
+                                <Check size={13} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
+                                <span>{feat}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Bottom CTA Row */}
+                    <div className="p-5 sm:p-6 pt-0 mt-auto">
+                      <Link
+                        href={`/kontakt?gewerk=${encodeURIComponent(item.title)}`}
+                        className="btn btn-outline-dark text-xs py-2.5 px-4 w-full flex items-center justify-center gap-1.5"
+                      >
+                        Angebot anfragen
+                        <ArrowRight size={12} />
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </section>
         )}

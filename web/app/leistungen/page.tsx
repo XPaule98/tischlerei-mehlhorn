@@ -85,6 +85,7 @@ const fallbackServices: ServiceItemData[] = [
     title: "Kunststofffenster (VEKA & GEALAN)",
     subtitle: "Markenprofile mit hohem Schall- und Wärmeschutz",
     category: "bauelemente",
+    imageUrl: "/images/service-fenster.jpg",
     description:
       "Modernste Mehrkammer-Kunststofffenster führender Profilsysteme wie VEKA und Gealan. Pflegeleicht, hochisolierend und in vielen Dekorfarben erhältlich.",
     features: [
@@ -98,6 +99,7 @@ const fallbackServices: ServiceItemData[] = [
     title: "Innentüren & Zargensysteme",
     subtitle: "Echtholz, CPL & Ganzglastüren",
     category: "bauelemente",
+    imageUrl: "/images/real/tuer-4.jpg",
     description:
       "Von der klassischen Weißlacktür über hochwertige Echtholzfurniere bis hin zu modernen Ganzglastüren und Schiebetürsystemen.",
     features: [
@@ -111,6 +113,7 @@ const fallbackServices: ServiceItemData[] = [
     title: "Garagentore & Antriebe",
     subtitle: "Sektional- und Rolltore mit Funksteuerung",
     category: "bauelemente",
+    imageUrl: "/images/real/gebaeude-1.jpg",
     description:
       "Wärmegedämmte Sektionaltore und Rolltore führender Hersteller inklusive leiser Funk-Elektroantriebe.",
     features: [
@@ -124,6 +127,7 @@ const fallbackServices: ServiceItemData[] = [
     title: "Beschattungen & Rollladensysteme",
     subtitle: "Sonnen-, Sicht- und Einbruchschutz",
     category: "bauelemente",
+    imageUrl: "/images/real/fenster-holz-2.jpg",
     description:
       "Vorbau- und Aufsatzrollladen, Klappläden und Insektenschutzgitter für zuverlässigen Sonnen-, Sicht- und Einbruchschutz.",
     features: [
