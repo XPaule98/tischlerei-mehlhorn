@@ -8,6 +8,7 @@ import { ShoppingBag, Ruler, TreePine, Sparkles, Store, Truck, ArrowRight } from
 export interface ShopProduct {
   _id?: string;
   id?: string;
+  slug?: string;
   title: string;
   price?: number;
   category?: string;
