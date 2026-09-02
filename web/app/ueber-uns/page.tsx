@@ -205,48 +205,45 @@ export default async function UeberUnsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-10 sm:gap-y-12 max-w-5xl mx-auto">
               {teamList.map((member) => (
                 <div
                   key={member._id}
-                  className="craft-card p-6 bg-white flex flex-col justify-between h-full group shadow-xs hover:shadow-sm"
+                  className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5 sm:gap-6 group"
                 >
-                  <div>
-                    {/* Portrait Photo */}
-                    <div className="relative h-56 sm:h-60 rounded overflow-hidden mb-4 bg-[#F2F2F0] border border-[#E8E8E6]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={member.imageUrl || "/images/real/werkstatt-2.jpg"}
-                        alt={member.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
+                  {/* Round Avatar Circle */}
+                  <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden flex-shrink-0 ring-4 ring-white shadow-md bg-[#E8E8E6]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={member.imageUrl || "/images/real/werkstatt-2.jpg"}
+                      alt={member.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
 
-                    {/* Role Badge */}
+                  {/* Free Unboxed Text Content */}
+                  <div className="flex-1 min-w-0">
                     <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
                       {member.role}
                     </span>
 
-                    {/* Name */}
-                    <h3 className="text-xl font-bold text-[#181818] mb-2">
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#181818] mb-2 leading-snug">
                       {member.name}
                     </h3>
 
-                    {/* Bio */}
                     {member.bio && (
-                      <p className="text-xs sm:text-sm text-[#555555] leading-relaxed mb-4">
+                      <p className="text-xs sm:text-sm text-[#555555] leading-relaxed mb-3">
                         {member.bio}
                       </p>
                     )}
-                  </div>
 
-                  {/* Since / Experience info */}
-                  {member.since && (
-                    <div className="pt-3 border-t border-[#F2F2F0] text-[11px] text-[#777777] flex items-center gap-1.5 mt-auto">
-                      <UserCheck size={13} className="text-[#8C6D4F]" />
-                      <span>{member.since}</span>
-                    </div>
-                  )}
+                    {member.since && (
+                      <div className="text-[11px] sm:text-xs text-[#777777] flex items-center justify-center sm:justify-start gap-1.5 font-medium">
+                        <UserCheck size={14} className="text-[#8C6D4F] flex-shrink-0" />
+                        <span>{member.since}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
