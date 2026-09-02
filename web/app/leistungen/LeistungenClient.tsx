@@ -47,6 +47,17 @@ export default function LeistungenClient({ services }: Props) {
   const showEigenfertigung = activeCategory === "alle" || activeCategory === "eigenfertigung";
   const showBauelemente = activeCategory === "alle" || activeCategory === "bauelemente";
 
+  const handleFilter = (cat: FilterCategory) => {
+    setActiveCategory(cat);
+    setTimeout(() => {
+      const targetId = cat === "bauelemente" ? "bauelemente" : "eigenfertigung";
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 60);
+  };
+
   return (
     <>
       {/* Category Navigation Bar */}
@@ -54,7 +65,7 @@ export default function LeistungenClient({ services }: Props) {
         <div className="container-site py-4">
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <button
-              onClick={() => setActiveCategory("alle")}
+              onClick={() => handleFilter("alle")}
               className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 activeCategory === "alle"
                   ? "bg-[#181818] text-white shadow-sm"
@@ -65,7 +76,7 @@ export default function LeistungenClient({ services }: Props) {
             </button>
 
             <button
-              onClick={() => setActiveCategory("eigenfertigung")}
+              onClick={() => handleFilter("eigenfertigung")}
               className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer inline-flex items-center gap-1.5 ${
                 activeCategory === "eigenfertigung"
                   ? "bg-[#181818] text-white shadow-sm"
@@ -77,7 +88,7 @@ export default function LeistungenClient({ services }: Props) {
             </button>
 
             <button
-              onClick={() => setActiveCategory("bauelemente")}
+              onClick={() => handleFilter("bauelemente")}
               className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer inline-flex items-center gap-1.5 ${
                 activeCategory === "bauelemente"
                   ? "bg-[#181818] text-white shadow-sm"
@@ -96,7 +107,7 @@ export default function LeistungenClient({ services }: Props) {
             1. EIGENE HERSTELLUNG (Offene, großzügige Visual Showcase Blöcke)
            ========================================================================= */}
         {showEigenfertigung && eigenfertigung.length > 0 && (
-          <section id="eigenfertigung" className="container-site scroll-mt-28">
+          <section id="eigenfertigung" className="container-site scroll-mt-36 sm:scroll-mt-40">
             {/* Section Header */}
             <div className="max-w-3xl mb-12 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl font-bold text-[#181818] tracking-tight mb-3">
@@ -241,7 +252,7 @@ export default function LeistungenClient({ services }: Props) {
             2. BAUELEMENTE & MONTAGESERVICE (Strukturierte, übersichtliche Karten)
            ========================================================================= */}
         {showBauelemente && bauelemente.length > 0 && (
-          <section id="bauelemente" className="container-site scroll-mt-28">
+          <section id="bauelemente" className="container-site scroll-mt-36 sm:scroll-mt-40">
             {/* Section Header */}
             <div className="max-w-3xl mb-12 sm:mb-16">
               <h2 className="text-2xl sm:text-4xl font-bold text-[#181818] tracking-tight mb-3">

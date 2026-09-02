@@ -125,6 +125,12 @@ export default function ShopClient({ initialProducts, categories }: ShopClientPr
   const handleTabClick = (val: string, e: React.MouseEvent<HTMLButtonElement>) => {
     setSelectedCategory(val);
     e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    setTimeout(() => {
+      const el = document.getElementById("shop-katalog");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 60);
   };
 
   const handleInquiry = (product: ShopProduct, e?: React.MouseEvent) => {
@@ -181,7 +187,7 @@ export default function ShopClient({ initialProducts, categories }: ShopClientPr
       )}
 
       {/* Product Catalog */}
-      <section className="py-12 md:py-16 bg-[#FFFFFF]">
+      <section id="shop-katalog" className="py-12 md:py-16 bg-[#FFFFFF] scroll-mt-32 sm:scroll-mt-36">
         <div className="container-site">
           {/* Products Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">

@@ -165,6 +165,12 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
     if (e) {
       e.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     }
+    setTimeout(() => {
+      const el = document.getElementById("galerie-grid");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 60);
   };
 
   const handlePageChange = (page: number) => {
@@ -209,7 +215,7 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
       </section>
 
       {/* Gallery Showcase Grid */}
-      <section className="py-12 md:py-16 bg-[#FFFFFF]">
+      <section id="galerie-grid" className="py-12 md:py-16 bg-[#FFFFFF] scroll-mt-32 sm:scroll-mt-36">
         <div className="container-site">
           {/* Item count header */}
           <div className="flex items-center justify-between mb-8 pb-3 border-b border-[#E8E8E6]">
