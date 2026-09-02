@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import { StoryContentInput, DEFAULT_STORY_BLOCKS } from "../components/StoryContentInput";
 
 export const aboutPage = defineType({
   name: "aboutPage",
@@ -47,8 +48,13 @@ export const aboutPage = defineType({
     defineField({
       name: "storyContent",
       title: "Geschichte & Philosophie (Formatierbarer Rich-Text Editor)",
-      description: "Formatierbarer Fließtext mit Fettungen, Hervorhebungen, Zitaten und Absätzen. Falls ausgefüllt, ersetzt dieser Editor die einzelnen Textfelder 1-3.",
+      description:
+        "Formatierbarer Fließtext mit Fettungen, Hervorhebungen, Zitaten und Absätzen. Falls ausgefüllt, ersetzt dieser Editor die einzelnen Textfelder 1-3.",
       type: "array",
+      initialValue: DEFAULT_STORY_BLOCKS,
+      components: {
+        input: StoryContentInput,
+      },
       of: [
         {
           type: "block",
