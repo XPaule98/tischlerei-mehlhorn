@@ -20,6 +20,14 @@ export const structure: StructureResolver = (S) =>
                     .title("Hero-Bereich Startseite")
                 ),
               S.listItem()
+                .title("Inhalte & Vorschau (Über uns, 3 Zahlen, Leistungen, Shop)")
+                .child(
+                  S.document()
+                    .schemaType("homeSections")
+                    .documentId("homeSections")
+                    .title("Startseite Inhalte & Vorschau-Abschnitte")
+                ),
+              S.listItem()
                 .title("Fullwidth Video-Sektion")
                 .child(
                   S.document()
