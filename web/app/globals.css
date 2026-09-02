@@ -39,12 +39,31 @@
     line-height: 1.6;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1:not(#sanity *),
+  h2:not(#sanity *),
+  h3:not(#sanity *),
+  h4:not(#sanity *),
+  h5:not(#sanity *),
+  h6:not(#sanity *) {
     font-family: var(--font-sans), system-ui, sans-serif;
     letter-spacing: -0.02em;
     font-weight: 600;
     color: var(--color-text-primary);
     line-height: 1.25;
+  }
+
+  /* Sanity Studio Reset - damit alle Titel im Studio perfekt lesbar sind */
+  #sanity h1,
+  #sanity h2,
+  #sanity h3,
+  #sanity h4,
+  #sanity h5,
+  #sanity h6,
+  #sanity [data-ui="Heading"] {
+    color: inherit !important;
+    font-family: inherit !important;
+    line-height: inherit !important;
+    letter-spacing: normal !important;
   }
 
   ::selection {
