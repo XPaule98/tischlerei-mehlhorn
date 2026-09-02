@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import InquiryDrawer, { DrawerProduct } from "@/components/ui/InquiryDrawer";
-import { ShoppingBag, Ruler, TreePine, Sparkles, Store, Truck } from "lucide-react";
+import { ShoppingBag, Ruler, TreePine, Sparkles, Store, Truck, ArrowRight } from "lucide-react";
 
 export interface ShopProduct {
   _id?: string;
@@ -185,18 +185,21 @@ export default function ShopClient({ initialProducts, categories }: ShopClientPr
           {/* Products Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filtered.map((product) => {
-              const prodId = product._id || product.id || product.title.toLowerCase().replace(/\s+/g, "-");
+              const prodId = product.id || product.slug || product._id || product.title.toLowerCase().replace(/\s+/g, "-");
               const hasMeta = Boolean(product.dimensions || product.woodType);
 
               return (
                 <div
                   key={prodId}
-                  className="craft-card p-5 sm:p-6 flex flex-col justify-between group h-full bg-white shadow-xs hover:shadow-sm"
+                  className="craft-card p-5 sm:p-6 flex flex-col justify-between group h-full bg-white shadow-xs hover:shadow-md transition-shadow"
                 >
                   <div>
-                    {/* Image – Optional, with elegant fallback */}
+                    {/* Image – Clickable link to Product Detail Page */}
                     {product.imageUrl ? (
-                      <div className="relative h-56 sm:h-64 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
+                      <Link
+                        href={`/shop/${prodId}`}
+                        className="block relative h-56 sm:h-64 rounded overflow-hidden mb-4 bg-[#F9F9F8] cursor-pointer"
+                      >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={product.imageUrl}
@@ -208,11 +211,17 @@ export default function ShopClient({ initialProducts, categories }: ShopClientPr
                             {product.woodType}
                           </div>
                         )}
-                      </div>
+                        <div className="absolute bottom-2.5 right-2.5 bg-white/95 text-[#181818] text-[11px] font-semibold px-2.5 py-1 rounded shadow-xs opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                          Details ansehen →
+                        </div>
+                      </Link>
                     ) : (
-                      <div className="h-28 rounded bg-[#F9F9F8] border border-[#E8E8E6] flex items-center justify-center mb-4 text-[#777777] text-xs font-medium">
-                        Handgefertigtes Werkstück
-                      </div>
+                      <Link
+                        href={`/shop/${prodId}`}
+                        className="h-28 rounded bg-[#F9F9F8] border border-[#E8E8E6] flex items-center justify-center mb-4 text-[#777777] text-xs font-medium hover:bg-[#F2F2F0] transition-colors block"
+                      >
+                        Handgefertigtes Werkstück · Details ansehen
+                      </Link>
                     )}
 
                     {/* Optional Wood Type (if not in badge) */}
@@ -222,9 +231,14 @@ export default function ShopClient({ initialProducts, categories }: ShopClientPr
                       </span>
                     )}
 
-                    {/* Title (Required) */}
+                    {/* Title – Clickable link to Product Detail Page */}
                     <h2 className="text-xl font-bold text-[#181818] mb-2 leading-snug">
-                      {product.title}
+                      <Link
+                        href={`/shop/${prodId}`}
+                        className="hover:text-[#8C6D4F] transition-colors"
+                      >
+                        {product.title}
+                      </Link>
                     </h2>
 
                     {/* Description (Optional) */}
@@ -268,13 +282,23 @@ export default function ShopClient({ initialProducts, categories }: ShopClientPr
                       )}
                     </div>
 
-                    <button
-                      onClick={(e) => handleInquiry(product, e)}
-                      className="btn btn-primary text-xs py-2.5 px-4 w-full flex items-center justify-center gap-1.5 font-semibold cursor-pointer"
-                    >
-                      <ShoppingBag size={14} />
-                      Unverbindlich anfragen
-                    </button>
+                    <div className="flex flex-col gap-2">
+                      <Link
+                        href={`/shop/${prodId}`}
+                        className="btn btn-primary text-xs py-2.5 px-4 w-full flex items-center justify-center gap-1.5 font-semibold"
+                      >
+                        Details & Bestellen
+                        <ArrowRight size={13} />
+                      </Link>
+
+                      <button
+                        onClick={(e) => handleInquiry(product, e)}
+                        className="text-xs text-[#666666] hover:text-[#181818] font-medium py-1 flex items-center justify-center gap-1 w-full transition-colors cursor-pointer"
+                      >
+                        <ShoppingBag size={12} className="text-[#8C6D4F]" />
+                        Schnellanfrage ohne Detailseite
+                      </button>
+                    </div>
                   </div>
                 </div>
               );

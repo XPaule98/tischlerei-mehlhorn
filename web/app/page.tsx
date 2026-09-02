@@ -253,15 +253,15 @@ export default async function HomePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
               {/* Product 1 */}
-              <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white">
+              <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group">
                 <div>
-                  <Link href="/shop" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
+                  <Link href="/shop/schneidebrett-xl" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/images/catalog-schneidebrett.jpg" alt="Schneidebrett Hirnholz XL" className="w-full h-full object-cover" />
+                    <img src="/images/catalog-schneidebrett.jpg" alt="Schneidebrett Hirnholz XL" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </Link>
                   <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">Eiche massiv</span>
-                  <Link href="/shop">
-                    <h3 className="text-lg font-bold text-[#181818] mb-1 hover:underline">
+                  <Link href="/shop/schneidebrett-xl">
+                    <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
                       Schneidebrett Hirnholz XL
                     </h3>
                   </Link>
@@ -272,23 +272,23 @@ export default async function HomePage() {
                     <span className="text-xl font-bold text-[#181818] whitespace-nowrap">89,00 €</span>
                     <span className="text-[11px] text-[#777777] whitespace-nowrap">inkl. 19% MwSt.</span>
                   </div>
-                  <Link href="/shop" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
+                  <Link href="/shop/schneidebrett-xl" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
                     <ShoppingBag size={13} />
-                    Details & Anfragen
+                    Details & Bestellen
                   </Link>
                 </div>
               </div>
 
               {/* Product 2 */}
-              <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white">
+              <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group">
                 <div>
-                  <Link href="/shop" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
+                  <Link href="/shop/wandregal-eiche" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/images/catalog-regal.jpg" alt="Wandregal Eiche massiv" className="w-full h-full object-cover" />
+                    <img src="/images/catalog-regal.jpg" alt="Wandregal Eiche massiv" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </Link>
                   <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">Massiveiche</span>
-                  <Link href="/shop">
-                    <h3 className="text-lg font-bold text-[#181818] mb-1 hover:underline">
+                  <Link href="/shop/wandregal-eiche">
+                    <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
                       Schwebendes Wandregal Eiche
                     </h3>
                   </Link>
@@ -299,23 +299,23 @@ export default async function HomePage() {
                     <span className="text-xl font-bold text-[#181818] whitespace-nowrap">129,00 €</span>
                     <span className="text-[11px] text-[#777777] whitespace-nowrap">inkl. 19% MwSt.</span>
                   </div>
-                  <Link href="/shop" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
+                  <Link href="/shop/wandregal-eiche" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
                     <ShoppingBag size={13} />
-                    Details & Anfragen
+                    Details & Bestellen
                   </Link>
                 </div>
               </div>
 
               {/* Product 3 */}
-              <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white">
+              <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group">
                 <div>
-                  <Link href="/shop" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
+                  <Link href="/shop/schneidebrett-streifen" className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/images/catalog-schneidebrett.jpg" alt="Schneidebrett Streifendesign" className="w-full h-full object-cover" />
+                    <img src="/images/catalog-schneidebrett.jpg" alt="Schneidebrett Streifendesign" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </Link>
                   <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">Eiche & Buche</span>
-                  <Link href="/shop">
-                    <h3 className="text-lg font-bold text-[#181818] mb-1 hover:underline">
+                  <Link href="/shop/schneidebrett-streifen">
+                    <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
                       Schneidebrett Streifendesign
                     </h3>
                   </Link>
@@ -326,9 +326,9 @@ export default async function HomePage() {
                     <span className="text-xl font-bold text-[#181818] whitespace-nowrap">54,00 €</span>
                     <span className="text-[11px] text-[#777777] whitespace-nowrap">inkl. 19% MwSt.</span>
                   </div>
-                  <Link href="/shop" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
+                  <Link href="/shop/schneidebrett-streifen" className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5">
                     <ShoppingBag size={13} />
-                    Details & Anfragen
+                    Details & Bestellen
                   </Link>
                 </div>
               </div>
