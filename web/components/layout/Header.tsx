@@ -87,21 +87,21 @@ export default function Header() {
             </Link>
 
             {/* Desktop Nav (Visible on Large Screens) */}
-            <nav className="hidden lg:flex items-center gap-6 xl:gap-7" aria-label="Hauptnavigation">
+            <nav className="hidden lg:flex items-center gap-6 xl:gap-8" aria-label="Hauptnavigation">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`text-xs font-medium tracking-wide uppercase transition-colors py-1 ${
+                    className={`text-sm font-semibold tracking-wide transition-colors py-1 border-b-2 ${
                       isActive
                         ? isSolid
-                          ? "text-[#181818] font-bold border-b-2 border-[#181818]"
-                          : "text-white font-bold border-b-2 border-white"
+                          ? "text-[#181818] border-[#181818]"
+                          : "text-white border-white"
                         : isSolid
-                        ? "text-[#666666] hover:text-[#181818]"
-                        : "text-white/80 hover:text-white"
+                        ? "text-[#555555] border-transparent hover:text-[#181818] hover:border-[#181818]/30"
+                        : "text-white/85 border-transparent hover:text-white hover:border-white/40"
                     }`}
                   >
                     {link.label}
@@ -114,28 +114,26 @@ export default function Header() {
             <div className="flex items-center gap-3 flex-shrink-0">
               <a
                 href="tel:+49377552346"
-                className={`hidden xl:flex items-center gap-1.5 text-xs font-medium px-2 py-1 transition-colors ${
-                  isSolid ? "text-[#555555] hover:text-[#181818]" : "text-white/80 hover:text-white"
+                className={`hidden xl:flex items-center gap-1.5 text-xs font-semibold px-2 py-1 transition-colors ${
+                  isSolid ? "text-[#555555] hover:text-[#181818]" : "text-white/85 hover:text-white"
                 }`}
               >
                 <Phone size={13} className="text-[#8C6D4F]" />
                 037755 / 2346
               </a>
 
-              {/* Desktop CTA Button (Strictly hidden on mobile & tablet, guaranteed via wrapper) */}
-              <div className="hidden lg:block">
-                <Link
-                  href="/kontakt"
-                  className={`inline-flex items-center gap-1.5 btn text-xs py-2 px-4 rounded ${
-                    isSolid
-                      ? "btn-primary"
-                      : "bg-white text-[#181818] hover:bg-white/90"
-                  }`}
-                >
-                  Anfrage senden
-                  <ChevronRight size={13} />
-                </Link>
-              </div>
+              {/* Desktop CTA Button */}
+              <Link
+                href="/kontakt"
+                className={`hidden lg:inline-flex items-center gap-1.5 btn text-xs font-semibold py-2.5 px-4 rounded ${
+                  isSolid
+                    ? "btn-primary"
+                    : "bg-white text-[#181818] hover:bg-white/90 shadow-sm"
+                }`}
+              >
+                Anfrage senden
+                <ChevronRight size={13} />
+              </Link>
 
               {/* Mobile Hamburger Button */}
               <button
