@@ -1,4 +1,5 @@
 import { heroSettings } from "./heroSettings";
+import { homeSections } from "./homeSections";
 import { companyInfo } from "./companyInfo";
 import { aboutPage } from "./aboutPage";
 import { servicesPage } from "./servicesPage";
@@ -15,6 +16,7 @@ import { showcaseVideo } from "./showcaseVideo";
 export const schemaTypes = [
   // Page Settings / Singletons
   heroSettings,
+  homeSections,
   showcaseVideo,
   servicesPage,
   aboutPage,

@@ -160,3 +160,45 @@ export const PRODUCTS_QUERY = defineQuery(`
     "glbUrl": glbFile.asset->url
   }
 `);
+
+export const HOME_SECTIONS_QUERY = defineQuery(`
+  *[_id == "homeSections"][0] {
+    storyEyebrow,
+    storyHeadline,
+    storyParagraph1,
+    storyParagraph2,
+    stat1Value,
+    stat1Label,
+    stat2Value,
+    stat2Label,
+    stat3Value,
+    stat3Label,
+    "storyImageUrl": storyImage.asset->url,
+    storyImageCaption,
+    storyButtonText,
+    servicesEyebrow,
+    servicesHeadline,
+    "customServices": customServices[]-> {
+      _id,
+      title,
+      subtitle,
+      category,
+      "imageUrl": image.asset->url,
+      description,
+      features
+    },
+    shopEyebrow,
+    shopHeadline,
+    shopSubtitle,
+    "featuredProducts": featuredProducts[]-> {
+      _id,
+      title,
+      price,
+      woodType,
+      dimensions,
+      description,
+      "imageUrl": images[0].asset->url,
+      "slug": coalesce(slug.current, _id)
+    }
+  }
+`);
