@@ -45,8 +45,47 @@ export const aboutPage = defineType({
       initialValue: "Vom traditionellen Gestellbau zum modernen Meisterbetrieb",
     }),
     defineField({
+      name: "storyContent",
+      title: "Geschichte & Philosophie (Formatierbarer Rich-Text Editor)",
+      description: "Formatierbarer Fließtext mit Fettungen, Hervorhebungen, Zitaten und Absätzen. Falls ausgefüllt, ersetzt dieser Editor die einzelnen Textfelder 1-3.",
+      type: "array",
+      of: [
+        {
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "Hervorgehobene Einleitung (Lead)", value: "lead" },
+            { title: "Zwischenüberschrift (H3)", value: "h3" },
+            { title: "Zwischenüberschrift (H4)", value: "h4" },
+            { title: "Zitat / Zitatblock", value: "blockquote" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Fett", value: "strong" },
+              { title: "Kursiv", value: "em" },
+              { title: "Unterstrichen", value: "underline" },
+            ],
+            annotations: [
+              {
+                name: "link",
+                type: "object",
+                title: "Link",
+                fields: [
+                  {
+                    name: "href",
+                    type: "url",
+                    title: "URL",
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      ],
+    }),
+    defineField({
       name: "storyParagraph1",
-      title: "Fließtext Teil 1 (Historie & Ursprung)",
+      title: "Fließtext Teil 1 (Historie & Ursprung - Fallback)",
       type: "text",
       rows: 4,
       initialValue:
@@ -54,7 +93,7 @@ export const aboutPage = defineType({
     }),
     defineField({
       name: "storyParagraph2",
-      title: "Fließtext Teil 2 (Neubau & Generationswechsel)",
+      title: "Fließtext Teil 2 (Neubau & Generationswechsel - Fallback)",
       type: "text",
       rows: 4,
       initialValue:
@@ -62,7 +101,7 @@ export const aboutPage = defineType({
     }),
     defineField({
       name: "storyParagraph3",
-      title: "Fließtext Teil 3 (Philosophie & Material)",
+      title: "Fließtext Teil 3 (Philosophie & Material - Fallback)",
       type: "text",
       rows: 4,
       initialValue:

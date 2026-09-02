@@ -43,6 +43,7 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     "headerImageUrl": headerImage.asset->url,
     headerVideoUrl,
     storyHeadline,
+    storyContent,
     storyParagraph1,
     storyParagraph2,
     storyParagraph3,

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PortableText, PortableTextComponents } from "next-sanity";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHeader from "@/components/layout/PageHeader";
@@ -7,6 +8,47 @@ import WorkshopSlideGallery, { WorkshopSlide } from "@/components/sections/Works
 import { client } from "@/sanity/lib/client";
 import { ABOUT_PAGE_QUERY, TEAM_MEMBERS_QUERY } from "@/sanity/lib/queries";
 import { ArrowRight, UserCheck, HeartHandshake, ShieldCheck, Sparkles } from "lucide-react";
+
+const storyPortableTextComponents: PortableTextComponents = {
+  block: {
+    normal: ({ children }) => (
+      <p className="text-base text-[#555555] leading-relaxed mb-4">{children}</p>
+    ),
+    lead: ({ children }) => (
+      <p className="text-base sm:text-lg font-medium text-[#181818] leading-relaxed mb-5">{children}</p>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-xl sm:text-2xl font-bold text-[#181818] mt-6 mb-3 tracking-tight">{children}</h3>
+    ),
+    h4: ({ children }) => (
+      <h4 className="text-lg font-bold text-[#181818] mt-4 mb-2">{children}</h4>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="p-4 sm:p-5 my-4 bg-[#F9F9F8] border-l-4 border-[#8C6D4F] rounded-r-xl italic text-[#181818] text-sm sm:text-base leading-relaxed">
+        {children}
+      </blockquote>
+    ),
+  },
+  marks: {
+    strong: ({ children }) => <strong className="font-bold text-[#181818]">{children}</strong>,
+    em: ({ children }) => <em className="italic text-[#8C6D4F]">{children}</em>,
+    underline: ({ children }) => <span className="underline underline-offset-4 decoration-[#8C6D4F]">{children}</span>,
+    link: ({ value, children }) => (
+      <a
+        href={value?.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[#8C6D4F] underline hover:text-[#181818] font-semibold transition-colors"
+      >
+        {children}
+      </a>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => <ul className="space-y-2 mb-5 pl-5 list-disc text-[#555555]">{children}</ul>,
+    number: ({ children }) => <ol className="space-y-2 mb-5 pl-5 list-decimal text-[#555555]">{children}</ol>,
+  },
+};
 
 export const revalidate = 30;
 
@@ -83,6 +125,7 @@ export default async function UeberUnsPage() {
 
   const storyHeadline =
     cmsData?.storyHeadline || "Vom traditionellen Gestellbau zum modernen Meisterbetrieb";
+  const storyContent = cmsData?.storyContent;
   const p1 =
     cmsData?.storyParagraph1 ||
     "Die Geschichte unserer Tischlerei begann im Januar 1977, als Roland Mehlhorn den Schritt in die Selbstständigkeit wagte. Was mit traditionellem Gestellbau und solider Handarbeit seinen Anfang nahm, wuchs über die Jahrzehnte durch kontinuierliche Weiterentwicklung und kompromisslose Qualitätsorientierung zu einem festen Begriff im Westerzgebirge heran.";
@@ -120,7 +163,7 @@ export default async function UeberUnsPage() {
         {/* 1. Ausführliche Geschichte & Philosophie (Editorial Fließtext) */}
         <section className="py-16 md:py-24 bg-[#FFFFFF]">
           <div className="container-site">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
               {/* Left Column: Authentic Craft Story */}
               <div className="lg:col-span-7">
                 <span className="text-craft-label block mb-2">
@@ -130,11 +173,53 @@ export default async function UeberUnsPage() {
                   {storyHeadline}
                 </h2>
 
-                <div className="space-y-5 text-[#555555] text-base leading-relaxed">
-                  <p>{p1}</p>
-                  <p>{p2}</p>
-                  <p>{p3}</p>
-                </div>
+                {/* Rich-Text from Sanity CMS or Formatted Highlighted Editorial Fallback */}
+                {storyContent && storyContent.length > 0 ? (
+                  <div className="space-y-4">
+                    <PortableText value={storyContent} components={storyPortableTextComponents} />
+                  </div>
+                ) : (
+                  <div className="space-y-5 text-[#555555] text-base leading-relaxed">
+                    {/* Paragraph 1: Die Gründung 1977 */}
+                    <p className="text-base sm:text-lg text-[#333333] leading-relaxed font-normal">
+                      Die Geschichte unserer Tischlerei begann im <strong className="text-[#181818] font-bold">Januar 1977</strong>, als <strong className="text-[#181818] font-bold">Roland Mehlhorn</strong> den Schritt in die Selbstständigkeit wagte. Was mit traditionellem Gestellbau und solider Handarbeit seinen Anfang nahm, wuchs über die Jahrzehnte durch kontinuierliche Weiterentwicklung und kompromisslose Qualitätsorientierung zu einem festen Qualitätsbegriff im Westerzgebirge heran.
+                    </p>
+
+                    {/* Mobile-only In-Between Image – breaks up reading flow on smartphones */}
+                    <div className="lg:hidden my-6 rounded-xl overflow-hidden border border-[#E8E8E6] shadow-sm bg-[#F9F9F8]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/images/real/gebaeude-1.jpg"
+                        alt="Tischlerei Mehlhorn Firmengebäude in Schönheide"
+                        className="w-full h-52 sm:h-64 object-cover"
+                      />
+                      <div className="p-3 bg-white text-[11px] text-[#555555] flex items-center justify-between border-t border-[#E8E8E6]">
+                        <span><strong className="text-[#181818]">Firmensitz:</strong> Neuheider Straße 64 b, Schönheide</span>
+                        <span className="text-[#8C6D4F] font-semibold">Seit 1992</span>
+                      </div>
+                    </div>
+
+                    {/* Paragraph 2: Neubau 1992 & Meisterübernahme 2012 */}
+                    <p className="leading-relaxed">
+                      <strong className="text-[#181818] font-bold">1992</strong> folgte der Neubau des heutigen Firmengebäudes in der <strong className="text-[#181818] font-bold">Neuheider Straße 64 b</strong> – mit großzügigen Werkstatträumen und modernem Maschinenpark. Seit <strong className="text-[#181818] font-bold">Juli 2012</strong> führt Tischlermeister <strong className="text-[#181818] font-bold">Ronny Mehlhorn</strong> die Geschicke des Familienunternehmens in zweiter Generation. Dabei verbinden wir überlieferte Handwerkstradition mit modernster Profiltechnik (wie dem langlebigen <em className="text-[#8C6D4F] font-semibold not-italic">System Gutmann Mira</em>) und zukunftssicherer Isoliertechnologie.
+                    </p>
+
+                    {/* Highlighted Quote / Core Milestone */}
+                    <div className="p-4 sm:p-5 my-3 bg-[#F9F9F8] border-l-4 border-[#8C6D4F] rounded-r-xl">
+                      <p className="text-sm sm:text-base font-semibold text-[#181818] italic leading-relaxed">
+                        „Für uns ist Holz nicht bloß ein Werkstoff, sondern lebendige Natur. Jedes Werkstück verlässt unsere Werkstatt erst, wenn Passgenauigkeit, Oberflächen und Funktion höchsten meisterlichen Ansprüchen genügen.“
+                      </p>
+                      <span className="text-xs text-[#777777] block mt-1.5 font-medium">
+                        — Tischlermeister Ronny Mehlhorn
+                      </span>
+                    </div>
+
+                    {/* Paragraph 3: Werkstoff & Regionale Verbundenheit */}
+                    <p className="leading-relaxed">
+                      Wir verarbeiten vorrangig hochwertige heimische Hölzer wie <strong className="text-[#181818] font-bold">Eiche, Kiefer und Lärche</strong>. Jedes Fenster, jede Haustür und jeder Wintergarten wird auf Maß gefertigt – für qualitätsbewusste Bauherren und Architekten in der gesamten Region Erzgebirge und Vogtland.
+                    </p>
+                  </div>
+                )}
 
                 {/* Handwerks-Qualitätsmerkmale */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 mt-8 border-t border-[#E8E8E6]">
@@ -164,7 +249,8 @@ export default async function UeberUnsPage() {
 
               {/* Right Column: Large Authentic Workshop Images */}
               <div className="lg:col-span-5 space-y-4">
-                <div className="relative rounded-lg overflow-hidden border border-[#E8E8E6] bg-[#F9F9F8]">
+                {/* Building Image (Hidden on mobile because it's shown in the middle of text flow) */}
+                <div className="relative rounded-xl overflow-hidden border border-[#E8E8E6] bg-[#F9F9F8] shadow-xs hidden lg:block">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/real/gebaeude-1.jpg"
@@ -177,13 +263,21 @@ export default async function UeberUnsPage() {
                   </div>
                 </div>
 
-                <div className="relative rounded-lg overflow-hidden border border-[#E8E8E6] bg-[#F9F9F8]">
+                {/* Workshop Production Image */}
+                <div className="relative rounded-xl overflow-hidden border border-[#E8E8E6] bg-[#F9F9F8] shadow-xs">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/real/werkstatt-2.jpg"
-                    alt="Werkstatt & Holzverarbeitung"
+                    alt="Werkstatt & Holzverarbeitung Tischlerei Mehlhorn"
                     className="w-full h-48 sm:h-56 object-cover"
                   />
+                  <div className="p-3 bg-white border-t border-[#E8E8E6] text-xs text-[#555555] flex items-center justify-between">
+                    <div>
+                      <strong className="text-[#181818] block">Eigene Meisterfertigung</strong>
+                      <span>Traditionelle Hobelbänke & moderne CNC-Präzision</span>
+                    </div>
+                    <span className="text-[#8C6D4F] font-bold text-xs uppercase tracking-wider">Seit 1977</span>
+                  </div>
                 </div>
               </div>
             </div>
