@@ -353,7 +353,7 @@ async function seedAll() {
   ];
 
   for (const project of projects) {
-    await client.createOrReplace(project);
+    await client.createOrReplace(project as any);
   }
 
   // 11. Populate Catalog Products
