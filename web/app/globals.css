@@ -81,6 +81,14 @@
     color: var(--color-accent-wood);
   }
 
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Dynamic & Clean Craft Card with Subtle Lift */
   .craft-card {
     background: #FFFFFF;

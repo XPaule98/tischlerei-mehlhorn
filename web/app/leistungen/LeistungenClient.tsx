@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, ArrowRight, Maximize2, X, Hammer, Layers, Sparkles } from "lucide-react";
+import { Check, ArrowRight, Maximize2, X, Hammer, Layers, Sparkles, ArrowDownRight, Compass } from "lucide-react";
 
 export interface ServiceItemData {
   _id: string;
@@ -24,6 +24,7 @@ type FilterCategory = "alle" | "eigenfertigung" | "bauelemente";
 
 export default function LeistungenClient({ services }: Props) {
   const [activeCategory, setActiveCategory] = useState<FilterCategory>("alle");
+  const [highlightedId, setHighlightedId] = useState<string | null>(null);
 
   // Track selected active image for items with multiple gallery images
   const [activeImages, setActiveImages] = useState<Record<string, string>>({});
@@ -58,11 +59,90 @@ export default function LeistungenClient({ services }: Props) {
     }, 60);
   };
 
+  // Jump smoothly to a specific service and highlight it
+  const scrollToService = (service: ServiceItemData) => {
+    const isEigen = service.category === "eigenfertigung" || !service.category;
+    
+    // Ensure the category is active in the filter
+    if (isEigen && activeCategory === "bauelemente") {
+      setActiveCategory("alle");
+    } else if (!isEigen && activeCategory === "eigenfertigung") {
+      setActiveCategory("alle");
+    }
+
+    setTimeout(() => {
+      const el = document.getElementById(`service-${service._id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        setHighlightedId(service._id);
+        setTimeout(() => setHighlightedId(null), 2500);
+      }
+    }, 80);
+  };
+
   return (
     <>
-      {/* Category Navigation Bar */}
+      {/* =========================================================================
+          0. SCHNELLÜBERSICHT (Kompakte Kacheln ohne Ballast – Klick springt zu Details)
+         ========================================================================= */}
+      <section className="bg-white border-b border-[#E8E8E6] py-10 sm:py-12">
+        <div className="container-site">
+          <div className="max-w-3xl mb-8">
+            <div className="flex items-center gap-2 mb-2">
+              <Compass size={16} className="text-[#8C6D4F]" />
+              <span className="text-craft-label">Schnellübersicht</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#181818] tracking-tight mb-2">
+              Unsere Gewerke & Leistungen im Überblick
+            </h2>
+            <p className="text-xs sm:text-sm text-[#555555] leading-relaxed">
+              Wählen Sie ein Gewerk aus, um direkt zu den ausführlichen Informationen, Ausstattungsmerkmalen und Fotos zu springen.
+            </p>
+          </div>
+
+          {/* Compact Overview Grid (2 columns on mobile, 4 on tablet/desktop) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            {services.map((service) => {
+              const isEigen = service.category === "eigenfertigung" || !service.category;
+              return (
+                <button
+                  key={`quick-${service._id}`}
+                  onClick={() => scrollToService(service)}
+                  className="text-left p-4 rounded-lg border border-[#E8E8E6] bg-[#FAFAFA] hover:bg-white hover:border-[#181818] hover:shadow-sm transition-all duration-200 group cursor-pointer flex flex-col justify-between"
+                >
+                  <div className="w-full mb-3 flex items-center justify-between gap-2">
+                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                      isEigen 
+                        ? "bg-[#181818] text-white" 
+                        : "bg-[#EFEFEA] text-[#555555]"
+                    }`}>
+                      {isEigen ? "Eigene Fertigung" : "Montage & Handel"}
+                    </span>
+                    <div className="w-6 h-6 rounded-full bg-white border border-[#E8E8E6] flex items-center justify-center text-[#777777] group-hover:bg-[#181818] group-hover:text-white group-hover:border-[#181818] transition-all flex-shrink-0">
+                      <ArrowDownRight size={13} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm sm:text-base font-bold text-[#181818] group-hover:text-[#8C6D4F] transition-colors leading-snug">
+                      {service.title}
+                    </h3>
+                    {service.subtitle && (
+                      <p className="text-[11px] text-[#777777] mt-1 line-clamp-1">
+                        {service.subtitle}
+                      </p>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Category Navigation Bar (Sticky Filter Tabs) */}
       <section className="bg-[#F9F9F8] border-b border-[#E8E8E6] sticky top-[60px] md:top-[72px] z-30 shadow-xs">
-        <div className="container-site py-4">
+        <div className="container-site py-3 sm:py-4">
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <button
               onClick={() => handleFilter("alle")}
@@ -130,116 +210,124 @@ export default function LeistungenClient({ services }: Props) {
                 const currentImage = activeImages[item._id] || allPhotos[0] || item.imageUrl || "/images/real/werkstatt-2.jpg";
                 const hasMultiplePhotos = allPhotos.length > 1;
                 const isReversed = index % 2 === 1;
+                const isHighlighted = highlightedId === item._id;
 
                 return (
                   <div
                     key={item._id}
-                    className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center pb-16 border-b border-[#E8E8E6] last:border-b-0 last:pb-0"
+                    id={`service-${item._id}`}
+                    className={`scroll-mt-36 sm:scroll-mt-44 p-4 sm:p-6 rounded-2xl transition-all duration-500 ${
+                      isHighlighted 
+                        ? "bg-[#FAF7F2] ring-2 ring-[#8C6D4F] shadow-md" 
+                        : "bg-transparent"
+                    }`}
                   >
-                    {/* Image Column */}
-                    <div className={`lg:col-span-6 ${isReversed ? "lg:order-2" : "lg:order-1"}`}>
-                      <div className="space-y-3">
-                        {/* Main High-Res Photo */}
-                        <div
-                          onClick={() => setLightboxImage({ src: currentImage, title: item.title })}
-                          className="relative rounded-xl overflow-hidden bg-[#F2F2F0] border border-[#E8E8E6] shadow-sm cursor-pointer group"
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={currentImage}
-                            alt={item.title}
-                            className="w-full h-[280px] sm:h-[380px] object-cover transition-transform duration-700 group-hover:scale-102"
-                          />
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+                      {/* Image Column */}
+                      <div className={`lg:col-span-6 ${isReversed ? "lg:order-2" : "lg:order-1"}`}>
+                        <div className="space-y-3">
+                          {/* Main High-Res Photo */}
+                          <div
+                            onClick={() => setLightboxImage({ src: currentImage, title: item.title })}
+                            className="relative rounded-xl overflow-hidden bg-[#F2F2F0] border border-[#E8E8E6] shadow-sm cursor-pointer group"
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={currentImage}
+                              alt={item.title}
+                              className="w-full h-[280px] sm:h-[380px] object-cover transition-transform duration-700 group-hover:scale-102"
+                            />
 
-                          {/* Subtle zoom indicator */}
-                          <div className="absolute bottom-3 right-3 w-8 h-8 rounded bg-[#181818]/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
-                            <Maximize2 size={14} />
+                            {/* Subtle zoom indicator */}
+                            <div className="absolute bottom-3 right-3 w-8 h-8 rounded bg-[#181818]/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
+                              <Maximize2 size={14} />
+                            </div>
+
+                            {/* Authentic Workshop Badge */}
+                            <div className="absolute top-3 left-3 bg-[#181818]/85 text-white text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded shadow-sm flex items-center gap-1.5">
+                              <Sparkles size={12} className="text-[#E5DECE]" />
+                              Eigene Werkstattfertigung
+                            </div>
                           </div>
 
-                          {/* Authentic Workshop Badge */}
-                          <div className="absolute top-3 left-3 bg-[#181818]/85 text-white text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded shadow-sm flex items-center gap-1.5">
-                            <Sparkles size={12} className="text-[#E5DECE]" />
-                            Eigene Werkstattfertigung
-                          </div>
+                          {/* Gallery Thumbnails (if multiple exist) */}
+                          {hasMultiplePhotos && (
+                            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                              {allPhotos.map((photoUrl, pIdx) => {
+                                const isSelected = photoUrl === currentImage;
+                                return (
+                                  <button
+                                    key={pIdx}
+                                    type="button"
+                                    onClick={() => selectImage(item._id, photoUrl)}
+                                    aria-label={`Foto ${pIdx + 1} von ${item.title} anzeigen`}
+                                    className={`relative h-16 w-20 sm:h-20 sm:w-24 rounded-lg overflow-hidden border-2 transition-all cursor-pointer flex-shrink-0 ${
+                                      isSelected
+                                        ? "border-[#181818] shadow-sm scale-102"
+                                        : "border-transparent opacity-60 hover:opacity-100 hover:border-[#CCCCCC]"
+                                    }`}
+                                  >
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                      src={photoUrl}
+                                      alt={`${item.title} Detail ${pIdx + 1}`}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          )}
                         </div>
+                      </div>
 
-                        {/* Gallery Thumbnails (if multiple exist) */}
-                        {hasMultiplePhotos && (
-                          <div className="flex items-center gap-2 overflow-x-auto pb-1">
-                            {allPhotos.map((photoUrl, pIdx) => {
-                              const isSelected = photoUrl === currentImage;
-                              return (
-                                <button
-                                  key={pIdx}
-                                  type="button"
-                                  onClick={() => selectImage(item._id, photoUrl)}
-                                  aria-label={`Foto ${pIdx + 1} von ${item.title} anzeigen`}
-                                  className={`relative h-16 w-20 sm:h-20 sm:w-24 rounded-lg overflow-hidden border-2 transition-all cursor-pointer flex-shrink-0 ${
-                                    isSelected
-                                      ? "border-[#181818] shadow-sm scale-102"
-                                      : "border-transparent opacity-60 hover:opacity-100 hover:border-[#CCCCCC]"
-                                  }`}
-                                >
-                                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                                  <img
-                                    src={photoUrl}
-                                    alt={`${item.title} Detail ${pIdx + 1}`}
-                                    className="w-full h-full object-cover"
-                                  />
-                                </button>
-                              );
-                            })}
+                      {/* Content Column */}
+                      <div className={`lg:col-span-6 ${isReversed ? "lg:order-1" : "lg:order-2"}`}>
+                        {/* Clean H3 Title */}
+                        <h3 className="text-2xl sm:text-3xl font-bold text-[#181818] leading-tight mb-2">
+                          {item.title}
+                        </h3>
+
+                        {/* Optional Subtitle / Tagline below title */}
+                        {item.subtitle && (
+                          <p className="text-sm font-semibold text-[#8C6D4F] mb-4">
+                            {item.subtitle}
+                          </p>
+                        )}
+
+                        {/* Detailed Description */}
+                        {item.description && (
+                          <p className="text-[#555555] text-sm sm:text-base leading-relaxed mb-6">
+                            {item.description}
+                          </p>
+                        )}
+
+                        {/* Feature Bullet Points */}
+                        {item.features && item.features.length > 0 && (
+                          <div className="space-y-2.5 mb-8 p-4 sm:p-5 bg-white rounded-xl border border-[#E8E8E6] shadow-xs">
+                            <span className="text-xs font-bold uppercase tracking-wider text-[#181818] block mb-2">
+                              Qualitätsmerkmale:
+                            </span>
+                            <div className="space-y-2">
+                              {item.features.map((feat, fIdx) => (
+                                <div key={fIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#444444]">
+                                  <Check size={15} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
+                                  <span>{feat}</span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         )}
+
+                        {/* Direct CTA */}
+                        <Link
+                          href={`/kontakt?gewerk=${encodeURIComponent(item.title)}`}
+                          className="btn btn-primary text-xs sm:text-sm inline-flex items-center justify-center gap-2 w-full sm:w-auto"
+                        >
+                          Angebot für {item.title.split(" ")[0]} anfordern
+                          <ArrowRight size={14} />
+                        </Link>
                       </div>
-                    </div>
-
-                    {/* Content Column (No confusing lines above title) */}
-                    <div className={`lg:col-span-6 ${isReversed ? "lg:order-1" : "lg:order-2"}`}>
-                      {/* Clean H3 Title */}
-                      <h3 className="text-2xl sm:text-3xl font-bold text-[#181818] leading-tight mb-2">
-                        {item.title}
-                      </h3>
-
-                      {/* Optional Subtitle / Tagline below title */}
-                      {item.subtitle && (
-                        <p className="text-sm font-semibold text-[#8C6D4F] mb-4">
-                          {item.subtitle}
-                        </p>
-                      )}
-
-                      {/* Detailed Description */}
-                      {item.description && (
-                        <p className="text-[#555555] text-sm sm:text-base leading-relaxed mb-6">
-                          {item.description}
-                        </p>
-                      )}
-
-                      {/* Feature Bullet Points */}
-                      {item.features && item.features.length > 0 && (
-                        <div className="space-y-2.5 mb-8 p-4 sm:p-5 bg-[#F9F9F8] rounded-xl border border-[#E8E8E6]">
-                          <span className="text-xs font-bold uppercase tracking-wider text-[#181818] block mb-2">
-                            Qualitätsmerkmale:
-                          </span>
-                          <div className="space-y-2">
-                            {item.features.map((feat, fIdx) => (
-                              <div key={fIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#444444]">
-                                <Check size={15} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
-                                <span>{feat}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Direct CTA */}
-                      <Link
-                        href={`/kontakt?gewerk=${encodeURIComponent(item.title)}`}
-                        className="btn btn-primary text-xs sm:text-sm inline-flex items-center justify-center gap-2 w-full sm:w-auto"
-                      >
-                        Angebot für {item.title.split(" ")[0]} anfordern
-                        <ArrowRight size={14} />
-                      </Link>
                     </div>
                   </div>
                 );
@@ -264,15 +352,21 @@ export default function LeistungenClient({ services }: Props) {
               </p>
             </div>
 
-            {/* Structured Card Grid (Nothing gets lost) */}
+            {/* Structured Card Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {bauelemente.map((item) => {
                 const cardImage = item.imageUrl || "/images/service-fenster.jpg";
+                const isHighlighted = highlightedId === item._id;
 
                 return (
                   <div
                     key={item._id}
-                    className="craft-card bg-white flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-md transition-shadow group"
+                    id={`service-${item._id}`}
+                    className={`craft-card bg-white flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 group scroll-mt-36 sm:scroll-mt-44 ${
+                      isHighlighted 
+                        ? "ring-2 ring-[#8C6D4F] shadow-lg scale-[1.02]" 
+                        : ""
+                    }`}
                   >
                     <div>
                       {/* Card Preview Image */}

@@ -159,45 +159,96 @@ export default async function HomePage() {
 
             {/* If custom services are chosen in CMS */}
             {customServices && customServices.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                {customServices.slice(0, 3).map((item: any) => (
-                  <div
-                    key={item._id}
-                    className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white"
-                  >
-                    <div>
-                      {item.imageUrl && (
-                        <div className="relative h-56 overflow-hidden bg-[#F2F2F0]">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={item.imageUrl}
-                            alt={item.title}
-                            className="w-full h-full object-cover"
-                          />
+              <>
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:grid-cols-3 md:gap-6 lg:gap-8">
+                  {customServices.slice(0, 3).map((item: any) => (
+                    <div
+                      key={item._id}
+                      className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white flex-shrink-0 w-[84vw] sm:w-[320px] md:w-auto snap-center shadow-xs"
+                    >
+                      <div>
+                        {item.imageUrl && (
+                          <div className="relative h-52 sm:h-56 overflow-hidden bg-[#F2F2F0]">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={item.imageUrl}
+                              alt={item.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                        <div className="p-5 sm:p-6">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
+                            {item.subtitle || "Meisterleistung"}
+                          </span>
+                          <h3 className="text-lg sm:text-xl font-bold text-[#181818] mb-2">{item.title}</h3>
+                          {item.description && (
+                            <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5 line-clamp-3">
+                              {item.description}
+                            </p>
+                          )}
+                          {item.features && item.features.length > 0 && (
+                            <ul className="space-y-1.5 text-xs text-[#666666]">
+                              {item.features.slice(0, 2).map((f: string, i: number) => (
+                                <li key={i} className="flex items-center gap-2">
+                                  <Check size={13} className="text-[#8C6D4F]" /> {f}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                         </div>
-                      )}
-                      <div className="p-6">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
-                          {item.subtitle || "Meisterleistung"}
-                        </span>
-                        <h3 className="text-xl font-bold text-[#181818] mb-2">{item.title}</h3>
-                        {item.description && (
-                          <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5 line-clamp-3">
-                            {item.description}
-                          </p>
-                        )}
-                        {item.features && item.features.length > 0 && (
-                          <ul className="space-y-1.5 text-xs text-[#666666]">
-                            {item.features.slice(0, 2).map((f: string, i: number) => (
-                              <li key={i} className="flex items-center gap-2">
-                                <Check size={13} className="text-[#8C6D4F]" /> {f}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
+                      </div>
+                      <div className="p-5 sm:p-6 pt-0 border-t border-[#F2F2F0] mt-4">
+                        <Link
+                          href="/leistungen"
+                          className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
+                        >
+                          Mehr erfahren <ArrowRight size={12} />
+                        </Link>
                       </div>
                     </div>
-                    <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-4">
+                  ))}
+                </div>
+                {/* Mobile Swipe Hint */}
+                <div className="flex md:hidden items-center justify-center gap-1.5 mt-2 text-[11px] text-[#777777]">
+                  <span>← Wischen für weitere Gewerke →</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:grid-cols-3 md:gap-6 lg:gap-8">
+                  {/* Gewerk 1: Holzfenster */}
+                  <div className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white flex-shrink-0 w-[84vw] sm:w-[320px] md:w-auto snap-center shadow-xs">
+                    <div>
+                      <div className="relative h-52 sm:h-56 overflow-hidden bg-[#F2F2F0]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/images/real/fenster-holz-1.jpg"
+                          alt="Holzfenster aus eigener Produktion"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-5 sm:p-6">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
+                          Eigene Fertigung
+                        </span>
+                        <h3 className="text-lg sm:text-xl font-bold text-[#181818] mb-2">
+                          Holz- & Holz-Alu-Fenster
+                        </h3>
+                        <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5">
+                          Maßgefertigte Holzfenster und hochwertige Holz-Aluminium-Systeme (System Gutmann Mira) für beste Wärmedämmung.
+                        </p>
+                        <ul className="space-y-1.5 text-xs text-[#666666]">
+                          <li className="flex items-center gap-2">
+                            <Check size={13} className="text-[#8C6D4F]" /> Flächenbündig & flächenversetzt
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <Check size={13} className="text-[#8C6D4F]" /> Original Gutmann Mira Profilsystem
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="p-5 sm:p-6 pt-0 border-t border-[#F2F2F0] mt-4">
                       <Link
                         href="/leistungen"
                         className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
@@ -206,133 +257,94 @@ export default async function HomePage() {
                       </Link>
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                {/* Gewerk 1: Holzfenster */}
-                <div className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white">
-                  <div>
-                    <div className="relative h-56 overflow-hidden bg-[#F2F2F0]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src="/images/real/fenster-holz-1.jpg"
-                        alt="Holzfenster aus eigener Produktion"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-6">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
-                        Eigene Fertigung
-                      </span>
-                      <h3 className="text-xl font-bold text-[#181818] mb-2">
-                        Holz- & Holz-Alu-Fenster
-                      </h3>
-                      <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5">
-                        Maßgefertigte Holzfenster und hochwertige Holz-Aluminium-Systeme (System Gutmann Mira) für beste Wärmedämmung.
-                      </p>
-                      <ul className="space-y-1.5 text-xs text-[#666666]">
-                        <li className="flex items-center gap-2">
-                          <Check size={13} className="text-[#8C6D4F]" /> Flächenbündig & flächenversetzt
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <Check size={13} className="text-[#8C6D4F]" /> Original Gutmann Mira Profilsystem
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-4">
-                    <Link
-                      href="/leistungen"
-                      className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
-                    >
-                      Mehr erfahren <ArrowRight size={12} />
-                    </Link>
-                  </div>
-                </div>
 
-                {/* Gewerk 2: Haustüren */}
-                <div className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white">
-                  <div>
-                    <div className="relative h-56 overflow-hidden bg-[#F2F2F0]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src="/images/real/tuer-5.jpg"
-                        alt="Massivholz Haustüren"
-                        className="w-full h-full object-cover"
-                      />
+                  {/* Gewerk 2: Haustüren */}
+                  <div className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white flex-shrink-0 w-[84vw] sm:w-[320px] md:w-auto snap-center shadow-xs">
+                    <div>
+                      <div className="relative h-52 sm:h-56 overflow-hidden bg-[#F2F2F0]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/images/real/tuer-5.jpg"
+                          alt="Massivholz Haustüren"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-5 sm:p-6">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
+                          Eigene Fertigung
+                        </span>
+                        <h3 className="text-lg sm:text-xl font-bold text-[#181818] mb-2">
+                          Massivholz-Haustüren
+                        </h3>
+                        <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5">
+                          Individuelle Eingangstüren nach Maß. Kompromisslose Sicherheit, hohe Dämmwerte und handwerkliche Kassettenfräsungen.
+                        </p>
+                        <ul className="space-y-1.5 text-xs text-[#666666]">
+                          <li className="flex items-center gap-2">
+                            <Check size={13} className="text-[#8C6D4F]" /> RC2 / RC3 Sicherheitstechnik
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <Check size={13} className="text-[#8C6D4F]" /> Sondermaße & individuelle Profile
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                    <div className="p-6">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
-                        Eigene Fertigung
-                      </span>
-                      <h3 className="text-xl font-bold text-[#181818] mb-2">
-                        Massivholz-Haustüren
-                      </h3>
-                      <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5">
-                        Individuelle Eingangstüren nach Maß. Kompromisslose Sicherheit, hohe Dämmwerte und handwerkliche Kassettenfräsungen.
-                      </p>
-                      <ul className="space-y-1.5 text-xs text-[#666666]">
-                        <li className="flex items-center gap-2">
-                          <Check size={13} className="text-[#8C6D4F]" /> RC2 / RC3 Sicherheitstechnik
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <Check size={13} className="text-[#8C6D4F]" /> Sondermaße & individuelle Profile
-                        </li>
-                      </ul>
+                    <div className="p-5 sm:p-6 pt-0 border-t border-[#F2F2F0] mt-4">
+                      <Link
+                        href="/leistungen"
+                        className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
+                      >
+                        Mehr erfahren <ArrowRight size={12} />
+                      </Link>
                     </div>
                   </div>
-                  <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-4">
-                    <Link
-                      href="/leistungen"
-                      className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
-                    >
-                      Mehr erfahren <ArrowRight size={12} />
-                    </Link>
-                  </div>
-                </div>
 
-                {/* Gewerk 3: Wintergärten */}
-                <div className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white">
-                  <div>
-                    <div className="relative h-56 overflow-hidden bg-[#F2F2F0]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src="/images/real/wintergarten-1.jpg"
-                        alt="Wintergärten und Glasbauten"
-                        className="w-full h-full object-cover"
-                      />
+                  {/* Gewerk 3: Wintergärten */}
+                  <div className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white flex-shrink-0 w-[84vw] sm:w-[320px] md:w-auto snap-center shadow-xs">
+                    <div>
+                      <div className="relative h-52 sm:h-56 overflow-hidden bg-[#F2F2F0]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/images/real/wintergarten-1.jpg"
+                          alt="Wintergärten und Glasbauten"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-5 sm:p-6">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
+                          Eigene Fertigung
+                        </span>
+                        <h3 className="text-lg sm:text-xl font-bold text-[#181818] mb-2">
+                          Wintergärten & Glasbauten
+                        </h3>
+                        <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5">
+                          Ganzjähriger Wohnkomfort im Grünen. Tragende Holz- und Holz-Alu-Konstruktionen mit integrierter Beschattung.
+                        </p>
+                        <ul className="space-y-1.5 text-xs text-[#666666]">
+                          <li className="flex items-center gap-2">
+                            <Check size={13} className="text-[#8C6D4F]" /> Statik & schlüsselfertiger Bau
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <Check size={13} className="text-[#8C6D4F]" /> Großflächige Hebeschiebetüren
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                    <div className="p-6">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
-                        Eigene Fertigung
-                      </span>
-                      <h3 className="text-xl font-bold text-[#181818] mb-2">
-                        Wintergärten & Glasbauten
-                      </h3>
-                      <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5">
-                        Ganzjähriger Wohnkomfort im Grünen. Tragende Holz- und Holz-Alu-Konstruktionen mit integrierter Beschattung.
-                      </p>
-                      <ul className="space-y-1.5 text-xs text-[#666666]">
-                        <li className="flex items-center gap-2">
-                          <Check size={13} className="text-[#8C6D4F]" /> Statik & schlüsselfertiger Bau
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <Check size={13} className="text-[#8C6D4F]" /> Großflächige Hebeschiebetüren
-                        </li>
-                      </ul>
+                    <div className="p-5 sm:p-6 pt-0 border-t border-[#F2F2F0] mt-4">
+                      <Link
+                        href="/leistungen"
+                        className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
+                      >
+                        Mehr erfahren <ArrowRight size={12} />
+                      </Link>
                     </div>
-                  </div>
-                  <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-4">
-                    <Link
-                      href="/leistungen"
-                      className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
-                    >
-                      Mehr erfahren <ArrowRight size={12} />
-                    </Link>
                   </div>
                 </div>
-              </div>
+                {/* Mobile Swipe Hint */}
+                <div className="flex md:hidden items-center justify-center gap-1.5 mt-2 text-[11px] text-[#777777]">
+                  <span>← Wischen für weitere Gewerke →</span>
+                </div>
+              </>
             )}
 
             {/* Bauelemente Montage Bar */}
@@ -387,196 +399,208 @@ export default async function HomePage() {
 
             {/* If custom featured products are chosen in CMS */}
             {featuredProducts && featuredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                {featuredProducts.slice(0, 3).map((prod: any) => {
-                  const targetId = prod.slug || prod._id;
-                  return (
-                    <div
-                      key={prod._id}
-                      className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group"
-                    >
-                      <div>
-                        {prod.imageUrl ? (
-                          <Link
-                            href={`/shop/${targetId}`}
-                            className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]"
-                          >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={prod.imageUrl}
-                              alt={prod.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                          </Link>
-                        ) : (
-                          <div className="h-52 rounded bg-[#F9F9F8] mb-4 flex items-center justify-center text-xs text-[#777777]">
-                            Handgefertigtes Werkstück
-                          </div>
-                        )}
-                        {prod.woodType && (
-                          <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
-                            {prod.woodType}
-                          </span>
-                        )}
-                        <Link href={`/shop/${targetId}`}>
-                          <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
-                            {prod.title}
-                          </h3>
-                        </Link>
-                        {prod.dimensions && (
-                          <p className="text-xs text-[#666666] mb-4">{prod.dimensions}</p>
-                        )}
-                      </div>
-                      <div className="pt-4 border-t border-[#F2F2F0] mt-auto">
-                        <div className="flex items-baseline justify-between gap-2 mb-3">
-                          <span className="text-xl font-bold text-[#181818] whitespace-nowrap">
-                            {prod.price !== undefined && prod.price > 0
-                              ? `${Number(prod.price).toFixed(2).replace(".", ",")} €`
-                              : "Preis auf Anfrage"}
-                          </span>
-                          {prod.price !== undefined && prod.price > 0 && (
-                            <span className="text-[11px] text-[#777777] whitespace-nowrap">
-                              inkl. 19% MwSt.
+              <>
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:grid-cols-3 md:gap-6 lg:gap-8">
+                  {featuredProducts.slice(0, 3).map((prod: any) => {
+                    const targetId = prod.slug || prod._id;
+                    return (
+                      <div
+                        key={prod._id}
+                        className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group flex-shrink-0 w-[80vw] sm:w-[300px] md:w-auto snap-center"
+                      >
+                        <div>
+                          {prod.imageUrl ? (
+                            <Link
+                              href={`/shop/${targetId}`}
+                              className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]"
+                            >
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={prod.imageUrl}
+                                alt={prod.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            </Link>
+                          ) : (
+                            <div className="h-52 rounded bg-[#F9F9F8] mb-4 flex items-center justify-center text-xs text-[#777777]">
+                              Handgefertigtes Werkstück
+                            </div>
+                          )}
+                          {prod.woodType && (
+                            <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
+                              {prod.woodType}
                             </span>
                           )}
+                          <Link href={`/shop/${targetId}`}>
+                            <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
+                              {prod.title}
+                            </h3>
+                          </Link>
+                          {prod.dimensions && (
+                            <p className="text-xs text-[#666666] mb-4">{prod.dimensions}</p>
+                          )}
                         </div>
-                        <Link
-                          href={`/shop/${targetId}`}
-                          className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5"
-                        >
-                          <ShoppingBag size={13} />
-                          Details & Bestellen
-                        </Link>
+                        <div className="pt-4 border-t border-[#F2F2F0] mt-auto">
+                          <div className="flex items-baseline justify-between gap-2 mb-3">
+                            <span className="text-xl font-bold text-[#181818] whitespace-nowrap">
+                              {prod.price !== undefined && prod.price > 0
+                                ? `${Number(prod.price).toFixed(2).replace(".", ",")} €`
+                                : "Preis auf Anfrage"}
+                            </span>
+                            {prod.price !== undefined && prod.price > 0 && (
+                              <span className="text-[11px] text-[#777777] whitespace-nowrap">
+                                inkl. 19% MwSt.
+                              </span>
+                            )}
+                          </div>
+                          <Link
+                            href={`/shop/${targetId}`}
+                            className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5"
+                          >
+                            <ShoppingBag size={13} />
+                            Details & Bestellen
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+                {/* Mobile Swipe Hint */}
+                <div className="flex md:hidden items-center justify-center gap-1.5 mt-2 text-[11px] text-[#777777]">
+                  <span>← Wischen für weitere Werkstücke →</span>
+                </div>
+              </>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                {/* Product 1 */}
-                <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group">
-                  <div>
-                    <Link
-                      href="/shop/schneidebrett-xl"
-                      className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src="/images/catalog-schneidebrett.jpg"
-                        alt="Schneidebrett Hirnholz XL"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </Link>
-                    <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
-                      Eiche massiv
-                    </span>
-                    <Link href="/shop/schneidebrett-xl">
-                      <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
-                        Schneidebrett Hirnholz XL
-                      </h3>
-                    </Link>
-                    <p className="text-xs text-[#666666] mb-4">40 × 30 × 5 cm · Stirnholz geölt</p>
-                  </div>
-                  <div className="pt-4 border-t border-[#F2F2F0] mt-auto">
-                    <div className="flex items-baseline justify-between gap-2 mb-3">
-                      <span className="text-xl font-bold text-[#181818] whitespace-nowrap">89,00 €</span>
-                      <span className="text-[11px] text-[#777777] whitespace-nowrap">
-                        inkl. 19% MwSt.
+              <>
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:grid-cols-3 md:gap-6 lg:gap-8">
+                  {/* Product 1 */}
+                  <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group flex-shrink-0 w-[80vw] sm:w-[300px] md:w-auto snap-center">
+                    <div>
+                      <Link
+                        href="/shop/schneidebrett-xl"
+                        className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/images/catalog-schneidebrett.jpg"
+                          alt="Schneidebrett Hirnholz XL"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </Link>
+                      <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
+                        Eiche massiv
                       </span>
+                      <Link href="/shop/schneidebrett-xl">
+                        <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
+                          Schneidebrett Hirnholz XL
+                        </h3>
+                      </Link>
+                      <p className="text-xs text-[#666666] mb-4">40 × 30 × 5 cm · Stirnholz geölt</p>
                     </div>
-                    <Link
-                      href="/shop/schneidebrett-xl"
-                      className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5"
-                    >
-                      <ShoppingBag size={13} />
-                      Details & Bestellen
-                    </Link>
+                    <div className="pt-4 border-t border-[#F2F2F0] mt-auto">
+                      <div className="flex items-baseline justify-between gap-2 mb-3">
+                        <span className="text-xl font-bold text-[#181818] whitespace-nowrap">89,00 €</span>
+                        <span className="text-[11px] text-[#777777] whitespace-nowrap">
+                          inkl. 19% MwSt.
+                        </span>
+                      </div>
+                      <Link
+                        href="/shop/schneidebrett-xl"
+                        className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5"
+                      >
+                        <ShoppingBag size={13} />
+                        Details & Bestellen
+                      </Link>
+                    </div>
                   </div>
-                </div>
 
-                {/* Product 2 */}
-                <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group">
-                  <div>
-                    <Link
-                      href="/shop/wandregal-eiche"
-                      className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src="/images/catalog-regal.jpg"
-                        alt="Wandregal Eiche massiv"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </Link>
-                    <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
-                      Massiveiche
-                    </span>
-                    <Link href="/shop/wandregal-eiche">
-                      <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
-                        Schwebendes Wandregal Eiche
-                      </h3>
-                    </Link>
-                    <p className="text-xs text-[#666666] mb-4">80 × 20 × 4 cm · Baumkante</p>
-                  </div>
-                  <div className="pt-4 border-t border-[#F2F2F0] mt-auto">
-                    <div className="flex items-baseline justify-between gap-2 mb-3">
-                      <span className="text-xl font-bold text-[#181818] whitespace-nowrap">129,00 €</span>
-                      <span className="text-[11px] text-[#777777] whitespace-nowrap">
-                        inkl. 19% MwSt.
+                  {/* Product 2 */}
+                  <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group flex-shrink-0 w-[80vw] sm:w-[300px] md:w-auto snap-center">
+                    <div>
+                      <Link
+                        href="/shop/wandregal-eiche"
+                        className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/images/catalog-regal.jpg"
+                          alt="Wandregal Eiche massiv"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </Link>
+                      <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
+                        Massiveiche
                       </span>
+                      <Link href="/shop/wandregal-eiche">
+                        <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
+                          Schwebendes Wandregal Eiche
+                        </h3>
+                      </Link>
+                      <p className="text-xs text-[#666666] mb-4">80 × 20 × 4 cm · Baumkante</p>
                     </div>
-                    <Link
-                      href="/shop/wandregal-eiche"
-                      className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5"
-                    >
-                      <ShoppingBag size={13} />
-                      Details & Bestellen
-                    </Link>
+                    <div className="pt-4 border-t border-[#F2F2F0] mt-auto">
+                      <div className="flex items-baseline justify-between gap-2 mb-3">
+                        <span className="text-xl font-bold text-[#181818] whitespace-nowrap">129,00 €</span>
+                        <span className="text-[11px] text-[#777777] whitespace-nowrap">
+                          inkl. 19% MwSt.
+                        </span>
+                      </div>
+                      <Link
+                        href="/shop/wandregal-eiche"
+                        className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5"
+                      >
+                        <ShoppingBag size={13} />
+                        Details & Bestellen
+                      </Link>
+                    </div>
                   </div>
-                </div>
 
-                {/* Product 3 */}
-                <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group">
-                  <div>
-                    <Link
-                      href="/shop/schneidebrett-streifen"
-                      className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src="/images/catalog-schneidebrett.jpg"
-                        alt="Schneidebrett Streifendesign"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </Link>
-                    <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
-                      Eiche & Buche
-                    </span>
-                    <Link href="/shop/schneidebrett-streifen">
-                      <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
-                        Schneidebrett Streifendesign
-                      </h3>
-                    </Link>
-                    <p className="text-xs text-[#666666] mb-4">35 × 22 × 3 cm · Zweifarbig verleimt</p>
-                  </div>
-                  <div className="pt-4 border-t border-[#F2F2F0] mt-auto">
-                    <div className="flex items-baseline justify-between gap-2 mb-3">
-                      <span className="text-xl font-bold text-[#181818] whitespace-nowrap">54,00 €</span>
-                      <span className="text-[11px] text-[#777777] whitespace-nowrap">
-                        inkl. 19% MwSt.
+                  {/* Product 3 */}
+                  <div className="craft-card p-5 sm:p-6 flex flex-col justify-between h-full bg-white shadow-xs hover:shadow-md transition-shadow group flex-shrink-0 w-[80vw] sm:w-[300px] md:w-auto snap-center">
+                    <div>
+                      <Link
+                        href="/shop/schneidebrett-streifen"
+                        className="block relative h-52 sm:h-56 rounded overflow-hidden mb-4 bg-[#F9F9F8]"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/images/catalog-schneidebrett.jpg"
+                          alt="Schneidebrett Streifendesign"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </Link>
+                      <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
+                        Eiche & Buche
                       </span>
+                      <Link href="/shop/schneidebrett-streifen">
+                        <h3 className="text-lg font-bold text-[#181818] mb-1 hover:text-[#8C6D4F] transition-colors">
+                          Schneidebrett Streifendesign
+                        </h3>
+                      </Link>
+                      <p className="text-xs text-[#666666] mb-4">35 × 22 × 3 cm · Zweifarbig verleimt</p>
                     </div>
-                    <Link
-                      href="/shop/schneidebrett-streifen"
-                      className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5"
-                    >
-                      <ShoppingBag size={13} />
-                      Details & Bestellen
-                    </Link>
+                    <div className="pt-4 border-t border-[#F2F2F0] mt-auto">
+                      <div className="flex items-baseline justify-between gap-2 mb-3">
+                        <span className="text-xl font-bold text-[#181818] whitespace-nowrap">54,00 €</span>
+                        <span className="text-[11px] text-[#777777] whitespace-nowrap">
+                          inkl. 19% MwSt.
+                        </span>
+                      </div>
+                      <Link
+                        href="/shop/schneidebrett-streifen"
+                        className="btn btn-primary text-xs py-2.5 w-full flex items-center justify-center gap-1.5"
+                      >
+                        <ShoppingBag size={13} />
+                        Details & Bestellen
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
+                {/* Mobile Swipe Hint */}
+                <div className="flex md:hidden items-center justify-center gap-1.5 mt-2 text-[11px] text-[#777777]">
+                  <span>← Wischen für weitere Werkstücke →</span>
+                </div>
+              </>
             )}
           </div>
         </section>
