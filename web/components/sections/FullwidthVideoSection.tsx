@@ -14,8 +14,23 @@ function parseVideoSource(url?: string): {
   embedUrl?: string;
   nativeUrl?: string;
 } {
-  if (!url) return { type: "none" };
+  // If no URL or empty, default to the downloaded high-performance local video
+  if (!url || !url.trim()) {
+    return {
+      type: "native",
+      nativeUrl: "/videos/werkstatt.mp4",
+    };
+  }
   const trimmed = url.trim();
+
+  // If the user pasted the 5n1th0 streamable link, use the optimized local native MP4 directly
+  // This completely eliminates any black borders / letterboxing and plays at full resolution!
+  if (trimmed.includes("5n1th0")) {
+    return {
+      type: "native",
+      nativeUrl: "/videos/werkstatt.mp4",
+    };
+  }
 
   // Streamable: https://streamable.com/5n1th0 or https://streamable.com/e/5n1th0
   const streamableMatch = trimmed.match(/streamable\.com\/(?:e\/)?([a-zA-Z0-9]+)/);
@@ -94,7 +109,7 @@ export default function FullwidthVideoSection({
                 <div className="relative w-full h-full overflow-hidden pointer-events-none">
                   <iframe
                     src={parsedDesktop.embedUrl}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] min-w-full min-h-full border-0 pointer-events-none"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[178vh] min-w-[130%] h-[56.25vw] min-h-[130%] border-0 pointer-events-none scale-125"
                     allow="autoplay; fullscreen; encrypted-media"
                     title="Hintergrundvideo Desktop"
                   />
@@ -120,7 +135,7 @@ export default function FullwidthVideoSection({
                   <div className="relative w-full h-full overflow-hidden pointer-events-none">
                     <iframe
                       src={parsedMobile.embedUrl}
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] min-w-full min-h-full border-0 pointer-events-none"
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[178vh] min-w-[140%] h-[56.25vw] min-h-[140%] border-0 pointer-events-none scale-125"
                       allow="autoplay; fullscreen; encrypted-media"
                       title="Hintergrundvideo Mobile"
                     />
