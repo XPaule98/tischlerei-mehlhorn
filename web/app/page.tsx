@@ -495,28 +495,6 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* 6. Clean CTA Banner */}
-        <section className="bg-[#181818] text-white py-16 md:py-20">
-          <div className="container-site text-center max-w-2xl">
-            <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/60 block mb-2">
-              Persönliche Beratung in Schönheide
-            </span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
-              Haben Sie ein Bauvorhaben vor Augen?
-            </h2>
-            <p className="text-white/70 text-sm sm:text-base mb-8 leading-relaxed">
-              Ob Neubau, Denkmalschutz oder Sanierung – Tischlermeister Ronny Mehlhorn berät Sie persönlich und erstellt ein individuelles Angebot.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-3">
-              <Link href="/kontakt" className="btn bg-white text-[#181818] hover:bg-white/90 text-xs sm:text-sm py-3 px-6">
-                Angebot anfordern
-              </Link>
-              <Link href="/galerie" className="btn btn-outline text-xs sm:text-sm py-3 px-6">
-                Referenzen ansehen
-              </Link>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </>

@@ -1,39 +1,12 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin, Smartphone, Printer, ArrowRight } from "lucide-react";
+import { Phone, Mail, MapPin, Smartphone } from "lucide-react";
 
-interface FooterProps {
-  hideCta?: boolean;
-}
-
-export default function Footer({ hideCta = false }: FooterProps) {
+export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-[#141414] text-white" id="footer">
-      {/* Top CTA Banner (hidden on contact/inquiry page) */}
-      {!hideCta && (
-        <div className="border-b border-white/10 py-6 sm:py-8">
-          <div className="container-site flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/60 block mb-0.5">
-                Meisterbetrieb im Erzgebirge
-              </span>
-              <h3 className="text-lg sm:text-xl font-bold text-white">
-                Planen Sie ein Bau- oder Sanierungsvorhaben?
-              </h3>
-            </div>
-            <Link
-              href="/kontakt"
-              className="btn bg-white text-[#181818] hover:bg-white/90 text-xs py-2 px-4.5 flex items-center gap-1.5 flex-shrink-0"
-            >
-              Jetzt anfragen
-              <ArrowRight size={13} />
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {/* Main Footer Columns - Compact & Streamlined */}
+      {/* Main Footer Columns - Compact & Clean */}
       <div className="container-site py-8 sm:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {/* Brand */}
@@ -52,7 +25,7 @@ export default function Footer({ hideCta = false }: FooterProps) {
               </div>
             </Link>
             <p className="text-white/60 text-xs leading-relaxed mb-3">
-              Meisterbetrieb seit 1977 in Schönheide. Individuelle Holz- &amp; Holz-Alu-Fenster, Haustüren und Fachmontage.
+              Meisterbetrieb seit 1977 in Schönheide. Eigene Herstellung von Fenstern, Türen und Wintergärten.
             </p>
             <div className="text-[11px] text-white/40">
               Inhaber: Tischlermeister Ronny Mehlhorn
@@ -110,7 +83,7 @@ export default function Footer({ hideCta = false }: FooterProps) {
               </li>
               <li>
                 <Link href="/leistungen#service-kunststoff" className="hover:text-white transition-colors">
-                  Kunststofffenster (VEKA &amp; Gealan)
+                  Kunststofffenster &amp; Montage
                 </Link>
               </li>
             </ul>
@@ -151,7 +124,7 @@ export default function Footer({ hideCta = false }: FooterProps) {
 
       {/* Bottom Bar: Copyright, Designer Attribution & Legal Links */}
       <div className="border-t border-white/10">
-        <div className="container-site py-3.5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-white/40">
+        <div className="container-site py-3 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-white/40">
           <span>© {currentYear} Tischlerei Ronny Mehlhorn · Schönheide.</span>
 
           {/* Designer Credit */}
@@ -168,7 +141,7 @@ export default function Footer({ hideCta = false }: FooterProps) {
               <img
                 src="/images/paulus-digital-logo.png"
                 alt="paulus.digital Logo"
-                className="h-6 w-auto object-contain transition-opacity"
+                className="h-5 w-auto object-contain transition-opacity"
               />
               <span className="text-[11px] font-semibold text-white/70 group-hover:text-white transition-colors">
                 paulus.digital

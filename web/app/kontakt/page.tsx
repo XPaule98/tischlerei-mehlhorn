@@ -47,7 +47,7 @@ export default async function KontaktPage() {
           <ContactSection />
         </Suspense>
       </main>
-      <Footer hideCta={true} />
+      <Footer />
     </>
   );
 }
