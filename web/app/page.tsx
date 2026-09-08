@@ -6,8 +6,6 @@ import FullwidthVideoSection from "@/components/sections/FullwidthVideoSection";
 import { client } from "@/sanity/lib/client";
 import { HERO_QUERY, SHOWCASE_VIDEO_QUERY, HOME_SECTIONS_QUERY, SERVICES_QUERY } from "@/sanity/lib/queries";
 import { ArrowRight, ShoppingBag } from "lucide-react";
-import LeistungenClient from "@/app/leistungen/LeistungenClient";
-import { fallbackServices } from "@/app/leistungen/fallbackServices";
 
 export const revalidate = 30;
 
@@ -54,7 +52,67 @@ export default async function HomePage() {
   const servicesEyebrow = homeData?.servicesEyebrow || "Leistungsspektrum";
   const servicesHeadline = homeData?.servicesHeadline || "Handwerkliche Kernkompetenzen";
 
-  const services = cmsServices && cmsServices.length > 0 ? cmsServices : fallbackServices;
+interface FeaturedGewerk {
+  id: string;
+  title: string;
+  tag: string;
+  image: string;
+  description: string;
+  href: string;
+}
+
+  const defaultFeaturedGewerke: FeaturedGewerk[] = [
+    {
+      id: "holzfenster",
+      title: "Holz- & Holz-Alu-Fenster",
+      tag: "Eigene Fertigung",
+      image: "/images/real/fenster-holzalu-buendig.jpg",
+      description: "Maßgefertigte Holzfenster und witterungsbeständige Aluminium-Vorsatzschalen (Gutmann Mira).",
+      href: "/leistungen#service-holzfenster",
+    },
+    {
+      id: "haustueren",
+      title: "Massivholz-Haustüren",
+      tag: "Eigene Fertigung",
+      image: "/images/real/tuer-5.jpg",
+      description: "Individuelle Eingangstüren nach Maß mit hoher Einbruchhemmung und meisterhaften Kassettenprofilen.",
+      href: "/leistungen#service-haustueren",
+    },
+    {
+      id: "wintergaerten",
+      title: "Wintergärten & Glasbauten",
+      tag: "Eigene Fertigung",
+      image: "/images/real/wintergarten-1.jpg",
+      description: "Lichtdurchfluteter Wohnraum in tragender Holz- und Holz-Alu-Konstruktion für ganzjährigen Komfort.",
+      href: "/leistungen#service-wintergaerten",
+    },
+    {
+      id: "bauelemente",
+      title: "Bauelemente & Montage",
+      tag: "Fachhandel & Montage",
+      image: "/images/service-fenster.jpg",
+      description: "Zertifizierter Einbau geprüfter Kunststofffenster (VEKA/Gealan), Innentüren und Rollladensysteme.",
+      href: "/leistungen#service-kunststoff",
+    },
+  ];
+
+  const coreGewerke: FeaturedGewerk[] =
+    cmsServices && cmsServices.length > 0
+      ? cmsServices.slice(0, 4).map((s: any): FeaturedGewerk => ({
+          id: s._id,
+          title: s.title,
+          tag: s.category === "bauelemente" ? "Handel & Montage" : "Eigene Fertigung",
+          image: s.imageUrl || "/images/real/werkstatt-2.jpg",
+          description:
+            s.subtitle ||
+            (s.description
+              ? s.description.length > 95
+                ? s.description.slice(0, 95) + "..."
+                : s.description
+              : "Individuelle Maßanfertigung aus Meisterhand."),
+          href: `/leistungen#service-${s._id}`,
+        }))
+      : defaultFeaturedGewerke;
 
   // Shop section data
   const shopEyebrow = homeData?.shopEyebrow || "Aus unserer Werkstatt";
@@ -146,8 +204,8 @@ export default async function HomePage() {
 
         {/* 3. Kernkompetenzen / Leistungen */}
         <section className="section-pad bg-white border-t border-[#E8E8E6]">
-          <div className="container-site max-w-5xl">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+          <div className="container-site">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 sm:mb-10">
               <div>
                 <span className="text-craft-label block mb-1.5">{servicesEyebrow}</span>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#181818] tracking-tight">
@@ -163,11 +221,48 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <LeistungenClient
-              services={services}
-              singleExpand={true}
-              defaultExpandedFirst={true}
-            />
+            {/* 4 Focused Highlights: Compact, visual, no endless scrolling */}
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:grid-cols-2 lg:grid-cols-4">
+              {coreGewerke.map((item: FeaturedGewerk) => (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className="group flex flex-col justify-between flex-shrink-0 w-[74vw] sm:w-[280px] md:w-auto snap-center"
+                >
+                  <div>
+                    {/* Clean photo without bulky boxes or borders */}
+                    <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-[#F2F2F0] mb-3">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <span className="absolute top-2.5 left-2.5 bg-[#181818]/85 text-white text-[10px] font-semibold px-2 py-0.5 rounded backdrop-blur-xs">
+                        {item.tag}
+                      </span>
+                    </div>
+
+                    <h3 className="text-base font-bold text-[#181818] group-hover:text-[#8C6D4F] transition-colors leading-snug">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-[#666666] leading-relaxed mt-1.5 line-clamp-2">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  <div className="pt-2.5 mt-2 flex items-center gap-1 text-xs font-semibold text-[#181818] group-hover:text-[#8C6D4F] transition-colors">
+                    <span>Details ansehen</span>
+                    <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Mobile swipe hint */}
+            <div className="flex md:hidden items-center justify-center gap-1.5 mt-2 text-[11px] text-[#888888]">
+              <span>← Wischen für weitere Gewerke →</span>
+            </div>
           </div>
         </section>
 

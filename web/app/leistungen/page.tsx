@@ -53,7 +53,11 @@ export default async function LeistungenPage() {
         {/* Expandable Accordion View for maximum overview and clarity */}
         <section className="py-10 sm:py-14 bg-white">
           <div className="container-site max-w-5xl">
-            <LeistungenClient services={allServices} />
+            <LeistungenClient
+              services={allServices}
+              singleExpand={true}
+              defaultExpandedFirst={true}
+            />
           </div>
         </section>
 
