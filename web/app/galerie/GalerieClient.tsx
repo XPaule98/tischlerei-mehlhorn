@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, MapPin, Calendar, Check, X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import { ArrowRight, X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 
 export interface GalleryProject {
   _id?: string;
@@ -264,54 +264,26 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
                   </div>
 
                   {/* Body Content */}
-                  <div className="p-6">
-                    {/* Meta info */}
-                    <div className="flex items-center gap-3 text-xs text-[#777777] mb-2 font-medium">
-                      {project.location && (
-                        <span className="flex items-center gap-1">
-                          <MapPin size={12} className="text-[#8C6D4F]" />
-                          {project.location}
-                        </span>
-                      )}
-                      {project.year && (
-                        <span className="flex items-center gap-1">
-                          <Calendar size={12} className="text-[#8C6D4F]" />
-                          {project.year}
-                        </span>
-                      )}
-                    </div>
-
-                    <h3 className="text-xl font-bold text-[#181818] mb-2.5 leading-snug">
+                  <div className="p-5 sm:p-6">
+                    <h3 className="text-lg sm:text-xl font-bold text-[#181818] mb-2 leading-snug">
                       {project.title}
                     </h3>
 
                     {project.description && (
-                      <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-4">
+                      <p className="text-[#555555] text-xs sm:text-sm leading-relaxed">
                         {project.description}
                       </p>
-                    )}
-
-                    {/* Scope bullets */}
-                    {project.scope && project.scope.length > 0 && (
-                      <div className="space-y-1.5 pt-3 border-t border-[#F2F2F0] mb-2">
-                        {project.scope.map((item, i) => (
-                          <div key={i} className="flex items-center gap-2 text-xs text-[#444444]">
-                            <Check size={13} className="text-[#8C6D4F] flex-shrink-0" />
-                            <span>{item}</span>
-                          </div>
-                        ))}
-                      </div>
                     )}
                   </div>
                 </div>
 
                 {/* Footer Link */}
-                <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-2">
+                <div className="p-5 sm:p-6 pt-0 border-t border-[#F2F2F0] mt-auto">
                   <Link
                     href={`/kontakt?gewerk=${encodeURIComponent(project.title)}#anfrage-formular`}
                     className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1.5 pt-3.5 transition-colors"
                   >
-                    Ähnliches Projekt anfragen <ArrowRight size={13} />
+                    Projekt anfragen <ArrowRight size={13} />
                   </Link>
                 </div>
               </div>
