@@ -67,41 +67,6 @@ interface TeamMemberData {
   since?: string;
 }
 
-const fallbackTeam: TeamMemberData[] = [
-  {
-    _id: "ronny",
-    name: "Ronny Mehlhorn",
-    role: "Inhaber & Tischlermeister",
-    imageUrl: "/images/real/werkstatt-2.jpg",
-    bio: "Übernahme der Meisterwerkstatt 2012 in 2. Generation. Verantwortlich für Kundenberatung, Arbeitsvorbereitung, Statikplanung und Fertigung.",
-    since: "Im Betrieb seit 1995 · Meisterbrief 2005",
-  },
-  {
-    _id: "roland",
-    name: "Roland Mehlhorn",
-    role: "Firmengründer & Senior",
-    imageUrl: "/images/real/werkstatt-1.jpg",
-    bio: "Gründete den Betrieb 1977 mit traditionellem Gestellbau und baute 1992 das heutige Werkstattgebäude in der Neuheider Straße auf.",
-    since: "Gründer 1977",
-  },
-  {
-    _id: "geselle",
-    name: "Werkstatt-Team & Gesellen",
-    role: "Tischlergesellen & Fachmonteure",
-    imageUrl: "/images/real/werkstatt-3.jpg",
-    bio: "Erfahrene Fachkräfte für den präzisen Zuschnitt, die Profilbearbeitung, Oberflächenveredelung und saubere RAL-Montage vor Ort.",
-    since: "Langjährige Handwerkserfahrung",
-  },
-  {
-    _id: "hund",
-    name: "Balou",
-    role: "Werkstatthund",
-    imageUrl: "/images/real/gebaeude-1.jpg",
-    bio: "Sorgt stets für gute Laune im Betrieb, begrüßt treue Kunden und überwacht zuverlässig die wohlverdienten Kaffeepausen.",
-    since: "Im Dienst für gute Stimmung",
-  },
-];
-
 export default async function UeberUnsPage() {
   let cmsData = null;
   let teamMembers: TeamMemberData[] | null = null;
@@ -143,8 +108,7 @@ export default async function UeberUnsPage() {
     })
   );
 
-  const teamList =
-    teamMembers && teamMembers.length > 0 ? teamMembers : fallbackTeam;
+  const hasTeamMembers = Boolean(teamMembers && teamMembers.length > 0);
 
   return (
     <>
@@ -284,65 +248,67 @@ export default async function UeberUnsPage() {
           </div>
         </section>
 
-        {/* 2. Team & Mitarbeiter Vorstellung (im Backend pflegbar) */}
-        <section className="py-16 md:py-24 bg-[#F9F9F8] border-t border-[#E8E8E6]">
-          <div className="container-site">
-            <div className="text-center max-w-2xl mx-auto mb-14">
-              <span className="text-craft-label block mb-1">
-                Die Gesichter hinter dem Handwerk
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-[#181818] tracking-tight mb-3">
-                Unser Team
-              </h2>
-              <p className="text-[#555555] text-sm sm:text-base leading-relaxed">
-                Mit Leidenschaft, handwerklichem Können und einem geschulten Auge für Details arbeiten wir täglich für zufriedene Bauherren.
-              </p>
-            </div>
+        {/* 2. Team & Mitarbeiter Vorstellung (nur wenn im Backend angelegt) */}
+        {hasTeamMembers && (
+          <section className="py-16 md:py-24 bg-[#F9F9F8] border-t border-[#E8E8E6]">
+            <div className="container-site">
+              <div className="text-center max-w-2xl mx-auto mb-14">
+                <span className="text-craft-label block mb-1">
+                  Die Gesichter hinter dem Handwerk
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-bold text-[#181818] tracking-tight mb-3">
+                  Unser Team
+                </h2>
+                <p className="text-[#555555] text-sm sm:text-base leading-relaxed">
+                  Mit Leidenschaft, handwerklichem Können und einem geschulten Auge für Details arbeiten wir täglich für zufriedene Bauherren.
+                </p>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-10 sm:gap-y-12 max-w-5xl mx-auto">
-              {teamList.map((member) => (
-                <div
-                  key={member._id}
-                  className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5 sm:gap-6 group"
-                >
-                  {/* Round Avatar Circle */}
-                  <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden flex-shrink-0 ring-4 ring-white shadow-md bg-[#E8E8E6]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={member.imageUrl || "/images/real/werkstatt-2.jpg"}
-                      alt={member.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-16 gap-y-10 sm:gap-y-12 max-w-5xl mx-auto">
+                {teamMembers!.map((member) => (
+                  <div
+                    key={member._id}
+                    className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5 sm:gap-6 group"
+                  >
+                    {/* Round Avatar Circle */}
+                    <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden flex-shrink-0 ring-4 ring-white shadow-md bg-[#E8E8E6]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={member.imageUrl || "/images/real/werkstatt-2.jpg"}
+                        alt={member.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+
+                    {/* Free Unboxed Text Content */}
+                    <div className="flex-1 min-w-0">
+                      <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
+                        {member.role}
+                      </span>
+
+                      <h3 className="text-xl sm:text-2xl font-bold text-[#181818] mb-2 leading-snug">
+                        {member.name}
+                      </h3>
+
+                      {member.bio && (
+                        <p className="text-xs sm:text-sm text-[#555555] leading-relaxed mb-3">
+                          {member.bio}
+                        </p>
+                      )}
+
+                      {member.since && (
+                        <div className="text-[11px] sm:text-xs text-[#777777] flex items-center justify-center sm:justify-start gap-1.5 font-medium">
+                          <UserCheck size={14} className="text-[#8C6D4F] flex-shrink-0" />
+                          <span>{member.since}</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-
-                  {/* Free Unboxed Text Content */}
-                  <div className="flex-1 min-w-0">
-                    <span className="text-[11px] font-bold text-[#8C6D4F] uppercase tracking-wider block mb-1">
-                      {member.role}
-                    </span>
-
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#181818] mb-2 leading-snug">
-                      {member.name}
-                    </h3>
-
-                    {member.bio && (
-                      <p className="text-xs sm:text-sm text-[#555555] leading-relaxed mb-3">
-                        {member.bio}
-                      </p>
-                    )}
-
-                    {member.since && (
-                      <div className="text-[11px] sm:text-xs text-[#777777] flex items-center justify-center sm:justify-start gap-1.5 font-medium">
-                        <UserCheck size={14} className="text-[#8C6D4F] flex-shrink-0" />
-                        <span>{member.since}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* 3. Slide-Galerie der Firma & Werkstatt */}
         <WorkshopSlideGallery slides={workshopSlides} />
