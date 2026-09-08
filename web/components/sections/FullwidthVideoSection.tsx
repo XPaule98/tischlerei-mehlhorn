@@ -9,22 +9,21 @@ interface FullwidthVideoProps {
   subheadline?: string;
 }
 
-function parseVideoSource(url?: string): {
+function parseVideoSource(url?: string, isMobile = false): {
   type: "streamable" | "youtube" | "vimeo" | "native" | "none";
   embedUrl?: string;
   nativeUrl?: string;
 } {
-  // If no URL or empty, default to the downloaded high-performance local video
+  // If no URL or empty, default to local optimized video
   if (!url || !url.trim()) {
     return {
       type: "native",
-      nativeUrl: "/videos/werkstatt.mp4",
+      nativeUrl: isMobile ? "/videos/werkstatt-mobile.mp4" : "/videos/werkstatt.mp4",
     };
   }
   const trimmed = url.trim();
 
-  // If the user pasted the 5n1th0 streamable link, use the optimized local native MP4 directly
-  // This completely eliminates any black borders / letterboxing and plays at full resolution!
+  // Desktop video link from Streamable -> local high-res MP4
   if (trimmed.includes("5n1th0")) {
     return {
       type: "native",
@@ -32,12 +31,21 @@ function parseVideoSource(url?: string): {
     };
   }
 
-  // Streamable: https://streamable.com/5n1th0 or https://streamable.com/e/5n1th0
+  // Mobile video link from Streamable -> local high-res vertical MP4
+  if (trimmed.includes("zk32r9")) {
+    return {
+      type: "native",
+      nativeUrl: "/videos/werkstatt-mobile.mp4",
+    };
+  }
+
+  // Any other Streamable link: Resolve directly to MP4 via our API route
+  // This completely eliminates iframes, black borders, and watermarks!
   const streamableMatch = trimmed.match(/streamable\.com\/(?:e\/)?([a-zA-Z0-9]+)/);
   if (streamableMatch) {
     return {
-      type: "streamable",
-      embedUrl: `https://streamable.com/e/${streamableMatch[1]}?autoplay=1&muted=1&loop=1&controls=0`,
+      type: "native",
+      nativeUrl: `/api/streamable/${streamableMatch[1]}`,
     };
   }
 
@@ -77,8 +85,8 @@ export default function FullwidthVideoSection({
   const desktopSrc = videoDesktopUrl || videoMobileUrl;
   const mobileSrc = videoMobileUrl || videoDesktopUrl;
 
-  const parsedDesktop = parseVideoSource(desktopSrc);
-  const parsedMobile = videoMobileUrl ? parseVideoSource(mobileSrc) : null;
+  const parsedDesktop = parseVideoSource(desktopSrc, false);
+  const parsedMobile = videoMobileUrl ? parseVideoSource(mobileSrc, true) : null;
 
   const hasVideo = parsedDesktop.type !== "none";
   const hasText = Boolean(badge || headline || subheadline);
@@ -92,7 +100,7 @@ export default function FullwidthVideoSection({
       <div className="relative w-full h-[55vh] sm:h-[65vh] md:h-[75vh] lg:h-[80vh] bg-[#141414] overflow-hidden">
         {hasVideo ? (
           <>
-            {/* Desktop Video Player / Iframe */}
+            {/* Desktop Video Player */}
             <div className={`w-full h-full ${parsedMobile ? "hidden md:block" : "block"}`}>
               {parsedDesktop.type === "native" ? (
                 <video
@@ -117,7 +125,7 @@ export default function FullwidthVideoSection({
               )}
             </div>
 
-            {/* Mobile Video Player / Iframe (if distinct mobile URL provided) */}
+            {/* Mobile Video Player */}
             {parsedMobile && parsedMobile.type !== "none" && (
               <div className="w-full h-full block md:hidden">
                 {parsedMobile.type === "native" ? (

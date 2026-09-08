@@ -5,7 +5,7 @@ import HeroSection from "@/components/sections/HeroSection";
 import FullwidthVideoSection from "@/components/sections/FullwidthVideoSection";
 import { client } from "@/sanity/lib/client";
 import { HERO_QUERY, SHOWCASE_VIDEO_QUERY, HOME_SECTIONS_QUERY, SERVICES_QUERY } from "@/sanity/lib/queries";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ShoppingBag } from "lucide-react";
 
 export const revalidate = 30;
 
