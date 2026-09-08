@@ -14,28 +14,13 @@ interface Props {
 }
 
 async function fetchProduct(idOrSlug: string): Promise<Product | null> {
-  // 1. Check local catalog
-  const local = getProductByIdOrSlug(idOrSlug);
-  if (local) return local;
-
-  // Also check without "prod-" prefix
   const cleanId = idOrSlug.replace(/^prod-/, "");
-  const localClean = getProductByIdOrSlug(cleanId);
-  if (localClean) return localClean;
+  const withProd = idOrSlug.startsWith("prod-") ? idOrSlug : `prod-${idOrSlug}`;
 
-  // Check matching by title slug in local catalog
-  const matchByTitle = products.find(
-    (p) =>
-      p.id.toLowerCase() === idOrSlug.toLowerCase() ||
-      p.slug.toLowerCase() === idOrSlug.toLowerCase() ||
-      p.title.toLowerCase().replace(/\s+/g, "-") === idOrSlug.toLowerCase()
-  );
-  if (matchByTitle) return matchByTitle;
-
-  // 2. Check Sanity CMS
+  // 1. ALWAYS query Sanity CMS FIRST so studio changes immediately reflect!
   try {
     const cms = await client.fetch(
-      `*[_type == "catalogProduct" && (_id == $id || slug.current == $id || _id == $cleanId)][0] {
+      `*[_type == "catalogProduct" && (_id == $id || slug.current == $id || _id == $cleanId || _id == $withProd || slug.current == $cleanId)][0] {
         _id,
         title,
         "slug": coalesce(slug.current, _id),
@@ -48,10 +33,13 @@ async function fetchProduct(idOrSlug: string): Promise<Product | null> {
         "image": images[0].asset->url,
         "galleryImages": images[].asset->url
       }`,
-      { id: idOrSlug, cleanId }
+      { id: idOrSlug, cleanId, withProd }
     );
 
     if (cms) {
+      const mainImg = cms.image || "/images/catalog-schneidebrett.jpg";
+      const galleries = cms.galleryImages && cms.galleryImages.length > 0 ? cms.galleryImages : [mainImg];
+
       return {
         id: cms._id,
         slug: cms.slug || cms._id,
@@ -65,8 +53,8 @@ async function fetchProduct(idOrSlug: string): Promise<Product | null> {
         dimensions: cms.dimensions || "Individuelle Maße",
         woodType: cms.woodType || "Massivholz",
         price: Number(cms.price) || 0,
-        image: cms.image || "/images/catalog-schneidebrett.jpg",
-        galleryImages: cms.galleryImages || [],
+        image: mainImg,
+        galleryImages: galleries,
         available: cms.available !== false,
         tag: "Meisterwerkstatt",
         features: [
@@ -78,13 +66,37 @@ async function fetchProduct(idOrSlug: string): Promise<Product | null> {
       };
     }
   } catch (e) {
-    // Sanity query failed
+    // Sanity query failed, fallback below
   }
+
+  // 2. Only if not found in Sanity CMS, fallback to local static data
+  const local = getProductByIdOrSlug(idOrSlug);
+  if (local) return local;
+
+  const localClean = getProductByIdOrSlug(cleanId);
+  if (localClean) return localClean;
+
+  const matchByTitle = products.find(
+    (p) =>
+      p.id.toLowerCase() === idOrSlug.toLowerCase() ||
+      p.slug.toLowerCase() === idOrSlug.toLowerCase() ||
+      p.title.toLowerCase().replace(/\s+/g, "-") === idOrSlug.toLowerCase()
+  );
+  if (matchByTitle) return matchByTitle;
 
   return null;
 }
 
 export async function generateStaticParams() {
+  try {
+    const cmsIds = await client.fetch<string[]>(
+      `*[_type == "catalogProduct"]._id`
+    );
+    if (cmsIds && cmsIds.length > 0) {
+      return cmsIds.map((id) => ({ id }));
+    }
+  } catch {}
+
   return products.map((product) => ({
     id: product.id,
   }));
@@ -114,10 +126,41 @@ export default async function ProductDetailPage({ params }: Props) {
     notFound();
   }
 
-  // Get 2 other products from same or other category as suggestions
-  const relatedProducts = products
-    .filter((p) => p.id !== product.id && p.slug !== product.slug)
-    .slice(0, 2);
+  // Get other products from Sanity or local fallback as suggestions
+  let relatedProducts: any[] = [];
+  try {
+    const cmsOthers = await client.fetch(
+      `*[_type == "catalogProduct" && _id != $id && _id != $prodId][0..1] {
+        _id,
+        title,
+        "slug": coalesce(slug.current, _id),
+        price,
+        woodType,
+        dimensions,
+        description,
+        "image": images[0].asset->url
+      }`,
+      { id: product.id, prodId: `prod-${product.id}` }
+    );
+    if (cmsOthers && cmsOthers.length > 0) {
+      relatedProducts = cmsOthers.map((o: any) => ({
+        id: o._id,
+        slug: o.slug,
+        title: o.title,
+        price: o.price,
+        woodType: o.woodType,
+        dimensions: o.dimensions,
+        description: o.description,
+        image: o.image || "/images/catalog-schneidebrett.jpg",
+      }));
+    }
+  } catch {}
+
+  if (relatedProducts.length === 0) {
+    relatedProducts = products
+      .filter((p) => p.id !== product.id && p.slug !== product.slug)
+      .slice(0, 2);
+  }
 
   return (
     <>

@@ -65,7 +65,7 @@ const fallbackShopProducts: ShopProduct[] = [
     price: 54.0,
     available: true,
     description: "Zweifarbig verleimtes Küchenbrett aus abwechselnden Lamellen aus Eiche und Buche.",
-    imageUrl: "/images/catalog-schneidebrett.jpg",
+    imageUrl: "https://cdn.sanity.io/images/z3grtien/production/8ce8b789af7717bd1f176e0760fa4b31cc3edfd3-1200x1200.jpg",
   },
   {
     _id: "prod-servierbrett",
@@ -192,7 +192,7 @@ export default function ShopClient({ initialProducts, categories }: ShopClientPr
           {/* Products Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filtered.map((product) => {
-              const prodId = product.id || product.slug || product._id || product.title.toLowerCase().replace(/\s+/g, "-");
+              const prodId = product.slug || product._id || product.id || product.title.toLowerCase().replace(/\s+/g, "-");
               const hasMeta = Boolean(product.dimensions || product.woodType);
 
               return (

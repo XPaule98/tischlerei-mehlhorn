@@ -83,7 +83,7 @@ export const products: Product[] = [
     dimensions: "35 × 22 × 3 cm",
     woodType: "Eiche & Buche massiv",
     price: 54,
-    image: "/images/catalog-schneidebrett.jpg",
+    image: "https://cdn.sanity.io/images/z3grtien/production/8ce8b789af7717bd1f176e0760fa4b31cc3edfd3-1200x1200.jpg",
     available: true,
     tag: "Zweifarbig",
     features: [
