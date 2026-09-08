@@ -124,15 +124,6 @@ function ContactForm() {
 
   return (
     <form action={formAction} className="space-y-4">
-      {/* Gewerk Preselection Banner */}
-      {rawGewerk && (
-        <div className="p-3 bg-[#FAF8F5] border border-[#E6DEC8] rounded-md text-xs text-[#6B5034] flex items-center gap-2">
-          <CheckCircle size={15} className="text-[#8C6D4F] flex-shrink-0" />
-          <span>
-            Vorausgewählt für Ihr Projekt: <strong>{selectedGewerk}</strong>
-          </span>
-        </div>
-      )}
 
       {/* Error Banner */}
       {!state.success && state.message && (
