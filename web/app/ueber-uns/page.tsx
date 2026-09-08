@@ -7,7 +7,7 @@ import PageHeader from "@/components/layout/PageHeader";
 import WorkshopSlideGallery, { WorkshopSlide } from "@/components/sections/WorkshopSlideGallery";
 import { client } from "@/sanity/lib/client";
 import { ABOUT_PAGE_QUERY, TEAM_MEMBERS_QUERY } from "@/sanity/lib/queries";
-import { ArrowRight, UserCheck, HeartHandshake, ShieldCheck, Sparkles } from "lucide-react";
+import { UserCheck } from "lucide-react";
 
 const storyPortableTextComponents: PortableTextComponents = {
   block: {
@@ -108,15 +108,6 @@ export default async function UeberUnsPage() {
     })
   );
 
-  const storyFeatures: { title: string; description: string }[] =
-    cmsData?.storyFeatures && cmsData.storyFeatures.length > 0
-      ? cmsData.storyFeatures
-      : [
-          { title: "100% Meisterqualität", description: "Eigene Fertigung in Schönheide" },
-          { title: "Persönliche Betreuung", description: "Von Aufmaß bis Montage" },
-          { title: "Heimische Hölzer", description: "Eiche, Kiefer & Lärche" },
-        ];
-
   const storyImage1 = {
     imageUrl: cmsData?.storyImage1?.imageUrl || "/images/real/gebaeude-1.jpg",
     captionTitle: cmsData?.storyImage1?.captionTitle || "Neuheider Straße 64 b, Schönheide",
@@ -210,24 +201,6 @@ export default async function UeberUnsPage() {
                     </p>
                   </div>
                 )}
-
-                {/* Handwerks-Qualitätsmerkmale */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 mt-8 border-t border-[#E8E8E6]">
-                  {storyFeatures.map((feat, idx) => {
-                    const IconComp = [ShieldCheck, HeartHandshake, Sparkles][idx % 3];
-                    return (
-                      <div key={idx} className="flex items-start gap-2.5">
-                        <IconComp size={18} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
-                        <div>
-                          <h4 className="font-bold text-xs text-[#181818]">{feat.title}</h4>
-                          {feat.description && (
-                            <p className="text-[11px] text-[#777777] mt-0.5">{feat.description}</p>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
               </div>
 
               {/* Right Column: Large Authentic Workshop Images */}
