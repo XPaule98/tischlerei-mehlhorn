@@ -184,19 +184,33 @@ export default function LeistungenClient({
                             onClick={() =>
                               setLightboxImage({ src: currentImage, title: item.title })
                             }
-                            className="relative rounded-lg overflow-hidden bg-[#F2F2F0] cursor-pointer group shadow-xs"
+                            className="relative rounded-xl overflow-hidden bg-[#F6F5F2] cursor-pointer group border border-[#E8E8E4] aspect-[4/3] sm:aspect-[16/11] flex items-center justify-center shadow-xs"
                           >
+                            {/* Ambient blurred backdrop so portrait and landscape fit harmoniously without empty gaps */}
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={currentImage}
+                              alt=""
+                              aria-hidden="true"
+                              className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-30 brightness-95 pointer-events-none"
+                            />
+
+                            {/* Full uncropped image: doors, windows, winter gardens remain 100% visible */}
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={currentImage}
                               alt={item.title}
-                              className="w-full h-56 sm:h-64 object-cover transition-transform duration-500 group-hover:scale-103"
+                              className="relative z-10 max-h-full max-w-full object-contain p-2.5 sm:p-3.5 transition-transform duration-500 group-hover:scale-103 drop-shadow-sm"
                             />
-                            <div className="absolute bottom-2.5 right-2.5 w-7 h-7 rounded bg-[#181818]/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-xs">
-                              <Maximize2 size={13} />
+
+                            {/* Zoom hint overlay */}
+                            <div className="absolute bottom-2.5 right-2.5 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#181818]/80 text-white text-[11px] font-medium backdrop-blur-xs opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity shadow-sm">
+                              <Maximize2 size={12} />
+                              <span>Großansicht</span>
                             </div>
+
                             {isEigen && (
-                              <div className="absolute top-2.5 left-2.5 bg-[#181818]/85 text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-xs flex items-center gap-1">
+                              <div className="absolute top-2.5 left-2.5 z-20 bg-[#181818]/85 text-white text-[10px] font-semibold px-2.5 py-1 rounded-md shadow-xs flex items-center gap-1 backdrop-blur-xs">
                                 <Sparkles size={11} className="text-[#E5DECE]" />
                                 Eigene Fertigung
                               </div>
@@ -205,7 +219,7 @@ export default function LeistungenClient({
 
                           {/* Gallery Thumbnails (if multiple exist) */}
                           {allPhotos.length > 1 && (
-                            <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
                               {allPhotos.map((pUrl, pIdx) => {
                                 const isSelected = pUrl === currentImage;
                                 return (
@@ -213,10 +227,10 @@ export default function LeistungenClient({
                                     key={pIdx}
                                     type="button"
                                     onClick={() => selectImage(item._id, pUrl)}
-                                    className={`relative h-12 w-16 rounded overflow-hidden border-2 transition-all cursor-pointer flex-shrink-0 ${
+                                    className={`relative h-13 w-18 rounded-md overflow-hidden border-2 transition-all cursor-pointer flex-shrink-0 bg-[#F5F4F0] ${
                                       isSelected
-                                        ? "border-[#181818] scale-102"
-                                        : "border-transparent opacity-60 hover:opacity-100"
+                                        ? "border-[#181818] scale-102 ring-1 ring-[#8C6D4F]"
+                                        : "border-transparent opacity-65 hover:opacity-100"
                                     }`}
                                   >
                                     {/* eslint-disable-next-line @next/next/no-img-element */}

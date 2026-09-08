@@ -230,15 +230,24 @@ interface FeaturedGewerk {
                   className="group flex flex-col justify-between flex-shrink-0 w-[74vw] sm:w-[280px] md:w-auto snap-center"
                 >
                   <div>
-                    {/* Clean photo without bulky boxes or borders */}
-                    <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-[#F2F2F0] mb-3">
+                    {/* Complete uncropped photo with ambient backdrop */}
+                    <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F6F5F2] mb-3 flex items-center justify-center border border-[#EBEBE6]">
+                      {/* Ambient blur for color cohesion */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={item.image}
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute inset-0 w-full h-full object-cover scale-115 blur-lg opacity-25 pointer-events-none"
+                      />
+                      {/* Sharp, complete uncropped image */}
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="relative z-10 max-h-full max-w-full object-contain p-2.5 group-hover:scale-105 transition-transform duration-500 drop-shadow-xs"
                       />
-                      <span className="absolute top-2.5 left-2.5 bg-[#181818]/85 text-white text-[10px] font-semibold px-2 py-0.5 rounded backdrop-blur-xs">
+                      <span className="absolute top-2.5 left-2.5 z-20 bg-[#181818]/85 text-white text-[10px] font-semibold px-2 py-0.5 rounded backdrop-blur-xs">
                         {item.tag}
                       </span>
                     </div>
