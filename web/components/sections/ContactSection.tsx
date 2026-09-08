@@ -219,7 +219,7 @@ function ContactForm() {
         <textarea
           id="contact-message"
           name="message"
-          className="form-input resize-none"
+          className="form-input resize-y min-h-[120px] leading-relaxed"
           rows={4}
           placeholder="Beschreiben Sie Ihr Bauvorhaben, Maße oder Terminwünsche…"
           required
@@ -230,17 +230,17 @@ function ContactForm() {
       </div>
 
       {/* DSGVO */}
-      <div className="flex items-start gap-2.5">
+      <div className="flex items-start gap-3 p-3.5 bg-[#FBFBFA] rounded-lg border border-[#EFEFEA]">
         <input
           id="contact-dsgvo"
           type="checkbox"
           name="dsgvo"
-          className="mt-0.5 w-4 h-4 accent-[#181818] cursor-pointer"
+          className="mt-0.5 w-4 h-4 rounded border-[#CCCCCC] accent-[#181818] cursor-pointer flex-shrink-0"
           required
         />
-        <label htmlFor="contact-dsgvo" className="text-xs text-[#555555] leading-relaxed cursor-pointer">
+        <label htmlFor="contact-dsgvo" className="text-xs sm:text-[13px] text-[#444444] leading-relaxed cursor-pointer select-none">
           Ich willige ein, dass meine Daten zur Bearbeitung der Anfrage verarbeitet werden.{" "}
-          <span className="text-[#8C6D4F]">*</span>
+          <span className="text-[#8C6D4F] font-bold">*</span>
         </label>
       </div>
 
