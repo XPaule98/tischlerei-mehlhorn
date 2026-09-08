@@ -91,15 +91,6 @@ export default async function UeberUnsPage() {
   const storyHeadline =
     cmsData?.storyHeadline || "Vom traditionellen Gestellbau zum modernen Meisterbetrieb";
   const storyContent = cmsData?.storyContent;
-  const p1 =
-    cmsData?.storyParagraph1 ||
-    "Die Geschichte unserer Tischlerei begann im Januar 1977, als Roland Mehlhorn den Schritt in die Selbstständigkeit wagte. Was mit traditionellem Gestellbau und solider Handarbeit seinen Anfang nahm, wuchs über die Jahrzehnte durch kontinuierliche Weiterentwicklung und kompromisslose Qualitätsorientierung zu einem festen Begriff im Westerzgebirge heran.";
-  const p2 =
-    cmsData?.storyParagraph2 ||
-    "1992 folgte der Neubau des heutigen Firmengebäudes in der Neuheider Straße 64 b – mit großzügigen Werkstatträumen und modernem Maschinenpark. Seit Juli 2012 führt Tischlermeister Ronny Mehlhorn die Geschicke des Familienunternehmens in zweiter Generation. Dabei verbinden wir überlieferte Handwerkstradition mit modernster Profiltechnik (wie dem System Gutmann Mira) und zukunftssicherer Isoliertechnologie.";
-  const p3 =
-    cmsData?.storyParagraph3 ||
-    "Für uns ist Holz nicht bloß ein Werkstoff, sondern lebendige Natur. Wir verarbeiten vorrangig hochwertige heimische Hölzer wie Eiche, Kiefer und Lärche. Jedes Fenster, jede Haustür und jeder Wintergarten verlässt unsere Werkstatt erst, wenn Passgenauigkeit, Oberflächenveredelung und Funktionalität höchsten meisterlichen Ansprüchen genügen.";
 
   const workshopSlides: WorkshopSlide[] | undefined = cmsData?.workshopGallery?.map(
     (item: { imageUrl: string; caption?: string }) => ({

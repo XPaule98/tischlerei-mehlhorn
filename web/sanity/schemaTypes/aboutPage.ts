@@ -180,7 +180,7 @@ export const aboutPage = defineType({
       name: "storyContent",
       title: "Geschichte & Philosophie (Formatierbarer Rich-Text Editor)",
       description:
-        "Formatierbarer Fließtext mit Fettungen, Hervorhebungen, Zitaten und Absätzen. Falls ausgefüllt, ersetzt dieser Editor die einzelnen Textfelder 1-3.",
+        "Formatierbarer Fließtext mit Fettungen, Hervorhebungen, Zitaten und Absätzen für die Firmengeschichte.",
       type: "array",
       initialValue: DEFAULT_STORY_BLOCKS,
       of: [
@@ -216,30 +216,6 @@ export const aboutPage = defineType({
           },
         },
       ],
-    }),
-    defineField({
-      name: "storyParagraph1",
-      title: "Fließtext Teil 1 (Historie & Ursprung - Fallback)",
-      type: "text",
-      rows: 4,
-      initialValue:
-        "Die Geschichte unserer Tischlerei begann im Januar 1977, als Roland Mehlhorn den Schritt in die Selbstständigkeit wagte. Was mit traditionellem Gestellbau und solider Handarbeit seinen Anfang nahm, wuchs über die Jahrzehnte durch kontinuierliche Weiterentwicklung und kompromisslose Qualitätsorientierung zu einem festen Begriff im Westerzgebirge heran.",
-    }),
-    defineField({
-      name: "storyParagraph2",
-      title: "Fließtext Teil 2 (Neubau & Generationswechsel - Fallback)",
-      type: "text",
-      rows: 4,
-      initialValue:
-        "1992 folgte der Neubau des heutigen Firmengebäudes in der Neuheider Straße 64 b – mit großzügigen Werkstatträumen und modernem Maschinenpark. Seit Juli 2012 führt Tischlermeister Ronny Mehlhorn die Geschicke des Familienunternehmens in zweiter Generation. Dabei verbinden wir überlieferte Handwerkstradition mit modernster Profiltechnik (wie dem System Gutmann Mira) und zukunftssicherer Isoliertechnologie.",
-    }),
-    defineField({
-      name: "storyParagraph3",
-      title: "Fließtext Teil 3 (Philosophie & Material - Fallback)",
-      type: "text",
-      rows: 4,
-      initialValue:
-        "Für uns ist Holz nicht bloß ein Werkstoff, sondern lebendige Natur. Wir verarbeiten vorrangig hochwertige heimische Hölzer wie Eiche, Kiefer und Lärche. Jedes Fenster, jede Haustür und jeder Wintergarten verlässt unsere Werkstatt erst, wenn Passgenauigkeit, Oberflächenveredelung und Funktionalität höchsten meisterlichen Ansprüchen genügen.",
     }),
     defineField({
       name: "storyImage1",

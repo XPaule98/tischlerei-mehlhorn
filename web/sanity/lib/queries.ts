@@ -45,9 +45,6 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     "headerVideoUrl": coalesce(headerVideoFile.asset->url, headerVideoUrl),
     storyHeadline,
     storyContent,
-    storyParagraph1,
-    storyParagraph2,
-    storyParagraph3,
     storyImage1 {
       "imageUrl": image.asset->url,
       captionTitle,
