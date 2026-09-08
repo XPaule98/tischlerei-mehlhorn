@@ -9,6 +9,48 @@ interface FullwidthVideoProps {
   subheadline?: string;
 }
 
+function parseVideoSource(url?: string): {
+  type: "streamable" | "youtube" | "vimeo" | "native" | "none";
+  embedUrl?: string;
+  nativeUrl?: string;
+} {
+  if (!url) return { type: "none" };
+  const trimmed = url.trim();
+
+  // Streamable: https://streamable.com/5n1th0 or https://streamable.com/e/5n1th0
+  const streamableMatch = trimmed.match(/streamable\.com\/(?:e\/)?([a-zA-Z0-9]+)/);
+  if (streamableMatch) {
+    return {
+      type: "streamable",
+      embedUrl: `https://streamable.com/e/${streamableMatch[1]}?autoplay=1&muted=1&loop=1&controls=0`,
+    };
+  }
+
+  // YouTube: youtube.com/watch?v=ID or youtu.be/ID
+  const ytMatch = trimmed.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+  if (ytMatch) {
+    return {
+      type: "youtube",
+      embedUrl: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&mute=1&loop=1&playlist=${ytMatch[1]}&controls=0&showinfo=0&modestbranding=1`,
+    };
+  }
+
+  // Vimeo: vimeo.com/ID
+  const vimeoMatch = trimmed.match(/vimeo\.com\/(?:video\/)?([0-9]+)/);
+  if (vimeoMatch) {
+    return {
+      type: "vimeo",
+      embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&muted=1&loop=1&background=1`,
+    };
+  }
+
+  // Native video file (.mp4, .webm, or any direct URL)
+  return {
+    type: "native",
+    nativeUrl: trimmed,
+  };
+}
+
 export default function FullwidthVideoSection({
   videoDesktopUrl,
   videoMobileUrl,
@@ -20,7 +62,10 @@ export default function FullwidthVideoSection({
   const desktopSrc = videoDesktopUrl || videoMobileUrl;
   const mobileSrc = videoMobileUrl || videoDesktopUrl;
 
-  const hasVideo = Boolean(desktopSrc || mobileSrc);
+  const parsedDesktop = parseVideoSource(desktopSrc);
+  const parsedMobile = videoMobileUrl ? parseVideoSource(mobileSrc) : null;
+
+  const hasVideo = parsedDesktop.type !== "none";
   const hasText = Boolean(badge || headline || subheadline);
 
   return (
@@ -32,36 +77,60 @@ export default function FullwidthVideoSection({
       <div className="relative w-full h-[55vh] sm:h-[65vh] md:h-[75vh] lg:h-[80vh] bg-[#141414] overflow-hidden">
         {hasVideo ? (
           <>
-            {/* Desktop Video */}
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              poster={posterImageUrl}
-              className={`w-full h-full object-cover object-center ${
-                videoMobileUrl ? "hidden md:block" : "block"
-              }`}
-            >
-              {desktopSrc && <source src={desktopSrc} type="video/mp4" />}
-            </video>
+            {/* Desktop Video Player / Iframe */}
+            <div className={`w-full h-full ${parsedMobile ? "hidden md:block" : "block"}`}>
+              {parsedDesktop.type === "native" ? (
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  poster={posterImageUrl}
+                  className="w-full h-full object-cover object-center"
+                >
+                  <source src={parsedDesktop.nativeUrl} type="video/mp4" />
+                </video>
+              ) : (
+                <div className="relative w-full h-full overflow-hidden pointer-events-none">
+                  <iframe
+                    src={parsedDesktop.embedUrl}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] min-w-full min-h-full border-0 pointer-events-none"
+                    allow="autoplay; fullscreen; encrypted-media"
+                    title="Hintergrundvideo Desktop"
+                  />
+                </div>
+              )}
+            </div>
 
-            {/* Mobile Video (if distinct mobile URL provided) */}
-            {videoMobileUrl && (
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                poster={posterImageUrl}
-                className="w-full h-full object-cover object-center block md:hidden"
-              >
-                <source src={videoMobileUrl} type="video/mp4" />
-              </video>
+            {/* Mobile Video Player / Iframe (if distinct mobile URL provided) */}
+            {parsedMobile && parsedMobile.type !== "none" && (
+              <div className="w-full h-full block md:hidden">
+                {parsedMobile.type === "native" ? (
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    poster={posterImageUrl}
+                    className="w-full h-full object-cover object-center"
+                  >
+                    <source src={parsedMobile.nativeUrl} type="video/mp4" />
+                  </video>
+                ) : (
+                  <div className="relative w-full h-full overflow-hidden pointer-events-none">
+                    <iframe
+                      src={parsedMobile.embedUrl}
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] min-w-full min-h-full border-0 pointer-events-none"
+                      allow="autoplay; fullscreen; encrypted-media"
+                      title="Hintergrundvideo Mobile"
+                    />
+                  </div>
+                )}
+              </div>
             )}
           </>
         ) : (
-          /* Fallback Poster when no video URL is configured in CMS */
+          /* Fallback Poster when no video URL is configured */
           <div className="relative w-full h-full overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
