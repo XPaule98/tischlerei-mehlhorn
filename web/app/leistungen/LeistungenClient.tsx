@@ -18,10 +18,21 @@ export interface ServiceItemData {
 
 interface Props {
   services: ServiceItemData[];
+  singleExpand?: boolean;
+  defaultExpandedFirst?: boolean;
 }
 
-export default function LeistungenClient({ services }: Props) {
-  const [expandedIds, setExpandedIds] = useState<string[]>([]);
+export default function LeistungenClient({
+  services,
+  singleExpand = false,
+  defaultExpandedFirst = false,
+}: Props) {
+  const [expandedIds, setExpandedIds] = useState<string[]>(() => {
+    if (defaultExpandedFirst && services.length > 0) {
+      return [services[0]._id];
+    }
+    return [];
+  });
   const [activeImages, setActiveImages] = useState<Record<string, string>>({});
   const [lightboxImage, setLightboxImage] = useState<{ src: string; title: string } | null>(null);
 
@@ -39,13 +50,19 @@ export default function LeistungenClient({ services }: Props) {
           }
         }, 150);
       }
+    } else if (defaultExpandedFirst && services.length > 0 && expandedIds.length === 0) {
+      setExpandedIds([services[0]._id]);
     }
-  }, [services]);
+  }, [services, defaultExpandedFirst]);
 
   const toggleItem = (id: string) => {
-    setExpandedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+    if (singleExpand) {
+      setExpandedIds((prev) => (prev.includes(id) ? [] : [id]));
+    } else {
+      setExpandedIds((prev) =>
+        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      );
+    }
   };
 
   const expandAll = () => {
