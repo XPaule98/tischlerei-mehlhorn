@@ -8,9 +8,9 @@ import { Menu, X, ChevronRight, Phone } from "lucide-react";
 const navLinks = [
   { href: "/", label: "Startseite" },
   { href: "/leistungen", label: "Leistungen" },
+  { href: "/shop", label: "Shop & Deko" },
   { href: "/ueber-uns", label: "Über uns" },
   { href: "/galerie", label: "Galerie" },
-  { href: "/shop", label: "Shop & Deko" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 

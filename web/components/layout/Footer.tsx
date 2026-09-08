@@ -62,9 +62,9 @@ export default function Footer() {
               {[
                 { label: "Startseite", href: "/" },
                 { label: "Leistungen & Gewerke", href: "/leistungen" },
+                { label: "Shop & Deko", href: "/shop" },
                 { label: "Über uns & Werkstatt", href: "/ueber-uns" },
                 { label: "Galerie & Referenzen", href: "/galerie" },
-                { label: "Shop & Deko", href: "/shop" },
                 { label: "Kontakt & Anfragen", href: "/kontakt" },
               ].map((item) => (
                 <li key={item.href}>
