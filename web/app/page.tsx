@@ -17,10 +17,10 @@ export default async function HomePage() {
 
   try {
     [heroData, videoData, homeData, cmsServices] = await Promise.all([
-      client.fetch(HERO_QUERY, {}, { next: { revalidate: 30 } }),
-      client.fetch(SHOWCASE_VIDEO_QUERY, {}, { next: { revalidate: 30 } }),
-      client.fetch(HOME_SECTIONS_QUERY, {}, { next: { revalidate: 30 } }),
-      client.fetch(SERVICES_QUERY, {}, { next: { revalidate: 30 } }),
+      client.fetch(HERO_QUERY),
+      client.fetch(SHOWCASE_VIDEO_QUERY),
+      client.fetch(HOME_SECTIONS_QUERY),
+      client.fetch(SERVICES_QUERY),
     ]);
   } catch (e) {
     // Fallback gracefully
@@ -52,7 +52,16 @@ export default async function HomePage() {
   const servicesEyebrow = homeData?.servicesEyebrow || "Leistungsspektrum";
   const servicesHeadline = homeData?.servicesHeadline || "Handwerkliche Kernkompetenzen";
 
-  const defaultFeaturedGewerke = [
+interface FeaturedGewerk {
+  id: string;
+  title: string;
+  tag: string;
+  image: string;
+  description: string;
+  href: string;
+}
+
+  const defaultFeaturedGewerke: FeaturedGewerk[] = [
     {
       id: "holzfenster",
       title: "Holz- & Holz-Alu-Fenster",
@@ -87,9 +96,9 @@ export default async function HomePage() {
     },
   ];
 
-  const coreGewerke =
+  const coreGewerke: FeaturedGewerk[] =
     cmsServices && cmsServices.length > 0
-      ? cmsServices.slice(0, 4).map((s: any) => ({
+      ? cmsServices.slice(0, 4).map((s: any): FeaturedGewerk => ({
           id: s._id,
           title: s.title,
           tag: s.category === "bauelemente" ? "Handel & Montage" : "Eigene Fertigung",
@@ -214,7 +223,7 @@ export default async function HomePage() {
 
             {/* 4 Focused Highlights: Compact, visual, no endless scrolling */}
             <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:grid-cols-2 lg:grid-cols-4">
-              {coreGewerke.map((item) => (
+              {coreGewerke.map((item: FeaturedGewerk) => (
                 <Link
                   key={item.id}
                   href={item.href}

@@ -20,8 +20,8 @@ export default async function GaleriePage() {
 
   try {
     [cmsData, galleryProjects] = await Promise.all([
-      client.fetch(GALLERY_PAGE_QUERY, {}, { next: { revalidate: 30 } }),
-      client.fetch(GALLERY_ITEMS_QUERY, {}, { next: { revalidate: 30 } }),
+      client.fetch(GALLERY_PAGE_QUERY),
+      client.fetch(GALLERY_ITEMS_QUERY),
     ]);
   } catch (e) {
     // Fallback gracefully

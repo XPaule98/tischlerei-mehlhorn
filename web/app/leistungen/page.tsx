@@ -23,8 +23,8 @@ export default async function LeistungenPage() {
 
   try {
     [cmsHeaderData, cmsServices] = await Promise.all([
-      client.fetch(SERVICES_PAGE_QUERY, {}, { next: { revalidate: 30 } }),
-      client.fetch(SERVICES_QUERY, {}, { next: { revalidate: 30 } }),
+      client.fetch(SERVICES_PAGE_QUERY),
+      client.fetch(SERVICES_QUERY),
     ]);
   } catch (e) {
     // Fallback

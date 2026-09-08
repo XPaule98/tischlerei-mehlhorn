@@ -21,9 +21,9 @@ export default async function ShopPage() {
 
   try {
     [cmsHeaderData, cmsProducts, cmsCategories] = await Promise.all([
-      client.fetch(SHOP_PAGE_QUERY, {}, { next: { revalidate: 30 } }),
-      client.fetch(PRODUCTS_QUERY, {}, { next: { revalidate: 30 } }),
-      client.fetch(PRODUCT_CATEGORIES_QUERY, {}, { next: { revalidate: 30 } }),
+      client.fetch(SHOP_PAGE_QUERY),
+      client.fetch(PRODUCTS_QUERY),
+      client.fetch(PRODUCT_CATEGORIES_QUERY),
     ]);
   } catch (e) {
     // Fallback

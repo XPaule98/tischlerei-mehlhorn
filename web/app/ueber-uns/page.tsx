@@ -108,8 +108,8 @@ export default async function UeberUnsPage() {
 
   try {
     [cmsData, teamMembers] = await Promise.all([
-      client.fetch(ABOUT_PAGE_QUERY, {}, { next: { revalidate: 30 } }),
-      client.fetch(TEAM_MEMBERS_QUERY, {}, { next: { revalidate: 30 } }),
+      client.fetch(ABOUT_PAGE_QUERY),
+      client.fetch(TEAM_MEMBERS_QUERY),
     ]);
   } catch (e) {
     // Fallback

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default async function KontaktPage() {
   let cmsData = null;
   try {
-    cmsData = await client.fetch(CONTACT_PAGE_QUERY, {}, { next: { revalidate: 30 } });
+    cmsData = await client.fetch(CONTACT_PAGE_QUERY);
   } catch (e) {
     // Fallback
   }
