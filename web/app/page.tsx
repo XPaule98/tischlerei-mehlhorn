@@ -4,8 +4,10 @@ import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import FullwidthVideoSection from "@/components/sections/FullwidthVideoSection";
 import { client } from "@/sanity/lib/client";
-import { HERO_QUERY, SHOWCASE_VIDEO_QUERY, HOME_SECTIONS_QUERY } from "@/sanity/lib/queries";
-import { ArrowRight, Check, ShoppingBag } from "lucide-react";
+import { HERO_QUERY, SHOWCASE_VIDEO_QUERY, HOME_SECTIONS_QUERY, SERVICES_QUERY } from "@/sanity/lib/queries";
+import LeistungenClient from "@/app/leistungen/LeistungenClient";
+import { fallbackServices } from "@/app/leistungen/fallbackServices";
+import { ArrowRight, ShoppingBag } from "lucide-react";
 
 export const revalidate = 30;
 
@@ -13,16 +15,20 @@ export default async function HomePage() {
   let heroData = null;
   let videoData = null;
   let homeData = null;
+  let cmsServices = null;
 
   try {
-    [heroData, videoData, homeData] = await Promise.all([
+    [heroData, videoData, homeData, cmsServices] = await Promise.all([
       client.fetch(HERO_QUERY, {}, { next: { revalidate: 30 } }),
       client.fetch(SHOWCASE_VIDEO_QUERY, {}, { next: { revalidate: 30 } }),
       client.fetch(HOME_SECTIONS_QUERY, {}, { next: { revalidate: 30 } }),
+      client.fetch(SERVICES_QUERY, {}, { next: { revalidate: 30 } }),
     ]);
   } catch (e) {
     // Fallback gracefully
   }
+
+  const services = cmsServices && cmsServices.length > 0 ? cmsServices : fallbackServices;
 
   // Story section data
   const storyEyebrow = homeData?.storyEyebrow || "Handwerk aus Schönheide seit 1977";
@@ -48,7 +54,6 @@ export default async function HomePage() {
   // Services section data
   const servicesEyebrow = homeData?.servicesEyebrow || "Leistungsspektrum";
   const servicesHeadline = homeData?.servicesHeadline || "Handwerkliche Kernkompetenzen";
-  const customServices = homeData?.customServices;
 
   // Shop section data
   const shopEyebrow = homeData?.shopEyebrow || "Aus unserer Werkstatt";
@@ -138,10 +143,10 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* 3. Kernkompetenzen / Leistungen (im CMS anpassbar) */}
-        <section className="section-pad bg-[#F9F9F8] border-t border-[#E8E8E6]">
-          <div className="container-site">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+        {/* 3. Kernkompetenzen / Leistungen */}
+        <section className="section-pad bg-white border-t border-[#E8E8E6]">
+          <div className="container-site max-w-5xl">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
               <div>
                 <span className="text-craft-label block mb-1.5">{servicesEyebrow}</span>
                 <h2 className="text-3xl sm:text-4xl font-bold text-[#181818] tracking-tight">
@@ -157,213 +162,7 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            {/* If custom services are chosen in CMS */}
-            {customServices && customServices.length > 0 ? (
-              <>
-                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:grid-cols-3 md:gap-6 lg:gap-8">
-                  {customServices.slice(0, 3).map((item: any) => (
-                    <div
-                      key={item._id}
-                      className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white flex-shrink-0 w-[84vw] sm:w-[320px] md:w-auto snap-center shadow-xs"
-                    >
-                      <div>
-                        {item.imageUrl && (
-                          <div className="relative h-52 sm:h-56 overflow-hidden bg-[#F2F2F0]">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={item.imageUrl}
-                              alt={item.title}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        )}
-                        <div className="p-5 sm:p-6">
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
-                            {item.subtitle || "Meisterleistung"}
-                          </span>
-                          <h3 className="text-lg sm:text-xl font-bold text-[#181818] mb-2">{item.title}</h3>
-                          {item.description && (
-                            <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5 line-clamp-3">
-                              {item.description}
-                            </p>
-                          )}
-                          {item.features && item.features.length > 0 && (
-                            <ul className="space-y-1.5 text-xs text-[#666666]">
-                              {item.features.slice(0, 2).map((f: string, i: number) => (
-                                <li key={i} className="flex items-center gap-2">
-                                  <Check size={13} className="text-[#8C6D4F]" /> {f}
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                      </div>
-                      <div className="p-5 sm:p-6 pt-0 border-t border-[#F2F2F0] mt-4">
-                        <Link
-                          href="/leistungen"
-                          className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
-                        >
-                          Mehr erfahren <ArrowRight size={12} />
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {/* Mobile Swipe Hint */}
-                <div className="flex md:hidden items-center justify-center gap-1.5 mt-2 text-[11px] text-[#777777]">
-                  <span>← Wischen für weitere Gewerke →</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:grid-cols-3 md:gap-6 lg:gap-8">
-                  {/* Gewerk 1: Holzfenster */}
-                  <div className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white flex-shrink-0 w-[84vw] sm:w-[320px] md:w-auto snap-center shadow-xs">
-                    <div>
-                      <div className="relative h-52 sm:h-56 overflow-hidden bg-[#F2F2F0]">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src="/images/real/fenster-holz-1.jpg"
-                          alt="Holzfenster aus eigener Produktion"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-5 sm:p-6">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
-                          Eigene Fertigung
-                        </span>
-                        <h3 className="text-lg sm:text-xl font-bold text-[#181818] mb-2">
-                          Holz- & Holz-Alu-Fenster
-                        </h3>
-                        <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5">
-                          Maßgefertigte Holzfenster und hochwertige Holz-Aluminium-Systeme (System Gutmann Mira) für beste Wärmedämmung.
-                        </p>
-                        <ul className="space-y-1.5 text-xs text-[#666666]">
-                          <li className="flex items-center gap-2">
-                            <Check size={13} className="text-[#8C6D4F]" /> Flächenbündig & flächenversetzt
-                          </li>
-                          <li className="flex items-center gap-2">
-                            <Check size={13} className="text-[#8C6D4F]" /> Original Gutmann Mira Profilsystem
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="p-5 sm:p-6 pt-0 border-t border-[#F2F2F0] mt-4">
-                      <Link
-                        href="/leistungen"
-                        className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
-                      >
-                        Mehr erfahren <ArrowRight size={12} />
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Gewerk 2: Haustüren */}
-                  <div className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white flex-shrink-0 w-[84vw] sm:w-[320px] md:w-auto snap-center shadow-xs">
-                    <div>
-                      <div className="relative h-52 sm:h-56 overflow-hidden bg-[#F2F2F0]">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src="/images/real/tuer-5.jpg"
-                          alt="Massivholz Haustüren"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-5 sm:p-6">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
-                          Eigene Fertigung
-                        </span>
-                        <h3 className="text-lg sm:text-xl font-bold text-[#181818] mb-2">
-                          Massivholz-Haustüren
-                        </h3>
-                        <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5">
-                          Individuelle Eingangstüren nach Maß. Kompromisslose Sicherheit, hohe Dämmwerte und handwerkliche Kassettenfräsungen.
-                        </p>
-                        <ul className="space-y-1.5 text-xs text-[#666666]">
-                          <li className="flex items-center gap-2">
-                            <Check size={13} className="text-[#8C6D4F]" /> RC2 / RC3 Sicherheitstechnik
-                          </li>
-                          <li className="flex items-center gap-2">
-                            <Check size={13} className="text-[#8C6D4F]" /> Sondermaße & individuelle Profile
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="p-5 sm:p-6 pt-0 border-t border-[#F2F2F0] mt-4">
-                      <Link
-                        href="/leistungen"
-                        className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
-                      >
-                        Mehr erfahren <ArrowRight size={12} />
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Gewerk 3: Wintergärten */}
-                  <div className="craft-card overflow-hidden flex flex-col justify-between h-full bg-white flex-shrink-0 w-[84vw] sm:w-[320px] md:w-auto snap-center shadow-xs">
-                    <div>
-                      <div className="relative h-52 sm:h-56 overflow-hidden bg-[#F2F2F0]">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src="/images/real/wintergarten-1.jpg"
-                          alt="Wintergärten und Glasbauten"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-5 sm:p-6">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
-                          Eigene Fertigung
-                        </span>
-                        <h3 className="text-lg sm:text-xl font-bold text-[#181818] mb-2">
-                          Wintergärten & Glasbauten
-                        </h3>
-                        <p className="text-[#555555] text-xs sm:text-sm leading-relaxed mb-5">
-                          Ganzjähriger Wohnkomfort im Grünen. Tragende Holz- und Holz-Alu-Konstruktionen mit integrierter Beschattung.
-                        </p>
-                        <ul className="space-y-1.5 text-xs text-[#666666]">
-                          <li className="flex items-center gap-2">
-                            <Check size={13} className="text-[#8C6D4F]" /> Statik & schlüsselfertiger Bau
-                          </li>
-                          <li className="flex items-center gap-2">
-                            <Check size={13} className="text-[#8C6D4F]" /> Großflächige Hebeschiebetüren
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div className="p-5 sm:p-6 pt-0 border-t border-[#F2F2F0] mt-4">
-                      <Link
-                        href="/leistungen"
-                        className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1 pt-3.5 transition-colors"
-                      >
-                        Mehr erfahren <ArrowRight size={12} />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-                {/* Mobile Swipe Hint */}
-                <div className="flex md:hidden items-center justify-center gap-1.5 mt-2 text-[11px] text-[#777777]">
-                  <span>← Wischen für weitere Gewerke →</span>
-                </div>
-              </>
-            )}
-
-            {/* Bauelemente Montage Bar */}
-            <div className="mt-8 p-6 bg-white rounded-lg border border-[#E8E8E6] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#8C6D4F] block mb-1">
-                  Fachmontage & Handel
-                </span>
-                <h4 className="text-lg sm:text-xl font-bold text-[#181818]">
-                  Kunststofffenster (VEKA & Gealan), Innentüren, Garagentore & Rollladen
-                </h4>
-                <p className="text-xs sm:text-sm text-[#555555] mt-1 max-w-2xl">
-                  Wir montieren geprüfte Bauelemente führender Markenhersteller sauber, zuverlässig und nach RAL-Standards.
-                </p>
-              </div>
-              <Link href="/leistungen" className="btn btn-outline-dark text-xs flex-shrink-0">
-                Bauelemente ansehen
-              </Link>
-            </div>
+            <LeistungenClient services={services} />
           </div>
         </section>
 
