@@ -83,59 +83,106 @@ export default function LeistungenClient({ services }: Props) {
   return (
     <>
       {/* =========================================================================
-          0. SCHNELLÜBERSICHT (Kompakte Kacheln ohne Ballast – Klick springt zu Details)
+          0. SCHNELLÜBERSICHT (Kompakte 2-Spalten-Navigation – aufgeräumt, elegant & schlank)
          ========================================================================= */}
-      <section className="bg-white border-b border-[#E8E8E6] py-10 sm:py-12">
+      <section className="bg-[#FBFBFA] border-b border-[#E8E8E6] py-7 sm:py-9">
         <div className="container-site">
-          <div className="max-w-3xl mb-8">
-            <div className="flex items-center gap-2 mb-2">
-              <Compass size={16} className="text-[#8C6D4F]" />
-              <span className="text-craft-label">Schnellübersicht</span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-6">
+            <div>
+              <div className="flex items-center gap-2 mb-1.5">
+                <Compass size={14} className="text-[#8C6D4F]" />
+                <span className="text-craft-label">Direktnavigation</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold text-[#181818] tracking-tight">
+                Unsere Gewerke im Überblick
+              </h2>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#181818] tracking-tight mb-2">
-              Unsere Gewerke & Leistungen im Überblick
-            </h2>
-            <p className="text-xs sm:text-sm text-[#555555] leading-relaxed">
-              Wählen Sie ein Gewerk aus, um direkt zu den ausführlichen Informationen, Ausstattungsmerkmalen und Fotos zu springen.
+            <p className="text-xs text-[#777777] max-w-md leading-relaxed">
+              Klicken Sie auf ein Gewerk, um direkt zu den technischen Merkmalen, Fotos und Details zu springen.
             </p>
           </div>
 
-          {/* Compact Overview Grid (2 columns on mobile, 4 on tablet/desktop) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {services.map((service) => {
-              const isEigen = service.category === "eigenfertigung" || !service.category;
-              return (
-                <button
-                  key={`quick-${service._id}`}
-                  onClick={() => scrollToService(service)}
-                  className="text-left p-4 rounded-lg border border-[#E8E8E6] bg-[#FAFAFA] hover:bg-white hover:border-[#181818] hover:shadow-sm transition-all duration-200 group cursor-pointer flex flex-col justify-between"
-                >
-                  <div className="w-full mb-3 flex items-center justify-between gap-2">
-                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                      isEigen 
-                        ? "bg-[#181818] text-white" 
-                        : "bg-[#EFEFEA] text-[#555555]"
-                    }`}>
-                      {isEigen ? "Eigene Fertigung" : "Montage & Handel"}
-                    </span>
-                    <div className="w-6 h-6 rounded-full bg-white border border-[#E8E8E6] flex items-center justify-center text-[#777777] group-hover:bg-[#181818] group-hover:text-white group-hover:border-[#181818] transition-all flex-shrink-0">
-                      <ArrowDownRight size={13} />
-                    </div>
+          {/* 2 klare, aufgeräumte Bereiche statt klobiger Kachel-Wand */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
+            {/* Spalte 1: Eigene Herstellung */}
+            <div className="bg-white rounded-xl p-4 sm:p-5 border border-[#E8E8E6] shadow-xs">
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#F2F2F0]">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-md bg-[#181818] text-white flex items-center justify-center flex-shrink-0">
+                    <Hammer size={13} />
                   </div>
-
                   <div>
-                    <h3 className="text-sm sm:text-base font-bold text-[#181818] group-hover:text-[#8C6D4F] transition-colors leading-snug">
-                      {service.title}
-                    </h3>
-                    {service.subtitle && (
-                      <p className="text-[11px] text-[#777777] mt-1 line-clamp-1">
-                        {service.subtitle}
-                      </p>
-                    )}
+                    <h3 className="text-sm font-bold text-[#181818]">1. Eigene Meisterfertigung</h3>
+                    <p className="text-[11px] text-[#8C6D4F] font-semibold">Aus unserer Werkstatt in Schönheide</p>
                   </div>
-                </button>
-              );
-            })}
+                </div>
+                <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#F5F5F3] text-[#555555]">
+                  {eigenfertigung.length} Gewerke
+                </span>
+              </div>
+
+              <div className="space-y-1.5">
+                {eigenfertigung.map((service) => (
+                  <button
+                    key={`quick-${service._id}`}
+                    onClick={() => scrollToService(service)}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-[#F9F9F8] border border-transparent hover:border-[#E8E8E6] transition-all group cursor-pointer flex items-center justify-between gap-2"
+                  >
+                    <div className="min-w-0">
+                      <span className="text-xs font-semibold text-[#181818] group-hover:text-[#8C6D4F] transition-colors block truncate">
+                        {service.title}
+                      </span>
+                      {service.subtitle && (
+                        <span className="text-[10px] text-[#777777] block truncate">
+                          {service.subtitle}
+                        </span>
+                      )}
+                    </div>
+                    <ArrowDownRight size={13} className="text-[#AAAAAA] group-hover:text-[#181818] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-all flex-shrink-0" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Spalte 2: Bauelemente & Fachmontage */}
+            <div className="bg-white rounded-xl p-4 sm:p-5 border border-[#E8E8E6] shadow-xs">
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#F2F2F0]">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-md bg-[#8C6D4F] text-white flex items-center justify-center flex-shrink-0">
+                    <Layers size={13} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-[#181818]">2. Handel &amp; Fachmontage</h3>
+                    <p className="text-[11px] text-[#777777] font-semibold">Geprüfte Marken-Bauelemente</p>
+                  </div>
+                </div>
+                <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#F5F5F3] text-[#555555]">
+                  {bauelemente.length} Gewerke
+                </span>
+              </div>
+
+              <div className="space-y-1.5">
+                {bauelemente.map((service) => (
+                  <button
+                    key={`quick-${service._id}`}
+                    onClick={() => scrollToService(service)}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-[#F9F9F8] border border-transparent hover:border-[#E8E8E6] transition-all group cursor-pointer flex items-center justify-between gap-2"
+                  >
+                    <div className="min-w-0">
+                      <span className="text-xs font-semibold text-[#181818] group-hover:text-[#8C6D4F] transition-colors block truncate">
+                        {service.title}
+                      </span>
+                      {service.subtitle && (
+                        <span className="text-[10px] text-[#777777] block truncate">
+                          {service.subtitle}
+                        </span>
+                      )}
+                    </div>
+                    <ArrowDownRight size={13} className="text-[#AAAAAA] group-hover:text-[#181818] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-all flex-shrink-0" />
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
