@@ -12,7 +12,6 @@ import {
   ArrowLeft,
   Truck,
   Store,
-  Shield,
   Info,
   Lock,
 } from "lucide-react";
@@ -110,12 +109,6 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
                     <TreePine size={14} className="text-[#8C6D4F]" /> Holzart:
                   </span>
                   <span className="font-semibold text-[#181818]">{product.woodType}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#666666] flex items-center gap-1.5">
-                    <Shield size={14} className="text-[#8C6D4F]" /> Fertigung:
-                  </span>
-                  <span className="font-semibold text-[#181818]">Meisterwerkstatt Schönheide</span>
                 </div>
               </div>
 
