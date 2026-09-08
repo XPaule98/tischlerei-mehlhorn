@@ -308,7 +308,7 @@ export default function GalerieClient({ initialProjects }: { initialProjects?: G
                 {/* Footer Link */}
                 <div className="p-6 pt-0 border-t border-[#F2F2F0] mt-2">
                   <Link
-                    href={`/kontakt?gewerk=${encodeURIComponent(project.title)}`}
+                    href={`/kontakt?gewerk=${encodeURIComponent(project.title)}#anfrage-formular`}
                     className="text-xs font-semibold text-[#181818] hover:text-[#8C6D4F] flex items-center gap-1.5 pt-3.5 transition-colors"
                   >
                     Ähnliches Projekt anfragen <ArrowRight size={13} />

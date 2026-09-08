@@ -368,7 +368,7 @@ export default function LeistungenClient({ services }: Props) {
 
                         {/* Direct CTA */}
                         <Link
-                          href={`/kontakt?gewerk=${encodeURIComponent(item.title)}`}
+                          href={`/kontakt?gewerk=${encodeURIComponent(item.title)}#anfrage-formular`}
                           className="btn btn-primary text-xs sm:text-sm inline-flex items-center justify-center gap-2 w-full sm:w-auto"
                         >
                           Angebot für {item.title.split(" ")[0]} anfordern
@@ -467,7 +467,7 @@ export default function LeistungenClient({ services }: Props) {
                     {/* Bottom CTA Row */}
                     <div className="p-5 sm:p-6 pt-0 mt-auto">
                       <Link
-                        href={`/kontakt?gewerk=${encodeURIComponent(item.title)}`}
+                        href={`/kontakt?gewerk=${encodeURIComponent(item.title)}#anfrage-formular`}
                         className="btn btn-outline-dark text-xs py-2.5 px-4 w-full flex items-center justify-center gap-1.5"
                       >
                         Angebot anfragen

@@ -15,18 +15,77 @@ const gewerkeOptions = [
   "Massivholz-Haustüren nach Maß",
   "Wintergärten & Glasbauten",
   "Kunststofffenster (VEKA / Gealan)",
-  "Innentüren & Zargen",
+  "Kunststoff- & Aluminiumfenster",
+  "Innentüren & Zargensysteme",
   "Garagentore & Antriebe",
-  "Rollladen- & Klappläden",
+  "Rollladen- & Beschattungssysteme",
   "Dekoartikel / Werkstücke (Shop)",
   "Reparatur & Wartung",
 ];
 
+function findBestGewerkMatch(param: string | null): string {
+  if (!param) return "Allgemeine Anfrage";
+  const p = param.trim().toLowerCase();
+
+  // 1. Direct exact check
+  const exact = gewerkeOptions.find((opt) => opt.toLowerCase() === p);
+  if (exact) return exact;
+
+  // 2. Keyword-based intelligent mapping
+  if (p.includes("gutmann") || (p.includes("holz") && p.includes("alu"))) {
+    return "Holz-Aluminium-Fenster (Gutmann Mira)";
+  }
+  if (p.includes("holzfenster") || (p.includes("holz") && p.includes("fenster"))) {
+    return "Holzfenster (Eigene Fertigung / Denkmalschutz)";
+  }
+  if (
+    p.includes("haustür") ||
+    p.includes("haustuer") ||
+    p.includes("hauseingang") ||
+    p.includes("eingangstür") ||
+    p.includes("haustüren")
+  ) {
+    return "Massivholz-Haustüren nach Maß";
+  }
+  if (p.includes("wintergarten") || p.includes("wintergärten") || p.includes("glasbau")) {
+    return "Wintergärten & Glasbauten";
+  }
+  if (p.includes("veka") || p.includes("gealan")) {
+    return "Kunststofffenster (VEKA / Gealan)";
+  }
+  if (p.includes("kunststoff")) {
+    return "Kunststoff- & Aluminiumfenster";
+  }
+  if (p.includes("innentür") || p.includes("innentüren") || p.includes("zarge")) {
+    return "Innentüren & Zargensysteme";
+  }
+  if (p.includes("garagentor") || p.includes("garagentore") || p.includes("antrieb")) {
+    return "Garagentore & Antriebe";
+  }
+  if (p.includes("rollladen") || p.includes("beschattung") || p.includes("klappladen")) {
+    return "Rollladen- & Beschattungssysteme";
+  }
+  if (p.includes("shop") || p.includes("schneidebrett") || p.includes("regal") || p.includes("deko")) {
+    return "Dekoartikel / Werkstücke (Shop)";
+  }
+  if (p.includes("reparatur") || p.includes("wartung")) {
+    return "Reparatur & Wartung";
+  }
+
+  // 3. Substring check
+  const match = gewerkeOptions.find((opt) => opt.toLowerCase().includes(p));
+  if (match) return match;
+
+  // 4. Return custom parameter title directly
+  return param.trim();
+}
+
 function ContactForm() {
   const searchParams = useSearchParams();
-  const preselectedGewerk = searchParams.get("gewerk") || "Allgemeine Anfrage";
+  const rawGewerk = searchParams.get("gewerk");
+  const initialGewerk = findBestGewerkMatch(rawGewerk);
 
-  const [selectedGewerk, setSelectedGewerk] = useState(preselectedGewerk);
+  const [selectedGewerk, setSelectedGewerk] = useState(initialGewerk);
   const [state, formAction, isPending] = useActionState(
     sendInquiryAction,
     initialState
@@ -35,8 +94,17 @@ function ContactForm() {
   useEffect(() => {
     const g = searchParams.get("gewerk");
     if (g) {
-      const match = gewerkeOptions.find((opt) => opt.toLowerCase().includes(g.toLowerCase()));
-      setSelectedGewerk(match || g);
+      const match = findBestGewerkMatch(g);
+      setSelectedGewerk(match);
+
+      // Auto-scroll directly to the form when a gewerk parameter is present
+      const timer = setTimeout(() => {
+        const formEl = document.getElementById("anfrage-formular");
+        if (formEl) {
+          formEl.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 120);
+      return () => clearTimeout(timer);
     }
   }, [searchParams]);
 
@@ -56,6 +124,16 @@ function ContactForm() {
 
   return (
     <form action={formAction} className="space-y-4">
+      {/* Gewerk Preselection Banner */}
+      {rawGewerk && (
+        <div className="p-3 bg-[#FAF8F5] border border-[#E6DEC8] rounded-md text-xs text-[#6B5034] flex items-center gap-2">
+          <CheckCircle size={15} className="text-[#8C6D4F] flex-shrink-0" />
+          <span>
+            Vorausgewählt für Ihr Projekt: <strong>{selectedGewerk}</strong>
+          </span>
+        </div>
+      )}
+
       {/* Error Banner */}
       {!state.success && state.message && (
         <div className="flex items-start gap-2.5 p-3.5 bg-red-50 border border-red-200 rounded text-xs text-red-700">
@@ -80,8 +158,12 @@ function ContactForm() {
           name="productName"
           value={selectedGewerk}
           onChange={(e) => setSelectedGewerk(e.target.value)}
-          className="form-input bg-white cursor-pointer"
+          className="form-input bg-white cursor-pointer font-medium"
         >
+          {/* If selectedGewerk is custom and not in default list, show as first option */}
+          {selectedGewerk && !gewerkeOptions.includes(selectedGewerk) && (
+            <option value={selectedGewerk}>{selectedGewerk}</option>
+          )}
           {gewerkeOptions.map((opt) => (
             <option key={opt} value={opt}>
               {opt}
@@ -306,7 +388,10 @@ export default function ContactSection() {
           </div>
 
           {/* Contact Form Card */}
-          <div className="lg:col-span-7 bg-[#F9F9F8] border border-[#E8E8E6] rounded-lg p-6 sm:p-8">
+          <div
+            id="anfrage-formular"
+            className="lg:col-span-7 bg-[#F9F9F8] border border-[#E8E8E6] rounded-lg p-6 sm:p-8 scroll-mt-24 sm:scroll-mt-32"
+          >
             <span className="text-craft-label block mb-1">Unverbindlich anfragen</span>
             <h3 className="text-xl sm:text-2xl font-bold text-[#181818] mb-5">
               Projektbeschreibung senden
