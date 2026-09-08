@@ -180,55 +180,36 @@ export default function LeistungenClient({ services }: Props) {
                     type="button"
                     onClick={() => toggleItem(item._id)}
                     aria-expanded={isExpanded}
-                    className="w-full text-left py-4 sm:py-5 flex items-center justify-between gap-3 sm:gap-6 group cursor-pointer hover:bg-[#FAF9F7] px-2 -mx-2 rounded-md transition-colors"
+                    className="w-full text-left py-4 sm:py-5 flex items-center justify-between gap-3 sm:gap-6 group cursor-pointer hover:bg-[#FAF9F7] px-2 -mx-2 rounded-lg transition-colors"
                   >
-                    <div className="flex items-center gap-3 sm:gap-5 min-w-0">
+                    <div className="flex items-start sm:items-center gap-3 sm:gap-5 min-w-0 flex-1">
                       {/* Number */}
-                      <span className="text-xs sm:text-sm font-mono font-medium text-[#8C6D4F] flex-shrink-0 w-6">
+                      <span className="text-xs sm:text-sm font-mono font-medium text-[#8C6D4F] flex-shrink-0 pt-0.5 sm:pt-0 w-6">
                         {formattedIndex}
                       </span>
 
-                      {/* Title & Subtitle */}
-                      <div className="min-w-0">
-                        <div className="flex flex-wrap items-baseline gap-x-2.5">
-                          <h3 className="text-base sm:text-lg font-bold text-[#181818] group-hover:text-[#8C6D4F] transition-colors truncate">
-                            {item.title}
-                          </h3>
-                          {item.subtitle && (
-                            <span className="text-xs text-[#777777] hidden md:inline truncate">
-                              – {item.subtitle}
-                            </span>
-                          )}
-                        </div>
+                      {/* Title & Subtitle - fully readable without truncation */}
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-base sm:text-lg lg:text-xl font-bold text-[#181818] group-hover:text-[#8C6D4F] transition-colors leading-snug">
+                          {item.title}
+                        </h3>
                         {item.subtitle && (
-                          <span className="text-[11px] text-[#777777] block md:hidden truncate mt-0.5">
+                          <p className="text-xs sm:text-sm text-[#777777] mt-0.5 leading-normal">
                             {item.subtitle}
-                          </span>
+                          </p>
                         )}
                       </div>
                     </div>
 
-                    {/* Right Controls: Subtle Category Pill + Chevron */}
-                    <div className="flex items-center gap-2.5 sm:gap-3 flex-shrink-0">
-                      <span
-                        className={`text-[10px] sm:text-[11px] font-medium px-2 py-0.5 rounded ${
-                          isEigen
-                            ? "bg-[#F2ECE4] text-[#725439]"
-                            : "bg-[#F0F0EE] text-[#555555]"
-                        }`}
-                      >
-                        {isEigen ? "Eigene Werkstatt" : "Handel & Montage"}
-                      </span>
-
-                      <div
-                        className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
-                          isExpanded
-                            ? "bg-[#181818] text-white rotate-180"
-                            : "bg-transparent text-[#777777] group-hover:text-[#181818] group-hover:bg-[#EBEBE8]"
-                        }`}
-                      >
-                        <ChevronDown size={15} />
-                      </div>
+                    {/* Right Control: Clean chevron toggle */}
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all border ${
+                        isExpanded
+                          ? "bg-[#181818] border-[#181818] text-white rotate-180"
+                          : "bg-white border-[#E8E8E6] text-[#666666] group-hover:border-[#181818] group-hover:text-[#181818]"
+                      }`}
+                    >
+                      <ChevronDown size={15} />
                     </div>
                   </button>
 
