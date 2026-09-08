@@ -4,7 +4,13 @@ import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import FullwidthVideoSection from "@/components/sections/FullwidthVideoSection";
 import { client } from "@/sanity/lib/client";
-import { HERO_QUERY, SHOWCASE_VIDEO_QUERY, HOME_SECTIONS_QUERY, SERVICES_QUERY } from "@/sanity/lib/queries";
+import {
+  HERO_QUERY,
+  SHOWCASE_VIDEO_QUERY,
+  HOME_SECTIONS_QUERY,
+  SERVICES_QUERY,
+  PRODUCTS_QUERY,
+} from "@/sanity/lib/queries";
 import { ArrowRight, ShoppingBag } from "lucide-react";
 
 export const revalidate = 30;
@@ -14,13 +20,15 @@ export default async function HomePage() {
   let videoData = null;
   let homeData = null;
   let cmsServices = null;
+  let cmsProducts = null;
 
   try {
-    [heroData, videoData, homeData, cmsServices] = await Promise.all([
+    [heroData, videoData, homeData, cmsServices, cmsProducts] = await Promise.all([
       client.fetch(HERO_QUERY),
       client.fetch(SHOWCASE_VIDEO_QUERY),
       client.fetch(HOME_SECTIONS_QUERY),
       client.fetch(SERVICES_QUERY),
+      client.fetch(PRODUCTS_QUERY),
     ]);
   } catch (e) {
     // Fallback gracefully
@@ -96,12 +104,25 @@ interface FeaturedGewerk {
     },
   ];
 
-  const coreGewerke: FeaturedGewerk[] =
-    cmsServices && cmsServices.length > 0
-      ? cmsServices.slice(0, 4).map((s: any): FeaturedGewerk => ({
-          id: s._id,
+  // Priority: 1. customServices explicitly selected in Sanity Studio (homeSections)
+  //           2. cmsServices published in Sanity
+  //           3. defaultFeaturedGewerke fallback
+  const rawGewerke =
+    homeData?.customServices && homeData.customServices.length > 0
+      ? homeData.customServices
+      : cmsServices && cmsServices.length > 0
+      ? cmsServices.slice(0, 4)
+      : null;
+
+  const coreGewerke: FeaturedGewerk[] = rawGewerke
+    ? rawGewerke.map((s: any): FeaturedGewerk => {
+        const rawId = s._id || "";
+        const tag =
+          s.category === "bauelemente" ? "Bauelemente & Montage" : "Eigene Herstellung";
+        return {
+          id: rawId,
           title: s.title,
-          tag: s.category === "bauelemente" ? "Handel & Montage" : "Eigene Fertigung",
+          tag,
           image: s.imageUrl || "/images/real/werkstatt-2.jpg",
           description:
             s.subtitle ||
@@ -110,9 +131,19 @@ interface FeaturedGewerk {
                 ? s.description.slice(0, 95) + "..."
                 : s.description
               : "Individuelle Maßanfertigung aus Meisterhand."),
-          href: `/leistungen#service-${s._id}`,
-        }))
-      : defaultFeaturedGewerke;
+          href: `/leistungen#${rawId.startsWith("service-") ? rawId : `service-${rawId}`}`,
+        };
+      })
+    : defaultFeaturedGewerke;
+
+  const servicesGridCols =
+    coreGewerke.length === 1
+      ? "md:grid-cols-1 max-w-md mx-auto"
+      : coreGewerke.length === 2
+      ? "md:grid-cols-2 max-w-3xl mx-auto"
+      : coreGewerke.length === 3
+      ? "md:grid-cols-3 max-w-5xl mx-auto"
+      : "md:grid-cols-2 lg:grid-cols-4";
 
   // Shop section data
   const shopEyebrow = homeData?.shopEyebrow || "Aus unserer Werkstatt";
@@ -120,7 +151,32 @@ interface FeaturedGewerk {
   const shopSubtitle =
     homeData?.shopSubtitle ||
     "Massivholz-Schneidebretter und schwebende Wandregale aus heimischer Eiche.";
-  const featuredProducts = homeData?.featuredProducts;
+
+  // Priority: 1. featuredProducts selected in Sanity Studio (homeSections)
+  //           2. cmsProducts published in Sanity catalog
+  //           3. hardcoded fallback
+  const activeProducts =
+    homeData?.featuredProducts && homeData.featuredProducts.length > 0
+      ? homeData.featuredProducts
+      : cmsProducts && cmsProducts.length > 0
+      ? cmsProducts.slice(0, 3).map((p: any) => ({
+          _id: p._id,
+          title: p.title,
+          price: p.price,
+          woodType: p.woodType,
+          dimensions: p.dimensions,
+          description: p.description,
+          imageUrl: p.imageUrl,
+          slug: p.slug || p._id,
+        }))
+      : null;
+
+  const shopGridCols =
+    (activeProducts?.length || 3) === 1
+      ? "md:grid-cols-1 max-w-md mx-auto"
+      : (activeProducts?.length || 3) === 2
+      ? "md:grid-cols-2 max-w-2xl mx-auto"
+      : "md:grid-cols-3";
 
   return (
     <>
@@ -221,8 +277,10 @@ interface FeaturedGewerk {
               </Link>
             </div>
 
-            {/* 4 Focused Highlights: Compact, visual, no endless scrolling */}
-            <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:grid-cols-2 lg:grid-cols-4">
+            {/* Focused Highlights: Compact, visual, dynamically adapted */}
+            <div
+              className={`flex overflow-x-auto snap-x snap-mandatory gap-4 sm:gap-6 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid ${servicesGridCols}`}
+            >
               {coreGewerke.map((item: FeaturedGewerk) => (
                 <Link
                   key={item.id}
@@ -305,11 +363,13 @@ interface FeaturedGewerk {
               </Link>
             </div>
 
-            {/* If custom featured products are chosen in CMS */}
-            {featuredProducts && featuredProducts.length > 0 ? (
+            {/* If custom featured products or CMS products are available */}
+            {activeProducts && activeProducts.length > 0 ? (
               <>
-                <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:grid-cols-3 md:gap-6 lg:gap-8">
-                  {featuredProducts.slice(0, 3).map((prod: any) => {
+                <div
+                  className={`flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 scrollbar-none md:grid md:gap-6 lg:gap-8 ${shopGridCols}`}
+                >
+                  {activeProducts.slice(0, 3).map((prod: any) => {
                     const targetId = prod.slug || prod._id;
                     return (
                       <div

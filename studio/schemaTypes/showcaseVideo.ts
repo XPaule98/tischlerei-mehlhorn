@@ -15,13 +15,13 @@ export const showcaseVideo = defineType({
       name: "videoDesktopUrl",
       title: "Video URL Desktop (16:9 / Querformat)",
       type: "url",
-      description: "Direkter Link zu einer .mp4 oder .webm Datei (z. B. auf CDN, Hosting oder Cloud Storage).",
+      description: "Link zu Streamable (z. B. https://streamable.com/5n1th0), YouTube, Vimeo oder direkter .mp4 / .webm Link.",
     }),
     defineField({
       name: "videoMobileUrl",
       title: "Video URL Mobile (9:16 / Hochformat oder quadratisch, optional)",
       type: "url",
-      description: "Optimiertes Video für Smartphones. Falls leer, wird das Desktop-Video verwendet.",
+      description: "Optimiertes Video für Smartphones (Streamable, YouTube, Vimeo oder .mp4). Falls leer, wird Desktop verwendet.",
     }),
     defineField({
       name: "posterImage",
