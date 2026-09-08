@@ -48,6 +48,21 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     storyParagraph1,
     storyParagraph2,
     storyParagraph3,
+    storyFeatures[] {
+      title,
+      description
+    },
+    storyImage1 {
+      "imageUrl": image.asset->url,
+      captionTitle,
+      captionSubtitle
+    },
+    storyImage2 {
+      "imageUrl": image.asset->url,
+      captionTitle,
+      captionSubtitle,
+      badge
+    },
     "workshopGallery": workshopGallery[] {
       "imageUrl": image.asset->url,
       caption

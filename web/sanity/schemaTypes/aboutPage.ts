@@ -242,6 +242,101 @@ export const aboutPage = defineType({
         "Für uns ist Holz nicht bloß ein Werkstoff, sondern lebendige Natur. Wir verarbeiten vorrangig hochwertige heimische Hölzer wie Eiche, Kiefer und Lärche. Jedes Fenster, jede Haustür und jeder Wintergarten verlässt unsere Werkstatt erst, wenn Passgenauigkeit, Oberflächenveredelung und Funktionalität höchsten meisterlichen Ansprüchen genügen.",
     }),
     defineField({
+      name: "storyFeatures",
+      title: "3 Qualitätsmerkmale / Stichpunkte (unter dem Text)",
+      description: "Die 3 Stichpunkte unter der Firmengeschichte mit Titel und Kurzbeschreibung.",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          name: "featureItem",
+          title: "Qualitätsmerkmal",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Titel (z. B. '100% Meisterqualität')",
+              type: "string",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "description",
+              title: "Beschreibung (z. B. 'Eigene Fertigung in Schönheide')",
+              type: "string",
+            }),
+          ],
+          preview: {
+            select: {
+              title: "title",
+              subtitle: "description",
+            },
+          },
+        },
+      ],
+      initialValue: [
+        { _key: "feat1", title: "100% Meisterqualität", description: "Eigene Fertigung in Schönheide" },
+        { _key: "feat2", title: "Persönliche Betreuung", description: "Von Aufmaß bis Montage" },
+        { _key: "feat3", title: "Heimische Hölzer", description: "Eiche, Kiefer & Lärche" },
+      ],
+    }),
+    defineField({
+      name: "storyImage1",
+      title: "Geschichte: Bild 1 (Oben / Firmengebäude)",
+      description: "Oberes Foto neben der Firmengeschichte (und Zwischenbild auf Smartphones).",
+      type: "object",
+      fields: [
+        defineField({
+          name: "image",
+          title: "Foto",
+          type: "image",
+          options: { hotspot: true },
+        }),
+        defineField({
+          name: "captionTitle",
+          title: "Titelzeile",
+          type: "string",
+          initialValue: "Neuheider Straße 64 b, Schönheide",
+        }),
+        defineField({
+          name: "captionSubtitle",
+          title: "Untertitel / Beschreibung",
+          type: "string",
+          initialValue: "1992 neu erbautes Firmengebäude mit Meisterwerkstatt",
+        }),
+      ],
+    }),
+    defineField({
+      name: "storyImage2",
+      title: "Geschichte: Bild 2 (Unten / Fertigung)",
+      description: "Unteres Foto neben der Firmengeschichte.",
+      type: "object",
+      fields: [
+        defineField({
+          name: "image",
+          title: "Foto",
+          type: "image",
+          options: { hotspot: true },
+        }),
+        defineField({
+          name: "captionTitle",
+          title: "Titelzeile",
+          type: "string",
+          initialValue: "Eigene Meisterfertigung",
+        }),
+        defineField({
+          name: "captionSubtitle",
+          title: "Untertitel / Beschreibung",
+          type: "string",
+          initialValue: "Traditionelle Hobelbänke & moderne CNC-Präzision",
+        }),
+        defineField({
+          name: "badge",
+          title: "Badge / Siegel rechts",
+          type: "string",
+          initialValue: "Seit 1977",
+        }),
+      ],
+    }),
+    defineField({
       name: "workshopGallery",
       title: "Slide-Galerie: Einblicke in Werkstatt & Betrieb",
       type: "array",

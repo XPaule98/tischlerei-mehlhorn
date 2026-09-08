@@ -108,6 +108,30 @@ export default async function UeberUnsPage() {
     })
   );
 
+  const storyFeatures: { title: string; description: string }[] =
+    cmsData?.storyFeatures && cmsData.storyFeatures.length > 0
+      ? cmsData.storyFeatures
+      : [
+          { title: "100% Meisterqualität", description: "Eigene Fertigung in Schönheide" },
+          { title: "Persönliche Betreuung", description: "Von Aufmaß bis Montage" },
+          { title: "Heimische Hölzer", description: "Eiche, Kiefer & Lärche" },
+        ];
+
+  const storyImage1 = {
+    imageUrl: cmsData?.storyImage1?.imageUrl || "/images/real/gebaeude-1.jpg",
+    captionTitle: cmsData?.storyImage1?.captionTitle || "Neuheider Straße 64 b, Schönheide",
+    captionSubtitle:
+      cmsData?.storyImage1?.captionSubtitle || "1992 neu erbautes Firmengebäude mit Meisterwerkstatt",
+  };
+
+  const storyImage2 = {
+    imageUrl: cmsData?.storyImage2?.imageUrl || "/images/real/werkstatt-2.jpg",
+    captionTitle: cmsData?.storyImage2?.captionTitle || "Eigene Meisterfertigung",
+    captionSubtitle:
+      cmsData?.storyImage2?.captionSubtitle || "Traditionelle Hobelbänke & moderne CNC-Präzision",
+    badge: cmsData?.storyImage2?.badge !== undefined ? cmsData.storyImage2.badge : "Seit 1977",
+  };
+
   const hasTeamMembers = Boolean(teamMembers && teamMembers.length > 0);
 
   return (
@@ -153,13 +177,15 @@ export default async function UeberUnsPage() {
                     <div className="lg:hidden my-6 rounded-xl overflow-hidden border border-[#E8E8E6] shadow-sm bg-[#F9F9F8]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src="/images/real/gebaeude-1.jpg"
-                        alt="Tischlerei Mehlhorn Firmengebäude in Schönheide"
+                        src={storyImage1.imageUrl}
+                        alt={storyImage1.captionTitle}
                         className="w-full h-52 sm:h-64 object-cover"
                       />
                       <div className="p-3 bg-white text-[11px] text-[#555555] flex items-center justify-between border-t border-[#E8E8E6]">
-                        <span><strong className="text-[#181818]">Firmensitz:</strong> Neuheider Straße 64 b, Schönheide</span>
-                        <span className="text-[#8C6D4F] font-semibold">Seit 1992</span>
+                        <span><strong className="text-[#181818]">{storyImage1.captionTitle}</strong></span>
+                        {storyImage1.captionSubtitle && (
+                          <span className="text-[#8C6D4F] font-semibold">{storyImage1.captionSubtitle}</span>
+                        )}
                       </div>
                     </div>
 
@@ -187,27 +213,20 @@ export default async function UeberUnsPage() {
 
                 {/* Handwerks-Qualitätsmerkmale */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 mt-8 border-t border-[#E8E8E6]">
-                  <div className="flex items-start gap-2.5">
-                    <ShieldCheck size={18} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-bold text-xs text-[#181818]">100% Meisterqualität</h4>
-                      <p className="text-[11px] text-[#777777] mt-0.5">Eigene Fertigung in Schönheide</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <HeartHandshake size={18} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-bold text-xs text-[#181818]">Persönliche Betreuung</h4>
-                      <p className="text-[11px] text-[#777777] mt-0.5">Von Aufmaß bis Montage</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <Sparkles size={18} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-bold text-xs text-[#181818]">Heimische Hölzer</h4>
-                      <p className="text-[11px] text-[#777777] mt-0.5">Eiche, Kiefer & Lärche</p>
-                    </div>
-                  </div>
+                  {storyFeatures.map((feat, idx) => {
+                    const IconComp = [ShieldCheck, HeartHandshake, Sparkles][idx % 3];
+                    return (
+                      <div key={idx} className="flex items-start gap-2.5">
+                        <IconComp size={18} className="text-[#8C6D4F] mt-0.5 flex-shrink-0" />
+                        <div>
+                          <h4 className="font-bold text-xs text-[#181818]">{feat.title}</h4>
+                          {feat.description && (
+                            <p className="text-[11px] text-[#777777] mt-0.5">{feat.description}</p>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -217,13 +236,13 @@ export default async function UeberUnsPage() {
                 <div className="relative rounded-xl overflow-hidden border border-[#E8E8E6] bg-[#F9F9F8] shadow-xs hidden lg:block">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/real/gebaeude-1.jpg"
-                    alt="Firmengebäude Tischlerei Mehlhorn in Schönheide"
+                    src={storyImage1.imageUrl}
+                    alt={storyImage1.captionTitle}
                     className="w-full h-64 sm:h-80 object-cover"
                   />
                   <div className="p-3.5 bg-white border-t border-[#E8E8E6] text-xs text-[#555555]">
-                    <strong className="text-[#181818] block">Neuheider Straße 64 b, Schönheide</strong>
-                    <span>1992 neu erbautes Firmengebäude mit Meisterwerkstatt</span>
+                    <strong className="text-[#181818] block">{storyImage1.captionTitle}</strong>
+                    {storyImage1.captionSubtitle && <span>{storyImage1.captionSubtitle}</span>}
                   </div>
                 </div>
 
@@ -231,16 +250,20 @@ export default async function UeberUnsPage() {
                 <div className="relative rounded-xl overflow-hidden border border-[#E8E8E6] bg-[#F9F9F8] shadow-xs">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/real/werkstatt-2.jpg"
-                    alt="Werkstatt & Holzverarbeitung Tischlerei Mehlhorn"
+                    src={storyImage2.imageUrl}
+                    alt={storyImage2.captionTitle}
                     className="w-full h-48 sm:h-56 object-cover"
                   />
                   <div className="p-3 bg-white border-t border-[#E8E8E6] text-xs text-[#555555] flex items-center justify-between">
                     <div>
-                      <strong className="text-[#181818] block">Eigene Meisterfertigung</strong>
-                      <span>Traditionelle Hobelbänke & moderne CNC-Präzision</span>
+                      <strong className="text-[#181818] block">{storyImage2.captionTitle}</strong>
+                      {storyImage2.captionSubtitle && <span>{storyImage2.captionSubtitle}</span>}
                     </div>
-                    <span className="text-[#8C6D4F] font-bold text-xs uppercase tracking-wider">Seit 1977</span>
+                    {storyImage2.badge && (
+                      <span className="text-[#8C6D4F] font-bold text-xs uppercase tracking-wider">
+                        {storyImage2.badge}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
