@@ -29,6 +29,7 @@ export default function InquiryDrawer({
   const [deliveryOption, setDeliveryOption] = useState<"versand" | "abholung">(
     "abholung"
   );
+  const [country, setCountry] = useState<string>("Deutschland");
   const [state, formAction, isPending] = useActionState(
     sendInquiryAction,
     initialState
@@ -39,6 +40,7 @@ export default function InquiryDrawer({
     if (isOpen) {
       formRef.current?.reset();
       setDeliveryOption("abholung");
+      setCountry("Deutschland");
     }
   }, [isOpen, product]);
 
@@ -319,12 +321,46 @@ export default function InquiryDrawer({
                   <div className="grid grid-cols-2 gap-2.5">
                     <div>
                       <label htmlFor="zip" className="form-label text-xs">PLZ</label>
-                      <input id="zip" type="text" name="zip" className="form-input text-sm py-2" placeholder="12345" autoComplete="postal-code" maxLength={5} />
+                      <input id="zip" type="text" name="zip" className="form-input text-sm py-2" placeholder="12345" autoComplete="postal-code" maxLength={10} />
                     </div>
                     <div>
                       <label htmlFor="city" className="form-label text-xs">Ort</label>
                       <input id="city" type="text" name="city" className="form-input text-sm py-2" placeholder="Musterstadt" autoComplete="address-level2" />
                     </div>
+                  </div>
+                  <div>
+                    <label htmlFor="country" className="form-label text-xs">Land</label>
+                    <select
+                      id="country"
+                      name="country"
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      className="form-input text-sm py-2 bg-white cursor-pointer"
+                      autoComplete="country-name"
+                    >
+                      <option value="Deutschland">Deutschland</option>
+                      <option value="Österreich">Österreich</option>
+                      <option value="Schweiz">Schweiz</option>
+                      <option value="Liechtenstein">Liechtenstein</option>
+                      <option value="Luxemburg">Luxemburg</option>
+                      <option value="Belgien">Belgien</option>
+                      <option value="Niederlande">Niederlande</option>
+                      <option value="Frankreich">Frankreich</option>
+                      <option value="Italien">Italien</option>
+                      <option value="Tschechien">Tschechien</option>
+                      <option value="Polen">Polen</option>
+                      <option value="Anderes Land">Anderes Land (bitte angeben)</option>
+                    </select>
+                    {country === "Anderes Land" && (
+                      <input
+                        type="text"
+                        name="customCountry"
+                        className="form-input text-sm py-2 mt-2"
+                        placeholder="Land bitte hier eingeben"
+                        autoFocus
+                        required
+                      />
+                    )}
                   </div>
                 </div>
               )}

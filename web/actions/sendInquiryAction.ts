@@ -26,6 +26,7 @@ const InquirySchema = z.object({
   street: z.string().optional(),
   city: z.string().optional(),
   zip: z.string().optional(),
+  country: z.string().optional(),
 });
 
 export type InquiryFormData = z.infer<typeof InquirySchema>;
@@ -40,20 +41,28 @@ export async function sendInquiryAction(
   _prevState: ActionResult,
   formData: FormData
 ): Promise<ActionResult> {
+  const rawCountry = (formData.get("country") as string) ?? "Deutschland";
+  const customCountry = (formData.get("customCountry") as string) ?? "";
+  const country =
+    rawCountry === "Anderes Land" && customCountry.trim()
+      ? customCountry.trim()
+      : rawCountry;
+
   // Parse raw form data
   const rawData = {
-    website: formData.get("website") as string ?? "",
-    name: formData.get("name") as string ?? "",
-    email: formData.get("email") as string ?? "",
-    phone: formData.get("phone") as string ?? "",
-    message: formData.get("message") as string ?? "",
-    deliveryOption: formData.get("deliveryOption") as string ?? "abholung",
-    productName: formData.get("productName") as string ?? "",
-    productPrice: formData.get("productPrice") as string ?? "",
-    quantity: formData.get("quantity") as string ?? "",
-    street: formData.get("street") as string ?? "",
-    city: formData.get("city") as string ?? "",
-    zip: formData.get("zip") as string ?? "",
+    website: (formData.get("website") as string) ?? "",
+    name: (formData.get("name") as string) ?? "",
+    email: (formData.get("email") as string) ?? "",
+    phone: (formData.get("phone") as string) ?? "",
+    message: (formData.get("message") as string) ?? "",
+    deliveryOption: (formData.get("deliveryOption") as string) ?? "abholung",
+    productName: (formData.get("productName") as string) ?? "",
+    productPrice: (formData.get("productPrice") as string) ?? "",
+    quantity: (formData.get("quantity") as string) ?? "",
+    street: (formData.get("street") as string) ?? "",
+    city: (formData.get("city") as string) ?? "",
+    zip: (formData.get("zip") as string) ?? "",
+    country: country || "Deutschland",
   };
 
   // Validate
@@ -137,6 +146,7 @@ export async function sendInquiryAction(
         <h2>Lieferadresse</h2>
         <div class="row"><span class="label">Straße:</span><span class="value">${data.street}</span></div>
         <div class="row"><span class="label">PLZ / Ort:</span><span class="value">${data.zip} ${data.city}</span></div>
+        <div class="row"><span class="label">Land:</span><span class="value">${data.country || "Deutschland"}</span></div>
       </div>
       ` : ""}
 
