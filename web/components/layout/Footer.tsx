@@ -166,9 +166,9 @@ export default function Footer({ hideCta = false }: FooterProps) {
               <span className="text-[11px]">Designed by</span>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/paulus-digital-logo.jpg"
+                src="/images/paulus-digital-logo.png"
                 alt="paulus.digital Logo"
-                className="h-4.5 w-auto object-contain rounded-xs bg-white px-1 py-0.5 group-hover:opacity-100 transition-opacity"
+                className="h-6 w-auto object-contain transition-opacity"
               />
               <span className="text-[11px] font-semibold text-white/70 group-hover:text-white transition-colors">
                 paulus.digital
