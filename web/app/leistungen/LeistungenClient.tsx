@@ -20,30 +20,10 @@ interface Props {
   services: ServiceItemData[];
 }
 
-type FilterCategory = "alle" | "eigenfertigung" | "bauelemente";
-
 export default function LeistungenClient({ services }: Props) {
-  const [activeCategory, setActiveCategory] = useState<FilterCategory>("alle");
   const [expandedIds, setExpandedIds] = useState<string[]>([]);
   const [activeImages, setActiveImages] = useState<Record<string, string>>({});
   const [lightboxImage, setLightboxImage] = useState<{ src: string; title: string } | null>(null);
-
-  // Split into categories for counts
-  const eigenfertigung = services.filter(
-    (s) => s.category === "eigenfertigung" || !s.category
-  );
-  const bauelemente = services.filter((s) => s.category === "bauelemente");
-
-  // Filtered list
-  const filteredServices = services.filter((s) => {
-    if (activeCategory === "eigenfertigung") {
-      return s.category === "eigenfertigung" || !s.category;
-    }
-    if (activeCategory === "bauelemente") {
-      return s.category === "bauelemente";
-    }
-    return true;
-  });
 
   // Handle URL hash on load (e.g. #service-holzfenster)
   useEffect(() => {
@@ -69,7 +49,7 @@ export default function LeistungenClient({ services }: Props) {
   };
 
   const expandAll = () => {
-    setExpandedIds(filteredServices.map((s) => s._id));
+    setExpandedIds(services.map((s) => s._id));
   };
 
   const collapseAll = () => {
@@ -84,78 +64,42 @@ export default function LeistungenClient({ services }: Props) {
   };
 
   const allAreExpanded =
-    filteredServices.length > 0 &&
-    filteredServices.every((s) => expandedIds.includes(s._id));
+    services.length > 0 &&
+    services.every((s) => expandedIds.includes(s._id));
 
   return (
     <>
       <div className="w-full">
-          {/* Header Controls: Filter Tabs & Expand/Collapse Toggle */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E8E8E6] mb-2">
-            {/* Filter Tabs */}
-            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+        {/* Header Controls: Minimalist "Alle aufklappen / Alle schließen" */}
+        <div className="flex items-center justify-between pb-3.5 border-b border-[#E8E8E6] mb-1">
+          <span className="text-xs font-semibold uppercase tracking-wider text-[#8C6D4F]">
+            Alle Gewerke ({services.length})
+          </span>
+
+          <div className="text-xs text-[#777777]">
+            {allAreExpanded ? (
               <button
                 type="button"
-                onClick={() => setActiveCategory("alle")}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                  activeCategory === "alle"
-                    ? "bg-[#181818] text-white shadow-xs"
-                    : "bg-[#F5F5F3] text-[#555555] hover:text-[#181818] hover:bg-[#EBEBE8]"
-                }`}
+                onClick={collapseAll}
+                className="font-medium hover:text-[#181818] transition-colors cursor-pointer"
               >
-                Alle Gewerke ({services.length})
+                Alle schließen
               </button>
-
+            ) : (
               <button
                 type="button"
-                onClick={() => setActiveCategory("eigenfertigung")}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                  activeCategory === "eigenfertigung"
-                    ? "bg-[#181818] text-white shadow-xs"
-                    : "bg-[#F5F5F3] text-[#555555] hover:text-[#181818] hover:bg-[#EBEBE8]"
-                }`}
+                onClick={expandAll}
+                className="font-medium hover:text-[#181818] transition-colors cursor-pointer"
               >
-                Eigene Fertigung ({eigenfertigung.length})
+                Alle aufklappen
               </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveCategory("bauelemente")}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
-                  activeCategory === "bauelemente"
-                    ? "bg-[#181818] text-white shadow-xs"
-                    : "bg-[#F5F5F3] text-[#555555] hover:text-[#181818] hover:bg-[#EBEBE8]"
-                }`}
-              >
-                Handel &amp; Montage ({bauelemente.length})
-              </button>
-            </div>
-
-            {/* Quick Toggle All */}
-            <div className="flex items-center gap-3 self-end sm:self-auto text-xs text-[#777777]">
-              {allAreExpanded ? (
-                <button
-                  type="button"
-                  onClick={collapseAll}
-                  className="font-medium hover:text-[#181818] transition-colors cursor-pointer"
-                >
-                  Alle schließen
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={expandAll}
-                  className="font-medium hover:text-[#181818] transition-colors cursor-pointer"
-                >
-                  Alle aufklappen
-                </button>
-              )}
-            </div>
+            )}
           </div>
+        </div>
 
-          {/* Minimalist Expandable Gewerke List */}
-          <div className="divide-y divide-[#E8E8E6]">
-            {filteredServices.map((item, idx) => {
+        {/* Minimalist Expandable Gewerke List */}
+        <div className="divide-y divide-[#E8E8E6]">
+          {services.map((item, idx) => {
               const isExpanded = expandedIds.includes(item._id);
               const isEigen = item.category === "eigenfertigung" || !item.category;
 
