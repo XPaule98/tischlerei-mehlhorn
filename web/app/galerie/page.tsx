@@ -45,6 +45,7 @@ export default async function GaleriePage() {
           title={title}
           subtitle={subtitle}
           headerImageUrl={headerImageUrl}
+          headerVideoUrl={cmsData?.headerVideoUrl}
         />
 
         {/* Categorized Projects Grid & Lightbox */}

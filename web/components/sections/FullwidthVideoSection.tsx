@@ -1,5 +1,7 @@
 "use client";
 
+import { parseVideoSource } from "@/lib/video";
+
 interface FullwidthVideoProps {
   videoDesktopUrl?: string;
   videoMobileUrl?: string;
@@ -7,71 +9,6 @@ interface FullwidthVideoProps {
   badge?: string;
   headline?: string;
   subheadline?: string;
-}
-
-function parseVideoSource(url?: string, isMobile = false): {
-  type: "streamable" | "youtube" | "vimeo" | "native" | "none";
-  embedUrl?: string;
-  nativeUrl?: string;
-} {
-  // If no URL or empty, default to local optimized video
-  if (!url || !url.trim()) {
-    return {
-      type: "native",
-      nativeUrl: isMobile ? "/videos/werkstatt-mobile.mp4" : "/videos/werkstatt.mp4",
-    };
-  }
-  const trimmed = url.trim();
-
-  // Desktop video link from Streamable -> local high-res MP4
-  if (trimmed.includes("5n1th0")) {
-    return {
-      type: "native",
-      nativeUrl: "/videos/werkstatt.mp4",
-    };
-  }
-
-  // Mobile video link from Streamable -> local high-res vertical MP4
-  if (trimmed.includes("zk32r9")) {
-    return {
-      type: "native",
-      nativeUrl: "/videos/werkstatt-mobile.mp4",
-    };
-  }
-
-  // Any other Streamable link: Resolve directly to MP4 via our API route
-  // This completely eliminates iframes, black borders, and watermarks!
-  const streamableMatch = trimmed.match(/streamable\.com\/(?:e\/)?([a-zA-Z0-9]+)/);
-  if (streamableMatch) {
-    return {
-      type: "native",
-      nativeUrl: `/api/streamable/${streamableMatch[1]}`,
-    };
-  }
-
-  // YouTube: youtube.com/watch?v=ID or youtu.be/ID
-  const ytMatch = trimmed.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-  if (ytMatch) {
-    return {
-      type: "youtube",
-      embedUrl: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&mute=1&loop=1&playlist=${ytMatch[1]}&controls=0&showinfo=0&modestbranding=1`,
-    };
-  }
-
-  // Vimeo: vimeo.com/ID
-  const vimeoMatch = trimmed.match(/vimeo\.com\/(?:video\/)?([0-9]+)/);
-  if (vimeoMatch) {
-    return {
-      type: "vimeo",
-      embedUrl: `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1&muted=1&loop=1&background=1`,
-    };
-  }
-
-  // Native video file (.mp4, .webm, or any direct URL)
-  return {
-    type: "native",
-    nativeUrl: trimmed,
-  };
 }
 
 export default function FullwidthVideoSection({
@@ -85,8 +22,15 @@ export default function FullwidthVideoSection({
   const desktopSrc = videoDesktopUrl || videoMobileUrl;
   const mobileSrc = videoMobileUrl || videoDesktopUrl;
 
-  const parsedDesktop = parseVideoSource(desktopSrc, false);
-  const parsedMobile = videoMobileUrl ? parseVideoSource(mobileSrc, true) : null;
+  const parsedDesktop = parseVideoSource(desktopSrc, {
+    defaultNativeUrl: "/videos/werkstatt.mp4",
+  });
+  const parsedMobile = videoMobileUrl
+    ? parseVideoSource(mobileSrc, {
+        isMobile: true,
+        defaultNativeUrl: "/videos/werkstatt-mobile.mp4",
+      })
+    : null;
 
   const hasVideo = parsedDesktop.type !== "none";
   const hasText = Boolean(badge || headline || subheadline);

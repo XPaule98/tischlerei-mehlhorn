@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { parseVideoSource } from "@/lib/video";
 
 interface PageHeaderProps {
   title: string;
@@ -43,6 +44,7 @@ export default function PageHeader({
 
   // Parallax translation
   const parallaxOffset = scrollY * 0.35;
+  const parsedVideo = parseVideoSource(headerVideoUrl);
 
   return (
     <section className="relative bg-[#141414] text-white pt-28 pb-10 sm:pt-36 sm:pb-12 md:pt-40 md:pb-16 overflow-hidden border-b border-[#2A2A28]">
@@ -54,7 +56,7 @@ export default function PageHeader({
           willChange: "transform",
         }}
       >
-        {headerVideoUrl ? (
+        {parsedVideo.type === "native" && parsedVideo.nativeUrl ? (
           <video
             autoPlay
             loop
@@ -62,8 +64,17 @@ export default function PageHeader({
             playsInline
             className="w-full h-[120%] -top-[10%] relative object-cover opacity-55 object-center"
           >
-            <source src={headerVideoUrl} type="video/mp4" />
+            <source src={parsedVideo.nativeUrl} type="video/mp4" />
           </video>
+        ) : (parsedVideo.type === "youtube" || parsedVideo.type === "vimeo") && parsedVideo.embedUrl ? (
+          <div className="absolute inset-0 w-full h-[130%] -top-[15%] overflow-hidden pointer-events-none opacity-55">
+            <iframe
+              src={parsedVideo.embedUrl}
+              className="w-[150%] h-[150%] -top-[25%] -left-[25%] absolute pointer-events-none"
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              title="Header Hintergrundvideo"
+            />
+          </div>
         ) : (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img

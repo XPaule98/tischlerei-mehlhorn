@@ -10,15 +10,15 @@ export const HERO_QUERY = defineQuery(`
     secondaryButtonLink,
     "imageUrls": images[].asset->url,
     "legacySlideUrls": slides[].image.asset->url,
-    backgroundVideoUrl
+    "backgroundVideoUrl": coalesce(backgroundVideoFile.asset->url, backgroundVideoUrl)
   }
 `);
 
 export const SHOWCASE_VIDEO_QUERY = defineQuery(`
   *[_id == "showcaseVideo"][0] {
     title,
-    videoDesktopUrl,
-    videoMobileUrl,
+    "videoDesktopUrl": coalesce(videoDesktopFile.asset->url, videoDesktopUrl),
+    "videoMobileUrl": coalesce(videoMobileFile.asset->url, videoMobileUrl),
     "posterImageUrl": posterImage.asset->url,
     badge,
     headline,
@@ -31,7 +31,8 @@ export const SERVICES_PAGE_QUERY = defineQuery(`
     badge,
     title,
     subtitle,
-    "headerImageUrl": headerImage.asset->url
+    "headerImageUrl": headerImage.asset->url,
+    "headerVideoUrl": coalesce(headerVideoFile.asset->url, headerVideoUrl)
   }
 `);
 
@@ -41,7 +42,7 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
     headline,
     introText,
     "headerImageUrl": headerImage.asset->url,
-    headerVideoUrl,
+    "headerVideoUrl": coalesce(headerVideoFile.asset->url, headerVideoUrl),
     storyHeadline,
     storyContent,
     storyParagraph1,
@@ -71,7 +72,7 @@ export const GALLERY_PAGE_QUERY = defineQuery(`
     title,
     subtitle,
     "headerImageUrl": headerImage.asset->url,
-    headerVideoUrl
+    "headerVideoUrl": coalesce(headerVideoFile.asset->url, headerVideoUrl)
   }
 `);
 
@@ -95,7 +96,8 @@ export const SHOP_PAGE_QUERY = defineQuery(`
     badge,
     title,
     subtitle,
-    "headerImageUrl": headerImage.asset->url
+    "headerImageUrl": headerImage.asset->url,
+    "headerVideoUrl": coalesce(headerVideoFile.asset->url, headerVideoUrl)
   }
 `);
 
@@ -113,7 +115,8 @@ export const CONTACT_PAGE_QUERY = defineQuery(`
     badge,
     title,
     subtitle,
-    "headerImageUrl": headerImage.asset->url
+    "headerImageUrl": headerImage.asset->url,
+    "headerVideoUrl": coalesce(headerVideoFile.asset->url, headerVideoUrl)
   }
 `);
 

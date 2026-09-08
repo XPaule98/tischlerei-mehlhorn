@@ -48,6 +48,7 @@ export default async function LeistungenPage() {
           title={title}
           subtitle={subtitle}
           headerImageUrl={headerImageUrl}
+          headerVideoUrl={cmsHeaderData?.headerVideoUrl}
         />
 
         {/* Expandable Accordion View for maximum overview and clarity */}

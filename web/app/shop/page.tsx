@@ -45,6 +45,7 @@ export default async function ShopPage() {
           title={title}
           subtitle={subtitle}
           headerImageUrl={headerImageUrl}
+          headerVideoUrl={cmsHeaderData?.headerVideoUrl}
         />
 
         {/* Interactive Shop Catalog with live CMS products & categories */}

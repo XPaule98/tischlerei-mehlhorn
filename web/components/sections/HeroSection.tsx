@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { parseVideoSource } from "@/lib/video";
 
 export interface HeroData {
   title?: string;
@@ -39,6 +40,9 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
 
   const videoUrl = data?.backgroundVideoUrl;
 
+  const parsedVideo = parseVideoSource(videoUrl);
+  const hasVideo = parsedVideo.type !== "none";
+
   // Static calm permanent texts (no dynamic switching tool)
   const title = data?.title || "Präzision in Holz. Beständigkeit für Generationen.";
   const subtitle =
@@ -61,7 +65,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
 
   // Fixed harmonic timer for calm image cross-fade
   useEffect(() => {
-    if (videoUrl || images.length <= 1) return;
+    if (hasVideo || images.length <= 1) return;
 
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
@@ -71,7 +75,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
-  }, [currentSlideIndex, images.length, videoUrl, goToNextSlide]);
+  }, [currentSlideIndex, images.length, hasVideo, goToNextSlide]);
 
   return (
     <section
@@ -80,7 +84,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
     >
       {/* Background Slideshow Layer */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {videoUrl ? (
+        {parsedVideo.type === "native" && parsedVideo.nativeUrl ? (
           <video
             autoPlay
             loop
@@ -88,8 +92,17 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
             playsInline
             className="w-full h-full object-cover opacity-60 object-center"
           >
-            <source src={videoUrl} type="video/mp4" />
+            <source src={parsedVideo.nativeUrl} type="video/mp4" />
           </video>
+        ) : (parsedVideo.type === "youtube" || parsedVideo.type === "vimeo") && parsedVideo.embedUrl ? (
+          <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-60">
+            <iframe
+              src={parsedVideo.embedUrl}
+              className="w-[150%] h-[150%] -top-[25%] -left-[25%] absolute pointer-events-none"
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              title="Hintergrundvideo"
+            />
+          </div>
         ) : (
           images.map((src, index) => {
             const isActive = index === currentSlideIndex;
@@ -113,7 +126,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
 
         {/* High-contrast gradient backdrop on the left for crisp text readability */}
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#141414]/95 via-[#141414]/75 to-transparent w-full md:w-[70%]" />
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#141414] via-[#141414]/50 to-transparent" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#141414]/80 via-transparent to-[#141414]/40" />
       </div>
 
       {/* Hero Content Area – Permanently Calm & Static Text */}

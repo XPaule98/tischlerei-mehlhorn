@@ -161,7 +161,14 @@ export const aboutPage = defineType({
       name: "headerVideoUrl",
       title: "Header-Hintergrundvideo URL (optional)",
       type: "url",
-      description: "Direkter Link zu einer .mp4 Datei für einen dezenten Video-Hintergrund im Header.",
+      description: "Link zu Streamable, YouTube, Vimeo oder direkter .mp4 Link für einen dezenten Video-Hintergrund im Header.",
+    }),
+    defineField({
+      name: "headerVideoFile",
+      title: "ODER: Header-Video Datei hochladen (.mp4 / .webm)",
+      type: "file",
+      options: { accept: "video/*" },
+      description: "Laden Sie hier direkt eine Videodatei für den Kopfbereich der Über-uns-Seite hoch (überschreibt die URL).",
     }),
     defineField({
       name: "storyHeadline",

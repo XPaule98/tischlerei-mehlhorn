@@ -41,6 +41,7 @@ export default async function KontaktPage() {
           title={title}
           subtitle={subtitle}
           headerImageUrl={headerImageUrl}
+          headerVideoUrl={cmsData?.headerVideoUrl}
         />
 
         <Suspense fallback={<div className="p-12 text-center text-[#555555]">Wird geladen...</div>}>

@@ -32,5 +32,18 @@ export const contactPage = defineType({
       options: { hotspot: true },
       description: "Hintergrundbild für den Kopfbereich der Kontaktseite.",
     }),
+    defineField({
+      name: "headerVideoUrl",
+      title: "Header-Hintergrundvideo URL (optional)",
+      type: "url",
+      description: "Link zu Streamable, YouTube, Vimeo oder direkter .mp4 Link für einen dezenten Video-Hintergrund im Header.",
+    }),
+    defineField({
+      name: "headerVideoFile",
+      title: "ODER: Header-Video Datei hochladen (.mp4 / .webm)",
+      type: "file",
+      options: { accept: "video/*" },
+      description: "Laden Sie hier direkt eine Videodatei für den Kopfbereich der Kontaktseite hoch (überschreibt die URL).",
+    }),
   ],
 });
