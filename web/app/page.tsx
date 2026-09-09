@@ -117,6 +117,7 @@ interface FeaturedGewerk {
   const coreGewerke: FeaturedGewerk[] = rawGewerke
     ? rawGewerke.map((s: any): FeaturedGewerk => {
         const rawId = s._id || "";
+        const cleanId = rawId.replace(/^service-/, "");
         const tag =
           s.category === "bauelemente" ? "Bauelemente & Montage" : "Eigene Herstellung";
         return {
@@ -131,7 +132,7 @@ interface FeaturedGewerk {
                 ? s.description.slice(0, 95) + "..."
                 : s.description
               : "Individuelle Maßanfertigung aus Meisterhand."),
-          href: `/leistungen#${rawId.startsWith("service-") ? rawId : `service-${rawId}`}`,
+          href: `/leistungen#service-${cleanId}`,
         };
       })
     : defaultFeaturedGewerke;
