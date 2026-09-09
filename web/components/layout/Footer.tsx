@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="bg-[#141414] text-white" id="footer">
       {/* Main Footer Columns - Compact & Clean */}
       <div className="container-site py-8 sm:py-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-2.5 group inline-flex">
@@ -52,40 +52,6 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
-            </ul>
-          </div>
-
-          {/* Leistungen */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-[0.14em] text-white/80 mb-2.5">
-              Gewerke
-            </h4>
-            <ul className="space-y-1.5 text-xs text-white/60">
-              <li>
-                <Link href="/leistungen#service-holzfenster" className="hover:text-white transition-colors">
-                  Holzfenster eigene Produktion
-                </Link>
-              </li>
-              <li>
-                <Link href="/leistungen#service-holzalu" className="hover:text-white transition-colors">
-                  Holz-Alu (System Gutmann Mira)
-                </Link>
-              </li>
-              <li>
-                <Link href="/leistungen#service-haustueren" className="hover:text-white transition-colors">
-                  Massivholz-Haustüren nach Maß
-                </Link>
-              </li>
-              <li>
-                <Link href="/leistungen#service-wintergaerten" className="hover:text-white transition-colors">
-                  Wintergärten &amp; Glasbauten
-                </Link>
-              </li>
-              <li>
-                <Link href="/leistungen#service-kunststoff" className="hover:text-white transition-colors">
-                  Kunststofffenster &amp; Montage
-                </Link>
-              </li>
             </ul>
           </div>
 
