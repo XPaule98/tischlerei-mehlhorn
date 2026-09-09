@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Maximize2, X, Sparkles, Check } from "lucide-react";
 
@@ -35,6 +35,35 @@ export default function LeistungenClient({
   });
   const [activeImages, setActiveImages] = useState<Record<string, string>>({});
   const [lightboxImage, setLightboxImage] = useState<{ src: string; title: string } | null>(null);
+  const scrollTargetRef = useRef<string | null>(null);
+
+  // Smoothly scroll to the target service item taking header offset into account
+  useEffect(() => {
+    if (!scrollTargetRef.current) return;
+    const targetId = scrollTargetRef.current;
+    scrollTargetRef.current = null;
+
+    // Small delay ensures previous item unmounts and DOM layout settles before measuring
+    const timer = setTimeout(() => {
+      const el = document.getElementById(`service-${targetId}`);
+      if (!el) return;
+
+      const header = document.querySelector("header");
+      const headerHeight = header ? header.getBoundingClientRect().height : 70;
+      const extraPadding = typeof window !== "undefined" && window.innerWidth < 640 ? 12 : 18;
+      const targetOffset = headerHeight + extraPadding;
+
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - targetOffset;
+
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: "smooth",
+      });
+    }, 80);
+
+    return () => clearTimeout(timer);
+  }, [expandedIds]);
 
   // Handle URL hash on load (e.g. #service-holzfenster)
   useEffect(() => {
@@ -42,13 +71,8 @@ export default function LeistungenClient({
       const hashId = window.location.hash.replace("#", "");
       const found = services.find((s) => s._id === hashId || `service-${s._id}` === hashId);
       if (found) {
+        scrollTargetRef.current = found._id;
         setExpandedIds([found._id]);
-        setTimeout(() => {
-          const el = document.getElementById(`service-${found._id}`);
-          if (el) {
-            el.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-        }, 150);
       }
     } else if (defaultExpandedFirst && services.length > 0 && expandedIds.length === 0) {
       setExpandedIds([services[0]._id]);
@@ -56,8 +80,17 @@ export default function LeistungenClient({
   }, [services, defaultExpandedFirst]);
 
   const toggleItem = (id: string) => {
+    const isCurrentlyExpanded = expandedIds.includes(id);
+
+    if (!isCurrentlyExpanded) {
+      // Opening item -> schedule smooth scroll to its top
+      scrollTargetRef.current = id;
+    } else {
+      scrollTargetRef.current = null;
+    }
+
     if (singleExpand) {
-      setExpandedIds((prev) => (prev.includes(id) ? [] : [id]));
+      setExpandedIds(isCurrentlyExpanded ? [] : [id]);
     } else {
       setExpandedIds((prev) =>
         prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
