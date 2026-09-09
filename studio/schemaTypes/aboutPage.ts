@@ -161,15 +161,19 @@ export const aboutPage = defineType({
       name: "headerVideoUrl",
       title: "Header-Hintergrundvideo URL (optional)",
       type: "url",
-      description: "Link zu Streamable, YouTube, Vimeo oder direkter .mp4 Link für einen dezenten Video-Hintergrund im Header.",
+      description:
+        "Link zu Streamable, YouTube, Vimeo oder direkter .mp4 Link für einen dezenten Video-Hintergrund im Header.",
     }),
     defineField({
       name: "headerVideoFile",
       title: "ODER: Header-Video Datei hochladen (.mp4 / .webm)",
       type: "file",
       options: { accept: "video/*" },
-      description: "Laden Sie hier direkt eine Videodatei für den Kopfbereich der Über-uns-Seite hoch (überschreibt die URL).",
+      description:
+        "Laden Sie hier direkt eine Videodatei für den Kopfbereich der Über-uns-Seite hoch (überschreibt die URL).",
     }),
+
+    // --- Geschichte & Story ---
     defineField({
       name: "storyHeadline",
       title: "Überschrift der Firmen-Geschichte",
@@ -180,7 +184,7 @@ export const aboutPage = defineType({
       name: "storyContent",
       title: "Geschichte & Philosophie (Formatierbarer Rich-Text Editor)",
       description:
-        "Formatierbarer Fließtext mit Fettungen, Hervorhebungen, Zitaten und Absätzen. Falls ausgefüllt, ersetzt dieser Editor die einzelnen Textfelder 1-3.",
+        "Formatierbarer Fließtext mit Fettungen, Hervorhebungen, Zitaten und Absätzen für die Firmengeschichte.",
       type: "array",
       initialValue: DEFAULT_STORY_BLOCKS,
       of: [
@@ -218,29 +222,111 @@ export const aboutPage = defineType({
       ],
     }),
     defineField({
-      name: "storyParagraph1",
-      title: "Fließtext Teil 1 (Historie & Ursprung - Fallback)",
-      type: "text",
-      rows: 4,
-      initialValue:
-        "Die Geschichte unserer Tischlerei begann im Januar 1977, als Roland Mehlhorn den Schritt in die Selbstständigkeit wagte. Was mit traditionellem Gestellbau und solider Handarbeit seinen Anfang nahm, wuchs über die Jahrzehnte durch kontinuierliche Weiterentwicklung und kompromisslose Qualitätsorientierung zu einem festen Begriff im Westerzgebirge heran.",
+      name: "storyImage1",
+      title: "Geschichte: Bild 1 (Firmengebäude / Oben)",
+      description: "Foto neben der Firmengeschichte (und Zwischenbild auf Smartphones).",
+      type: "object",
+      fields: [
+        defineField({
+          name: "image",
+          title: "Foto",
+          type: "image",
+          options: { hotspot: true },
+        }),
+        defineField({
+          name: "captionTitle",
+          title: "Titelzeile",
+          type: "string",
+          initialValue: "Neuheider Straße 64 b, Schönheide",
+        }),
+        defineField({
+          name: "captionSubtitle",
+          title: "Untertitel / Beschreibung",
+          type: "string",
+          initialValue: "1992 neu erbautes Firmengebäude mit Meisterwerkstatt",
+        }),
+      ],
     }),
     defineField({
-      name: "storyParagraph2",
-      title: "Fließtext Teil 2 (Neubau & Generationswechsel - Fallback)",
-      type: "text",
-      rows: 4,
-      initialValue:
-        "1992 folgte der Neubau des heutigen Firmengebäudes in der Neuheider Straße 64 b – mit großzügigen Werkstatträumen und modernem Maschinenpark. Seit Juli 2012 führt Tischlermeister Ronny Mehlhorn die Geschicke des Familienunternehmens in zweiter Generation. Dabei verbinden wir überlieferte Handwerkstradition mit modernster Profiltechnik (wie dem System Gutmann Mira) und zukunftssicherer Isoliertechnologie.",
+      name: "storyImage2",
+      title: "Geschichte: Bild 2 (Eigene Fertigung / Werkstatt)",
+      description: "Zweites Foto neben der Firmengeschichte.",
+      type: "object",
+      fields: [
+        defineField({
+          name: "image",
+          title: "Foto",
+          type: "image",
+          options: { hotspot: true },
+        }),
+        defineField({
+          name: "captionTitle",
+          title: "Titelzeile",
+          type: "string",
+          initialValue: "Eigene Meisterfertigung",
+        }),
+        defineField({
+          name: "captionSubtitle",
+          title: "Untertitel / Beschreibung",
+          type: "string",
+          initialValue: "Traditionelle Hobelbänke & moderne CNC-Präzision",
+        }),
+        defineField({
+          name: "badge",
+          title: "Badge / Siegel rechts (optional)",
+          type: "string",
+          initialValue: "Seit 1977",
+        }),
+      ],
+    }),
+
+    // --- Große Fullwidth Bild- / Video-Sektion (Showcase ohne Text) ---
+    defineField({
+      name: "showcaseImage",
+      title: "Großes Panoramabild / Foto (Desktop & Standard)",
+      type: "image",
+      options: { hotspot: true },
+      description:
+        "Breites Foto (Firma, Team oder Werkstatt) für die große Bild/Video-Sektion (wird ohne störendes Text-Overlay dargestellt).",
     }),
     defineField({
-      name: "storyParagraph3",
-      title: "Fließtext Teil 3 (Philosophie & Material - Fallback)",
-      type: "text",
-      rows: 4,
-      initialValue:
-        "Für uns ist Holz nicht bloß ein Werkstoff, sondern lebendige Natur. Wir verarbeiten vorrangig hochwertige heimische Hölzer wie Eiche, Kiefer und Lärche. Jedes Fenster, jede Haustür und jeder Wintergarten verlässt unsere Werkstatt erst, wenn Passgenauigkeit, Oberflächenveredelung und Funktionalität höchsten meisterlichen Ansprüchen genügen.",
+      name: "showcaseImageMobile",
+      title: "ODER: Separates Foto für Smartphones (optional, Hochformat)",
+      type: "image",
+      options: { hotspot: true },
+      description:
+        "Optionales separates Foto für mobile Displays (z. B. 9:16 oder quadratisch). Falls leer, wird das Desktop-Bild verwendet.",
     }),
+    defineField({
+      name: "showcaseVideoDesktopUrl",
+      title: "Showcase-Video URL Desktop (16:9 / Querformat, optional)",
+      type: "url",
+      description:
+        "Link zu Streamable, YouTube, Vimeo oder direkter .mp4 Link für ein fortlaufendes Video ohne Text.",
+    }),
+    defineField({
+      name: "showcaseVideoDesktopFile",
+      title: "ODER: Showcase-Video Datei Desktop hochladen (.mp4 / .webm)",
+      type: "file",
+      options: { accept: "video/*" },
+      description:
+        "Laden Sie hier eine Videodatei direkt von Ihrem Rechner hoch (überschreibt die URL).",
+    }),
+    defineField({
+      name: "showcaseVideoMobileUrl",
+      title: "Showcase-Video URL Smartphone (9:16 / Hochformat, optional)",
+      type: "url",
+      description: "Optimiertes hochkantes Video für Smartphones (Streamable oder .mp4).",
+    }),
+    defineField({
+      name: "showcaseVideoMobileFile",
+      title: "ODER: Showcase-Video Datei Smartphone hochladen (.mp4 / .webm, optional)",
+      type: "file",
+      options: { accept: "video/*" },
+      description: "Laden Sie hier optional eine hochkante Smartphone-Videodatei hoch.",
+    }),
+
+    // --- Werkstatt-Slide-Galerie ---
     defineField({
       name: "workshopGallery",
       title: "Slide-Galerie: Einblicke in Werkstatt & Betrieb",

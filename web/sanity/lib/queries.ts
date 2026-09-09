@@ -56,6 +56,10 @@ export const ABOUT_PAGE_QUERY = defineQuery(`
       captionSubtitle,
       badge
     },
+    "showcaseImageUrl": showcaseImage.asset->url,
+    "showcaseImageMobileUrl": showcaseImageMobile.asset->url,
+    "showcaseVideoDesktopUrl": coalesce(showcaseVideoDesktopFile.asset->url, showcaseVideoDesktopUrl),
+    "showcaseVideoMobileUrl": coalesce(showcaseVideoMobileFile.asset->url, showcaseVideoMobileUrl),
     "workshopGallery": workshopGallery[] {
       "imageUrl": image.asset->url,
       caption

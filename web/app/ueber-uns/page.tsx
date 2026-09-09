@@ -4,6 +4,7 @@ import { PortableText, PortableTextComponents } from "next-sanity";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHeader from "@/components/layout/PageHeader";
+import FullwidthVideoSection from "@/components/sections/FullwidthVideoSection";
 import WorkshopSlideGallery, { WorkshopSlide } from "@/components/sections/WorkshopSlideGallery";
 import { client } from "@/sanity/lib/client";
 import { ABOUT_PAGE_QUERY, TEAM_MEMBERS_QUERY } from "@/sanity/lib/queries";
@@ -235,7 +236,15 @@ export default async function UeberUnsPage() {
           </div>
         </section>
 
-        {/* 2. Team & Mitarbeiter Vorstellung (nur wenn im Backend angelegt) */}
+        {/* 2. Große Fullwidth Panorama Bild- / Video-Sektion (ohne störendes Text-Overlay) */}
+        <FullwidthVideoSection
+          videoDesktopUrl={cmsData?.showcaseVideoDesktopUrl}
+          videoMobileUrl={cmsData?.showcaseVideoMobileUrl}
+          posterImageUrl={cmsData?.showcaseImageUrl || "/images/real/gebaeude-1.jpg"}
+          posterMobileImageUrl={cmsData?.showcaseImageMobileUrl}
+        />
+
+        {/* 3. Team & Mitarbeiter Vorstellung (nur wenn im Backend angelegt) */}
         {hasTeamMembers && (
           <section className="py-16 md:py-24 bg-[#F9F9F8] border-t border-[#E8E8E6]">
             <div className="container-site">

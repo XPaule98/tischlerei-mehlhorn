@@ -6,6 +6,7 @@ interface FullwidthVideoProps {
   videoDesktopUrl?: string;
   videoMobileUrl?: string;
   posterImageUrl?: string;
+  posterMobileImageUrl?: string;
   badge?: string;
   headline?: string;
   subheadline?: string;
@@ -15,6 +16,7 @@ export default function FullwidthVideoSection({
   videoDesktopUrl,
   videoMobileUrl,
   posterImageUrl = "/images/real/werkstatt-2.jpg",
+  posterMobileImageUrl,
   badge,
   headline,
   subheadline,
@@ -23,7 +25,7 @@ export default function FullwidthVideoSection({
   const mobileSrc = videoMobileUrl || videoDesktopUrl;
 
   const parsedDesktop = parseVideoSource(desktopSrc, {
-    defaultNativeUrl: "/videos/werkstatt.mp4",
+    defaultNativeUrl: videoDesktopUrl ? "/videos/werkstatt.mp4" : undefined,
   });
   const parsedMobile = videoMobileUrl
     ? parseVideoSource(mobileSrc, {
@@ -78,7 +80,7 @@ export default function FullwidthVideoSection({
                     loop
                     muted
                     playsInline
-                    poster={posterImageUrl}
+                    poster={posterMobileImageUrl || posterImageUrl}
                     className="w-full h-full object-cover object-center"
                   >
                     <source src={parsedMobile.nativeUrl} type="video/mp4" />
@@ -99,17 +101,36 @@ export default function FullwidthVideoSection({
         ) : (
           /* Fallback Poster when no video URL is configured */
           <div className="relative w-full h-full overflow-hidden">
+            {/* Desktop / Standard Image */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={posterImageUrl}
               alt="Meisterwerkstatt Tischlerei Mehlhorn"
-              className="w-full h-full object-cover object-center opacity-70"
+              className={`w-full h-full object-cover object-center ${
+                posterMobileImageUrl ? "hidden md:block" : "block"
+              } ${hasText ? "opacity-70" : "opacity-100"}`}
             />
+
+            {/* Mobile Specific Image if provided */}
+            {posterMobileImageUrl && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={posterMobileImageUrl}
+                alt="Meisterwerkstatt Tischlerei Mehlhorn"
+                className={`w-full h-full object-cover object-center block md:hidden ${
+                  hasText ? "opacity-70" : "opacity-100"
+                }`}
+              />
+            )}
           </div>
         )}
 
-        {/* Cinematic Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#141414]/90 via-black/20 to-[#141414]/60 pointer-events-none" />
+        {/* Cinematic Vignette Overlay – strong when text exists, subtle when pure media */}
+        {hasText ? (
+          <div className="absolute inset-0 bg-gradient-to-t from-[#141414]/90 via-black/20 to-[#141414]/60 pointer-events-none" />
+        ) : (
+          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+        )}
 
         {/* Optional Overlay Text */}
         {hasText && (

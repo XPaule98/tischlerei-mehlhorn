@@ -161,15 +161,19 @@ export const aboutPage = defineType({
       name: "headerVideoUrl",
       title: "Header-Hintergrundvideo URL (optional)",
       type: "url",
-      description: "Link zu Streamable, YouTube, Vimeo oder direkter .mp4 Link für einen dezenten Video-Hintergrund im Header.",
+      description:
+        "Link zu Streamable, YouTube, Vimeo oder direkter .mp4 Link für einen dezenten Video-Hintergrund im Header.",
     }),
     defineField({
       name: "headerVideoFile",
       title: "ODER: Header-Video Datei hochladen (.mp4 / .webm)",
       type: "file",
       options: { accept: "video/*" },
-      description: "Laden Sie hier direkt eine Videodatei für den Kopfbereich der Über-uns-Seite hoch (überschreibt die URL).",
+      description:
+        "Laden Sie hier direkt eine Videodatei für den Kopfbereich der Über-uns-Seite hoch (überschreibt die URL).",
     }),
+
+    // --- Geschichte & Story ---
     defineField({
       name: "storyHeadline",
       title: "Überschrift der Firmen-Geschichte",
@@ -219,8 +223,8 @@ export const aboutPage = defineType({
     }),
     defineField({
       name: "storyImage1",
-      title: "Geschichte: Bild 1 (Oben / Firmengebäude)",
-      description: "Oberes Foto neben der Firmengeschichte (und Zwischenbild auf Smartphones).",
+      title: "Geschichte: Bild 1 (Firmengebäude / Oben)",
+      description: "Foto neben der Firmengeschichte (und Zwischenbild auf Smartphones).",
       type: "object",
       fields: [
         defineField({
@@ -245,8 +249,8 @@ export const aboutPage = defineType({
     }),
     defineField({
       name: "storyImage2",
-      title: "Geschichte: Bild 2 (Unten / Fertigung)",
-      description: "Unteres Foto neben der Firmengeschichte.",
+      title: "Geschichte: Bild 2 (Eigene Fertigung / Werkstatt)",
+      description: "Zweites Foto neben der Firmengeschichte.",
       type: "object",
       fields: [
         defineField({
@@ -269,12 +273,60 @@ export const aboutPage = defineType({
         }),
         defineField({
           name: "badge",
-          title: "Badge / Siegel rechts",
+          title: "Badge / Siegel rechts (optional)",
           type: "string",
           initialValue: "Seit 1977",
         }),
       ],
     }),
+
+    // --- Große Fullwidth Bild- / Video-Sektion (Showcase ohne Text) ---
+    defineField({
+      name: "showcaseImage",
+      title: "Großes Panoramabild / Foto (Desktop & Standard)",
+      type: "image",
+      options: { hotspot: true },
+      description:
+        "Breites Foto (Firma, Team oder Werkstatt) für die große Bild/Video-Sektion (wird ohne störendes Text-Overlay dargestellt).",
+    }),
+    defineField({
+      name: "showcaseImageMobile",
+      title: "ODER: Separates Foto für Smartphones (optional, Hochformat)",
+      type: "image",
+      options: { hotspot: true },
+      description:
+        "Optionales separates Foto für mobile Displays (z. B. 9:16 oder quadratisch). Falls leer, wird das Desktop-Bild verwendet.",
+    }),
+    defineField({
+      name: "showcaseVideoDesktopUrl",
+      title: "Showcase-Video URL Desktop (16:9 / Querformat, optional)",
+      type: "url",
+      description:
+        "Link zu Streamable, YouTube, Vimeo oder direkter .mp4 Link für ein fortlaufendes Video ohne Text.",
+    }),
+    defineField({
+      name: "showcaseVideoDesktopFile",
+      title: "ODER: Showcase-Video Datei Desktop hochladen (.mp4 / .webm)",
+      type: "file",
+      options: { accept: "video/*" },
+      description:
+        "Laden Sie hier eine Videodatei direkt von Ihrem Rechner hoch (überschreibt die URL).",
+    }),
+    defineField({
+      name: "showcaseVideoMobileUrl",
+      title: "Showcase-Video URL Smartphone (9:16 / Hochformat, optional)",
+      type: "url",
+      description: "Optimiertes hochkantes Video für Smartphones (Streamable oder .mp4).",
+    }),
+    defineField({
+      name: "showcaseVideoMobileFile",
+      title: "ODER: Showcase-Video Datei Smartphone hochladen (.mp4 / .webm, optional)",
+      type: "file",
+      options: { accept: "video/*" },
+      description: "Laden Sie hier optional eine hochkante Smartphone-Videodatei hoch.",
+    }),
+
+    // --- Werkstatt-Slide-Galerie ---
     defineField({
       name: "workshopGallery",
       title: "Slide-Galerie: Einblicke in Werkstatt & Betrieb",
